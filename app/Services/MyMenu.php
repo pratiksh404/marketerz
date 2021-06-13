@@ -1,0 +1,211 @@
+<?php
+
+namespace App\Services;
+
+use Pratiksh\Adminetic\Traits\SidebarHelper;
+use Pratiksh\Adminetic\Contracts\SidebarInterface;
+
+class MyMenu implements SidebarInterface
+{
+    use SidebarHelper;
+
+    public function myMenu(): array
+    {
+        return [
+            [
+                'type' => 'breaker',
+                'name' => 'Marketing',
+                'description' => 'Marketing Modules',
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Contacts',
+                'icon' => 'fa fa-book',
+                'is_active' => request()->routeIs('contact*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Contact::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Contact::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('contact', App\Models\Admin\Contact::class)
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Campaigns',
+                'icon' => 'fa fa-bell',
+                'is_active' => request()->routeIs('campaign*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Campaign::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Campaign::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('campaign', App\Models\Admin\Campaign::class)
+            ],
+            [
+                'type' => 'breaker',
+                'name' => 'Dependencies',
+                'description' => 'Marketing Dependencies',
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Groups',
+                'icon' => 'fa fa-users',
+                'is_active' => request()->routeIs('group*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Group::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Group::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('group', App\Models\Admin\Group::class)
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Client',
+                'icon' => 'fa fa-male',
+                'is_active' => request()->routeIs('client*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Client::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Client::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('client', App\Models\Admin\Client::class)
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Source',
+                'icon' => 'fa fa-tint',
+                'is_active' => request()->routeIs('source*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Source::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Source::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('source', App\Models\Admin\Source::class)
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Service',
+                'icon' => 'fa fa-strikethrough',
+                'is_active' => request()->routeIs('service*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Service::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Service::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('service', App\Models\Admin\Service::class)
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Template',
+                'icon' => 'fa fa-photo',
+                'is_active' => request()->routeIs('template*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Template::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Template::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('template', App\Models\Admin\Template::class)
+            ],
+            [
+                'type' => 'breaker',
+                'name' => 'DEV TOOLS',
+                'description' => 'Development Environment',
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Builder',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => env('APP_ENV') == 'local'
+                    ],
+                ],
+                'children' => [
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Form Builder 1',
+                        'link' => 'http://admin.pixelstrap.com/cuba/theme/form-builder-1.html',
+                    ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Form Builder 2',
+                        'link' => 'http://admin.pixelstrap.com/cuba/theme/form-builder-2.html',
+                    ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Page Builder',
+                        'link' => 'http://admin.pixelstrap.com/cuba/theme/pagebuild.html',
+                    ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Buttom Builder',
+                        'link' => 'http://admin.pixelstrap.com/cuba/theme/button-builder.html',
+                    ],
+                ]
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Documentation',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => env('APP_ENV') == 'local'
+                    ],
+                ],
+                'children' => [
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Frontend Docs',
+                        'link' => 'https://docs.pixelstrap.com/cuba/all_in_one/document/index.html',
+                    ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Adminetic Docs',
+                        'link' => 'https://pratikdai404.gitbook.io/adminetic/',
+                    ],
+                ]
+            ],
+            [
+                'type' => 'link',
+                'name' => 'Github',
+                'icon' => 'fa fa-github',
+                'link' => 'https://github.com/pratiksh404/admineticl',
+            ],
+        ];
+    }
+}
