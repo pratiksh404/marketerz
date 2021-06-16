@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Admin\Campaign;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\CampaignRepositoryInterface;
+use App\Events\CampaignCreatedEvent;
 use App\Facades\Marketerz;
 use App\Http\Requests\CampaignRequest;
 
@@ -30,7 +31,8 @@ class CampaignRepository implements CampaignRepositoryInterface
     // Campaign Store
     public function storeCampaign(CampaignRequest $request)
     {
-        Campaign::create($request->validated());
+        $campaign = Campaign::create($request->validated());
+        CampaignCreatedEvent::dispatch($campaign);
     }
 
     // Campaign Show

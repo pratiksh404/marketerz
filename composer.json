@@ -13,7 +13,9 @@
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "pratiksh/adminetic": "^1.2",
-        "spatie/laravel-failed-job-monitor": "^3.4"
+        "rap2hpoutre/laravel-log-viewer": "^1.7",
+        "spatie/laravel-failed-job-monitor": "^3.4",
+        "thomasjohnkane/snooze": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

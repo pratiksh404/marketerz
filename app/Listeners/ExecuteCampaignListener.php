@@ -2,11 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\CampaignCreatedEvent;
-use App\Jobs\EmailNotification;
 use App\Jobs\SMSNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Admin\Contact;
+use App\Jobs\EmailNotification;
+use App\Events\CampaignCreatedEvent;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ExecuteCampaignListener
 {
@@ -18,8 +19,8 @@ class ExecuteCampaignListener
      */
     public function handle(CampaignCreatedEvent $event)
     {
-        $campaign = $event->camapign ?? null;
-        if ($campaign) {
+        $campaign = $event->campaign ?? null;
+        if (isset($campaign)) {
             $contacts = Contact::where('active', 1)->find($campaign->contacts);
             if (isset($contacts)) {
                 foreach ($contacts as $contact) {

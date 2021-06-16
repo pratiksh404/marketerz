@@ -134,10 +134,6 @@
                 </div>
             </div>
         </div>
-        {{-- Hidden Inputs --}}
-        <input type="hidden" name="client_id" value="{{$client_id ?? null}}">
-        <input type="hidden" name="group_id" value="{{$group_id ?? null}}">
-
         <div class="card shadow-lg">
             <div class="card-body">
                 <div class="row">

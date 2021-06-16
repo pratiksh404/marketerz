@@ -2,9 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Mail\CampaignEmail;
 use App\Models\Admin\Contact;
 use Illuminate\Bus\Queueable;
 use App\Models\Admin\Campaign;
+use Exception;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,12 +34,29 @@ class EmailNotification implements ShouldQueue
     }
 
     /**
+     * The unique ID of the job.
+     *
+     * @return string
+     */
+    public function uniqueId()
+    {
+        return $this->contact->id;
+    }
+
+    /**
      * Execute the job.
      *
      * @return void
      */
     public function handle()
     {
-        // Send an Email
+        if (isset($this->contact) && isset($this->campaign)) {
+            Mail::to($this->contact->email)->send(new CampaignEmail($this->campaign));
+        }
+    }
+
+    public function failed(Exception $exception)
+    {
+        \Log::channel('failed_email_jobs')->info($exception->getMessage());
     }
 }

@@ -142,6 +142,12 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('template', App\Models\Admin\Template::class)
             ],
             [
+                'type' => 'link',
+                'name' => 'Logs',
+                'icon' => 'fa fa-book',
+                'link' => adminRedirectRoute('logs'),
+            ],
+            [
                 'type' => 'breaker',
                 'name' => 'DEV TOOLS',
                 'description' => 'Development Environment',

@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div wire:loading.remove>
-                <div class="mb-3" wire:init="loadContacts">
+                <div class="mb-3" wire:init="loadContacts" style="max-height:30vh;overflow:auto">
                     <table class="table table-bordered contact_table"
                         data-contact_count="{{isset($contacts) ? $contacts->count() : 0}}">
                         <thead>
@@ -75,94 +75,55 @@
             </div>
         </div>
     </div>
+    {{-- Hidden Input --}}
+    <input type="hidden" name="client_id" value={{$client_id ?? null}}>
+    <input type="hidden" name="group_id" value={{$group_id ?? null}}>
     @push('livewire_third_party')
     <script>
         $(function(){
-                    Livewire.on('initialize_load_contacts', function() {
-                    initializeContacts();
-            });
+
+    Livewire.on('initialize_load_contacts', function() {
+            initializeContacts();
+        });
+
 function initializeContacts()
 {
-    var table = $(".contact_table").DataTable({
-            "responsive": true,
-            "autoWidth": true,
-            "order": [],
-            "info": true,
-            "dom": '<"d-flex justify-content-between align-items-center btn-group">Bfrtip',
-                "buttons": [
-                {
-                    extend: 'copy',
-                    exportOptions: {
-                    columns: ':not(:last-child)',
-                    }
-                    },
-                    {
-                    extend: 'csv',
-                    exportOptions: {
-                    columns: ':not(:last-child)',
-                    }
-                    },
-                    {
-                    extend: 'excel',
-                    exportOptions: {
-                    columns: ':not(:last-child)',
-                    }
-                    },
-                    {
-                    extend: 'pdf',
-                    exportOptions: {
-                    columns: ':not(:last-child)',
-                    }
-                    },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                    columns: ':not(:last-child)',
-                }
-                }
-                ]
-                });
-        $('.buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel').addClass('btn btn-primary btn-air-primary');
-
-        getContactCount(table);
+   
+        getContactCount();
 
         $('#unit_cost').on('change',function(){
-         getContactCount(table);
+         getContactCount();
         });
 
         $(':checkbox').on('change',function(){
-            getContactCount(table);
+            getContactCount();
         });
 
-        $('form').on('submit', function(e){
-          var $form = $(this);
-       
-          // Iterate over all checkboxes in the table
-          table.$('input[type="checkbox"]').each(function(){
-             // If checkbox doesn't exist in DOM
-             if(!$.contains(document, this)){
-                // If checkbox is checked
-                if(this.checked){
-                   // Create a hidden element 
-                   $form.append(
-                      $('<input>')
-                         .attr('type', 'hidden')
-                         .attr('name', this.name)
-                         .val(this.value)
-                   );
-                }
-             } 
-          });          
-       });
 
 }
 
-function getContactCount(table)
+function getContactCount()
 {
-    var contact_count = table.rows( { selected: true } ).count();
+    var contact_count = checkedCount($('.contact_table'),'.contact_check_box');
     var unit_cost = $('#unit_cost').val();
-    var estimated_cost = parseFloat(contact_count) * parseFloat(unit_cost);
+    var estimated_cost = parseFloat(contact_count.checked) * parseFloat(unit_cost);
     $('#estimated_cost').val(estimated_cost);
+}
+
+function checkedCount($table, checkboxClass) {
+  if ($table) {
+    // Find all elements with given class
+    var chkAll = $table.find(checkboxClass);
+    // Count checked checkboxes
+    var checked = chkAll.filter(':checked').length;
+    // Count total
+    var total = chkAll.length;    
+    // Return an object with total and checked values
+    return {
+      total: total,
+      checked: checked
+    }
+  }
 }
     });
     </script>

@@ -36,6 +36,8 @@ class AdminRouteMixin
                 $this->post('export-contacts', [ContactController::class, 'export'])->name('export_contacts');
                 $this->get('get-channel-templates', [TemplateController::class, 'get_channel_templates'])->name('get_channel_templates');
                 $this->get('get-template', [TemplateController::class, 'get_template'])->name('get_template');
+                $this->get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
 
                 /* CHARTS ROUTES */
                 $this->get('get-daily-sms-email-count', [ChartController::class, 'get_daily_sms_email_count'])->name('get_daily_sms_email_count');

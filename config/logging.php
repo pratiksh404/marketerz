@@ -100,6 +100,36 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'failed_email_jobs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/failed_email_jobs.log'),
+            'level' => 'info',
+        ],
+
+        'failed_sms_jobs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/failed_sms_jobs.log'),
+            'level' => 'info',
+        ],
+
+        'success_email_jobs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/success_email_jobs.log'),
+            'level' => 'info',
+        ],
+
+        'success_sms_jobs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/success_sms_jobs.log'),
+            'level' => 'info',
+        ],
+
+        'campaign' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/campaign.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

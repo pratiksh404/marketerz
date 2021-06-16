@@ -62,10 +62,10 @@
                                     <label for="email">Contact Groups</label>
                                     <select id="groups" class="select2" multiple="multiple">
                                         @isset($groups)
-                                            @foreach ($groups as $group)
-                                                <option value="{{ $group->id }}">
-                                                    {{ $group->name }}</option>
-                                            @endforeach
+                                        @foreach ($groups as $group)
+                                        <option value="{{ $group->id }}">
+                                            {{ $group->name }}</option>
+                                        @endforeach
                                         @endisset
                                     </select>
                                 </div>
@@ -77,10 +77,10 @@
                                     <label for="clients">Contact Client</label>
                                     <select id="clients" class="select2" multiple="multiple">
                                         @isset($clients)
-                                            @foreach ($clients as $client)
-                                                <option value="{{ $client->id }}">
-                                                    {{ $client->name }}</option>
-                                            @endforeach
+                                        @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}">
+                                            {{ $client->name }}</option>
+                                        @endforeach
                                         @endisset
                                     </select>
                                 </div>
@@ -209,10 +209,10 @@
                                         style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
                                         data-popper-placement="bottom-start">
                                         @isset($groups)
-                                            @foreach ($groups as $group)
-                                                <button class="dropdown-item"
-                                                    wire:click="$emitUp('group_contacts',{{ $group->id }})">{{ $group->name }}</button>
-                                            @endforeach
+                                        @foreach ($groups as $group)
+                                        <button class="dropdown-item"
+                                            wire:click="$emitUp('group_contacts',{{ $group->id }})">{{ $group->name }}</button>
+                                        @endforeach
                                         @endisset
                                     </div>
                                 </div>
@@ -225,10 +225,10 @@
                                         style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
                                         data-popper-placement="bottom-start">
                                         @isset($clients)
-                                            @foreach ($clients as $client)
-                                                <button class="dropdown-item"
-                                                    wire:click="$emitUp('client_contacts',{{ $client->id }})">{{ $client->name }}</button>
-                                            @endforeach
+                                        @foreach ($clients as $client)
+                                        <button class="dropdown-item"
+                                            wire:click="$emitUp('client_contacts',{{ $client->id }})">{{ $client->name }}</button>
+                                        @endforeach
                                         @endisset
                                     </div>
                                 </div>
@@ -265,26 +265,26 @@
                                     </thead>
                                     <tbody>
                                         @isset($contacts)
-                                            @foreach ($contacts as $contact)
-                                                <tr>
-                                                    <td>{{ $contact->name }}</td>
-                                                    <td>{{ $contact->phone }}</td>
-                                                    <td>{{ $contact->email }}</td>
-                                                    <td>
-                                                        @livewire('admin.contact.toggle-favorite-contact', ['contact' =>
-                                                        $contact],
-                                                        key('group' . $contact->id))
-                                                    </td>
-                                                    <td>
-                                                        @livewire('admin.contact.toggle-active-contact', ['contact' =>
-                                                        $contact],
-                                                        key('active' . $contact->id))
-                                                    </td>
-                                                    <td>
-                                                        <x-adminetic-action :model="$contact" route="contact" show="0" />
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                        @foreach ($contacts as $contact)
+                                        <tr>
+                                            <td>{{ $contact->name }}</td>
+                                            <td>{{ $contact->phone }}</td>
+                                            <td>{{ $contact->email }}</td>
+                                            <td>
+                                                @livewire('admin.contact.toggle-favorite-contact', ['contact' =>
+                                                $contact],
+                                                key('group' . $contact->id))
+                                            </td>
+                                            <td>
+                                                @livewire('admin.contact.toggle-active-contact', ['contact' =>
+                                                $contact],
+                                                key('active' . $contact->id))
+                                            </td>
+                                            <td>
+                                                <x-adminetic-action :model="$contact" route="contact" show="0" />
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                         @endisset
                                     </tbody>
                                     <tfoot>
@@ -334,8 +334,8 @@
         </div>
     </div>
     @push('livewire_third_party')
-        <script>
-            $(function() {
+    <script>
+        $(function() {
                 initializeContacts();
                 Livewire.on('initialize_contacts', function() {
                     initializeContacts();
@@ -414,6 +414,6 @@
 
             });
 
-        </script>
+    </script>
     @endpush
 </div>

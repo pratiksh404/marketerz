@@ -31,11 +31,13 @@ class Contacts extends Component
     {
         $this->filter_id = 2;
         $this->client_id = $id;
+        $this->emit('filterApplied');
     }
     public function groupImportContacts($id)
     {
         $this->filter_id = 3;
         $this->group_id = $id;
+        $this->emit('filterApplied');
     }
 
     public function render()

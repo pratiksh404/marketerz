@@ -143,6 +143,17 @@ return [
                 ],
             ],
         ],
+        [
+            'name' => 'Datatable',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'active' => true,
+                    'location' => 'adminetic/assets/js/datatable/datatable-extension/dataTables.select.min.js',
+                ],
+            ],
+        ],
     ],
 
     // Plugin Adapters

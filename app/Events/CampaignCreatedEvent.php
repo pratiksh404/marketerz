@@ -24,7 +24,6 @@ class CampaignCreatedEvent
      */
     public function __construct(Campaign $campaign)
     {
-        //
         $this->campaign = $campaign;
     }
 }
