@@ -2,11 +2,13 @@
 
 namespace App\Jobs;
 
+use Exception;
 use App\Mail\CampaignEmail;
 use App\Models\Admin\Contact;
+use App\Models\Admin\Process;
 use Illuminate\Bus\Queueable;
 use App\Models\Admin\Campaign;
-use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -51,6 +53,14 @@ class EmailNotification implements ShouldQueue
     public function handle()
     {
         if (isset($this->contact) && isset($this->campaign)) {
+            $process = Process::where('uuid', $this->job->uuid())->first();
+            if (isset($process)) {
+                $process->update([
+                    'campaign_id' => $this->campaign->id,
+                    'contact_id' => $this->contact->id,
+                    'status' => 1
+                ]);
+            }
             Mail::to($this->contact->email)->send(new CampaignEmail($this->campaign));
         }
     }

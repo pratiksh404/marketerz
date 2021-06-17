@@ -22,8 +22,8 @@ class CampaignJSON
     public function storeToJSONCampaign()
     {
         $allJSONData = is_array($this->getCampaignJSON()) ? $this->getCampaignJSON() : array();
-        $campaignData = $this->campaignData();
-        $data = array_push($allJSONData, $campaignData);
+        $campaignData = is_array($this->campaignData()) ? $this->campaignData() : array();
+        $data = array_merge($allJSONData, $campaignData);
 
         $jsongFile = 'campaign_file.json';
 

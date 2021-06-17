@@ -9,11 +9,14 @@ use App\Events\CampaignCreatedEvent;
 use App\Facades\Marketerz;
 use App\Http\Requests\CampaignRequest;
 
+
 class CampaignRepository implements CampaignRepositoryInterface
 {
     // Campaign Index
     public function indexCampaign()
     {
+        $file = public_path('/upload/json/campaign/campaign_file.json');
+        $data = json_decode(file_get_contents($file), true);
         $campaigns = config('coderz.caching', true)
             ? (Cache::has('campaigns') ? Cache::get('campaigns') : Cache::rememberForever('campaigns', function () {
                 return Campaign::latest()->get();
