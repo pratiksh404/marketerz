@@ -24,7 +24,7 @@ class ClientFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
-            'phone' => rand(1, 10),
+            'phone' => rand(1000000000, 9999999999),
             'address' => $this->faker->city(),
         ];
     }

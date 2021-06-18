@@ -52,6 +52,7 @@ class EmailNotification implements ShouldQueue
      */
     public function handle()
     {
+        throw new \Exception("Error Processing the job", 1);
         if (isset($this->contact) && isset($this->campaign)) {
             $process = Process::where('uuid', $this->job->uuid())->first();
             if (isset($process)) {
