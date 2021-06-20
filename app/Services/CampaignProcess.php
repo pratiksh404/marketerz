@@ -17,13 +17,20 @@ class CampaignProcess
     {
         $channel = $this->getChannel();
         $payload = $this->payload;
-        if (isset($channel)) {
-            Process::create([
-                'channel' => $channel,
-                'uuid' => $payload['uuid'],
-                'status' => 0,
-                'payload' => json_encode($payload)
+        $process = Process::where('uuid', $payload['uuid'])->first();
+        if (isset($process)) {
+            $process->update([
+                'status' => 4,
             ]);
+        } else {
+            if (isset($channel)) {
+                Process::create([
+                    'channel' => $channel,
+                    'uuid' => $payload['uuid'],
+                    'status' => 0,
+                    'payload' => json_encode($payload)
+                ]);
+            }
         }
     }
 

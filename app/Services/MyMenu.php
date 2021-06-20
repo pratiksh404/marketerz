@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Admin\Contact;
+use App\Models\Admin\Campaign;
 use Pratiksh\Adminetic\Traits\SidebarHelper;
 use Pratiksh\Adminetic\Contracts\SidebarInterface;
 
@@ -50,6 +52,17 @@ class MyMenu implements SidebarInterface
                     ],
                 ],
                 'children' => $this->indexCreateChildren('campaign', App\Models\Admin\Campaign::class)
+            ],
+            [
+                'type' => 'breaker',
+                'name' => 'Jobs',
+                'description' => 'Queue Jobs and Workers',
+            ],
+            [
+                'type' => 'link',
+                'name' => 'Failed Jobs',
+                'icon' => 'fa fa-exclamation',
+                'link' => route('failed_jobs'),
             ],
             [
                 'type' => 'breaker',

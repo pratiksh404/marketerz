@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ClientController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\Admin\TemplateController;
@@ -37,6 +38,7 @@ class AdminRouteMixin
                 $this->get('get-channel-templates', [TemplateController::class, 'get_channel_templates'])->name('get_channel_templates');
                 $this->get('get-template', [TemplateController::class, 'get_template'])->name('get_template');
                 $this->get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+                $this->get('failed-jobs', [JobController::class, 'failed_jobs'])->name('failed_jobs');
 
 
                 /* CHARTS ROUTES */
