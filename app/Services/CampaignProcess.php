@@ -20,7 +20,7 @@ class CampaignProcess
         $process = Process::where('uuid', $payload['uuid'])->first();
         if (isset($process)) {
             $process->update([
-                'status' => 4,
+                'status' => 3,
             ]);
         } else {
             if (isset($channel)) {

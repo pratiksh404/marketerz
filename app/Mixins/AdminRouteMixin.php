@@ -39,6 +39,8 @@ class AdminRouteMixin
                 $this->get('get-template', [TemplateController::class, 'get_template'])->name('get_template');
                 $this->get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
                 $this->get('failed-jobs', [JobController::class, 'failed_jobs'])->name('failed_jobs');
+                $this->get('show-failed-job/{uuid}', [JobController::class, 'show_failed_job'])->name('show_failed_job');
+                $this->get('processes', [JobController::class, 'processes'])->name('processes');
 
 
                 /* CHARTS ROUTES */

@@ -60,9 +60,15 @@ class MyMenu implements SidebarInterface
             ],
             [
                 'type' => 'link',
-                'name' => 'Failed Jobs',
+                'name' => ' Failed Jobs',
                 'icon' => 'fa fa-exclamation',
                 'link' => route('failed_jobs'),
+            ],
+            [
+                'type' => 'link',
+                'name' => ' Processes',
+                'icon' => 'fa fa-spin fa-spinner',
+                'link' => route('processes'),
             ],
             [
                 'type' => 'breaker',

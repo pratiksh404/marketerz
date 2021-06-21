@@ -129,7 +129,7 @@
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa fa-money"></i></span>
                         <input name="estimated_price" type="number" class="form-control" value="0" id="estimated_cost"
-                            disabled>
+                            readonly>
                     </div>
                 </div>
             </div>

@@ -15,8 +15,18 @@
             </div>
             <div class="card card-shadow">
                 <div class="card-body">
-                    <button class="btn btn-block btn-primary btn-air-primary"
-                        wire:click="$emitUp('retry_all_failed_jobs')">Retry All</button>
+                    <div wire:loading>
+                        <button class="btn btn-primary btn-air-primary" disabled><i class="fa fa-spin fa-spinner"></i>
+                        </button>
+                        <button class="btn btn-danger btn-air-danger" disabled><i class="fa fa-spin fa-spinner"></i>
+                        </button>
+                    </div>
+                    <div wire:loading.remove>
+                        <button class="btn btn-primary btn-air-primary" wire:click="$emitUp('retry_all_failed_jobs')"
+                            title="Retry All"><i class="fa fa-refresh"></i></button>
+                        <button class="btn btn-danger btn-air-danger" wire:click="$emitUp('delete_all_failed_jobs')"
+                            title="Flush All"><i class="fa fa-trash"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,13 +59,21 @@
                                 <td>{{$payload->displayName}}</td>
                                 <td>{{$failed_job->failed_at}}</td>
                                 <td>
-                                    <button wire:click="$emitUp('retry_job','{{$failed_job->uuid}}')"
-                                        wire:key="retry{{$failed_job->uuid}}"
-                                        class="btn btn-sm btn-warning btn-air-warning" title="Retry"><i
-                                            class="fa fa-refresh"></i></button>
-                                    <button class="btn btn-sm btn-info btn-air-info" title="Show"><i
-                                            class="fa fa-eye"></i></button>
-                                    <button class="btn btn-sm btn-danger btn-air-danger" title="Delete"
+                                    <div wire:loading="retrySingleJob">
+                                        <button class="btn btn-sm btn-warning btn-air-warning" title="Retry" disabled><i
+                                                class="fa fa-spin fa-refresh"></i></button>
+                                    </div>
+                                    <div wire:loading.remove="retrySingleJob">
+                                        <button wire:click="$emitUp('retry_job','{{$failed_job->uuid}}')"
+                                            wire:key="retry{{$failed_job->uuid}}"
+                                            class="btn btn-sm btn-warning btn-air-warning" title="Retry"><i
+                                                class="fa fa-refresh"></i></button>
+                                    </div>
+                                    <a href="{{route('show_failed_job',['uuid' => $failed_job->uuid])}}"
+                                        class="btn btn-sm btn-info btn-air-info" title="Show"><i
+                                            class="fa fa-eye"></i></a>
+                                    <button wire:click="$emitUp('delete_job','{{$failed_job->uuid}}')"
+                                        class="btn btn-sm btn-danger btn-air-danger" title="Delete"
                                         wire:key="delete{{$failed_job->uuid}}"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

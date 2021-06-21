@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Admin\Campaign;
-use Illuminate\Support\Facades\Cache;
-use App\Contracts\CampaignRepositoryInterface;
-use App\Events\CampaignCreatedEvent;
 use App\Facades\Marketerz;
+use App\Models\Admin\Contact;
+use App\Models\Admin\Campaign;
+use App\Events\CampaignCreatedEvent;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\CampaignRequest;
+use App\Contracts\CampaignRepositoryInterface;
 
 
 class CampaignRepository implements CampaignRepositoryInterface
@@ -41,7 +42,8 @@ class CampaignRepository implements CampaignRepositoryInterface
     // Campaign Show
     public function showCampaign(Campaign $campaign)
     {
-        return compact('campaign');
+        $contacts = Contact::find($campaign->contacts);
+        return compact('campaign', 'contacts');
     }
 
     // Campaign Edit

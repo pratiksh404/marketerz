@@ -15,7 +15,9 @@ class FailedJob extends Component
 
     protected $listeners = [
         'retry_all_failed_jobs' => 'retryAllFailedJobs',
-        'retry_job' => 'retryJob'
+        'delete_all_failed_jobs' => 'deleteAllFailedJobs',
+        'retry_job' => 'retryJob',
+        'delete_job' => 'deleteJob'
     ];
 
     public function mount()
@@ -29,9 +31,21 @@ class FailedJob extends Component
         $this->initializeJobs();
     }
 
+    public function deleteAllFailedJobs()
+    {
+        Artisan::call('queue:flush');
+        $this->initializeJobs();
+    }
+
     public function retryJob($uuid)
     {
         Artisan::call("queue:retry", ['id' => [$uuid]]);
+        $this->initializeJobs();
+    }
+
+    public function deleteJob($uuid)
+    {
+        Artisan::call("queue:forget", ['id' => [$uuid]]);
         $this->initializeJobs();
     }
 

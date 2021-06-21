@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Admin\Group;
+use App\Models\Admin\Process;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -63,5 +64,9 @@ class Contact extends Model
     public function clients()
     {
         return $this->belongsToMany(Client::class)->withTimestamps();
+    }
+    public function processes()
+    {
+        return $this->hasMany(Process::class);
     }
 }
