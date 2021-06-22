@@ -307,7 +307,6 @@
         </div>
     </div>
 
-    {{-- Modals --}}
     {{-- Import Modal --}}
     <div class="modal fade import-contacts" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">

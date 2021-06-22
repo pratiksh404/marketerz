@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\Client;
 use Illuminate\Http\Request;
-use App\Http\Requests\ClientRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientRequest;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\ClientRepositoryInterface;
+use App\Imports\ClientContact;
 
 class ClientController extends Controller
 {
@@ -96,5 +98,16 @@ class ClientController extends Controller
     {
         $this->clientRepositoryInterface->destroyClient($client);
         return redirect(adminRedirectRoute('client'))->withFail('Client Deleted Successfully.');
+    }
+
+    /**
+     *
+     * Import Contacts
+     *
+     */
+    public function import(Client $client)
+    {
+        Excel::import(new ClientContact($client), request()->file('contacts_import'));
+        return redirect(adminRedirectRoute('client'))->withSuccess('Contacts Imported.');
     }
 }

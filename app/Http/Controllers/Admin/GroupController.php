@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\Group;
 use Illuminate\Http\Request;
+use App\Imports\GroupContact;
 use App\Http\Requests\GroupRequest;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\GroupRepositoryInterface;
 
 class GroupController extends Controller
@@ -96,5 +98,16 @@ class GroupController extends Controller
     {
         $this->groupRepositoryInterface->destroyGroup($group);
         return redirect(adminRedirectRoute('group'))->withFail('Group Deleted Successfully.');
+    }
+
+    /**
+     *
+     * Import Contacts
+     *
+     */
+    public function import(Group $group)
+    {
+        Excel::import(new GroupContact($group), request()->file('contacts_import'));
+        return redirect(adminRedirectRoute('group'))->withSuccess('Contacts Imported.');
     }
 }
