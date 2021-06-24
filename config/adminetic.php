@@ -158,4 +158,7 @@ return [
 
     // Plugin Adapters
     'adapters' => [],
+
+    // Custom
+    'currency_symbol' => 'Rs.',
 ];

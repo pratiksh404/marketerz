@@ -2,16 +2,13 @@
 
 namespace App\Models\Admin;
 
-use App\Models\Admin\Contact;
-use App\Models\Admin\Campaign;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Client extends Model
+class Task extends Model
 {
-    use LogsActivity, HasFactory;
+    use LogsActivity;
 
     protected $guarded = [];
 
@@ -32,18 +29,9 @@ class Client extends Model
     // Cache Keys
     private static function cacheKey()
     {
-        Cache::has('clients') ? Cache::forget('clients') : '';
+        Cache::has('tasks') ? Cache::forget('tasks') : '';
     }
 
     // Logs
-    protected static $logName = 'client';
-    // Relations
-    public function contacts()
-    {
-        return $this->belongsToMany(Contact::class);
-    }
-    public function campaigns()
-    {
-        return $this->hasMany(Campaign::class);
-    }
+    protected static $logName = 'task';
 }

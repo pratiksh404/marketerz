@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SourceController;
+use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\TemplateController;
 
 class AdminRouteMixin
@@ -31,6 +32,7 @@ class AdminRouteMixin
                 $this->resource('service', ServiceController::class);
                 $this->resource('template', TemplateController::class);
                 $this->resource('campaign', CampaignController::class);
+                $this->resource('task', TaskController::class);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');
@@ -49,6 +51,8 @@ class AdminRouteMixin
                 $this->get('get-daily-sms-email-count', [ChartController::class, 'get_daily_sms_email_count'])->name('get_daily_sms_email_count');
                 $this->get('get-daily-sms-count', [ChartController::class, 'get_daily_sms_count'])->name('get_daily_sms_count');
                 $this->get('get-daily-email-count', [ChartController::class, 'get_daily_email_count'])->name('get_daily_email_count');
+                $this->get('get-client-email-count', [ChartController::class, 'get_client_sms_email_count'])->name('get_client_sms_email_count');
+                $this->get('get-client-monthly-email-count', [ChartController::class, 'get_client_monthly_sms_email_count'])->name('get_client_monthly_sms_email_count');
             });
         };
     }

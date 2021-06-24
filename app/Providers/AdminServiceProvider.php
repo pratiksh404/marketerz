@@ -21,7 +21,9 @@ use App\Contracts\SourceRepositoryInterface;
 use App\Contracts\ContactRepositoryInterface;
 use App\Contracts\ServiceRepositoryInterface;
 use App\Contracts\CampaignRepositoryInterface;
+use App\Contracts\TaskRepositoryInterface;
 use App\Contracts\TemplateRepositoryInterface;
+use App\Repositories\TaskRepository;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -60,6 +62,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(TemplateRepositoryInterface::class, TemplateRepository::class);
         $this->app->bind(CampaignRepositoryInterface::class, CampaignRepository::class);
+        $this->app->bind(TaskRepositoryInterface::class, TaskRepository::class);
     }
 
     /**
