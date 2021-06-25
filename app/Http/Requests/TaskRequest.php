@@ -30,7 +30,6 @@ class TaskRequest extends FormRequest
             'reminder' => 'sometimes|boolean',
             'reminder_date_time' => 'required_if:reminder,1',
             'channel' => 'required_if:reminder,1',
-            'channel' =>  'required_if:reminder,1',
             'status' => 'sometimes|numeric',
             'user_id' => 'required|numeric',
             'color' => 'nullable|max:15'

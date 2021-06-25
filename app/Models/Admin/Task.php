@@ -34,4 +34,9 @@ class Task extends Model
 
     // Logs
     protected static $logName = 'task';
+
+    // Casts
+    protected $casts = [
+        'channel' => 'array'
+    ];
 }
