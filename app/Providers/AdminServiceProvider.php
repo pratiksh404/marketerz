@@ -50,7 +50,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot()
     {
         // Registering Blade Directives
-        /*  Paginator::useBootstrap(); */ }
+        /*    Paginator::useBootstrap(); */ }
 
     // Repository Interface Binding
     protected function repos()

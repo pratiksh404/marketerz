@@ -21,76 +21,120 @@
                             data-bs-target=".bd-example-modal-lg">Create Task</button>
                     </div>
                     <hr>
-                    <div class="text-center" style="cursor: pointer;">Today's Task</div>
+                    <div wire:click="allTasks" class="text-center" style="cursor: pointer;">All Task</div>
                     <br>
-                    <div class="text-center" style="cursor: pointer;">Delayed Task</div>
+                    <div wire:click="todayTasks" class="text-center" style="cursor: pointer;">Today's Task</div>
                     <br>
-                    <div class="text-center" style="cursor: pointer;">Upcoming Task</div>
+                    <div wire:click="delayedTasks" class="text-center" style="cursor: pointer;">Delayed Task</div>
                     <br>
-                    <div class="text-center" style="cursor: pointer;">This Week Task</div>
+                    <div wire:click="upcomingTasks" class="text-center" style="cursor: pointer;">Upcoming Task</div>
                     <br>
-                    <div class="text-center" style="cursor: pointer;">This Month Task</div>
+                    <div wire:click="weekTasks" class="text-center" style="cursor: pointer;">This Week Task</div>
                     <br>
-                    <div class="text-center" style="cursor: pointer;">Assigned To Me</div>
+                    <div wire:click="monthTasks" class="text-center" style="cursor: pointer;">This Month Task</div>
+                    <br>
+                    <div wire:click="assignedTo" class="text-center" style="cursor: pointer;">Assigned To Me</div>
                     <br>
                 </div>
             </div>
         </div>
-        <div class="col-lg-9">
-            @if (isset($tasks))
-            @if ($tasks->count() > 0)
-            <div class="default-according" id="accordionclose">
-                @foreach ($tasks as $task)
-                <div class="card shadow-lg">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <h5 class="mb-0" id="heading{{$task->id}}">
-                                    <button class=" btn btn-link {{$loop->first ? '' : 'collapsed'}}"
-                                        data-bs-toggle="collapse" data-bs-target="#collapse{{$task->id}}"
-                                        aria-expanded="{{$loop->first}}" aria-controls="heading{{$task->id}}">
-                                        {{$task->task}}
-                                    </button>
-                                </h5>
+        <div class="col-lg-9" wire:init="loadTask">
+            <div wire:ignore wire:loading.flex>
+                <div style="width:100%;align-items: center;justify-content: center;">
+                    <div class="loader-box" style="margin:auto">
+                        <div class="loader-2"></div>
+                    </div>
+                </div>
+            </div>
+            <div wire:loading.remove>
+                @if (isset($tasks))
+                @if ($tasks->count() > 0)
+                <div class="default-according" id="accordionclose">
+                    @foreach ($tasks as $task)
+                    <div class="card shadow-lg">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <h5 class="mb-0" id="heading{{$task->id}}">
+                                        <button class=" btn btn-link {{$loop->first ? '' : 'collapsed'}}"
+                                            data-bs-toggle="collapse" data-bs-target="#collapse{{$task->id}}"
+                                            aria-expanded="{{$loop->first}}" aria-controls="heading{{$task->id}}">
+                                            @if ($task->status)
+                                            <del>{{$task->task}}</del>
+                                            @else
+                                            {{$task->task}}
+                                            @endif
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="d-flex justify-content-around">
+                                        @livewire('admin.task.check-uncheck-task', ['task' => $task], key($task->id))
+                                        <button wire:click="$emitUp('delete_task',{{$task->id}})"
+                                            wire:key="delete{{$task->id}}"
+                                            class="btn btn-pill btn-outline-danger btn-air-danger btn-xs mt-2"
+                                            type="button">Delete</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        type="button" title=""
-                                        data-bs-original-title="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        data-original-title="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        aria-describedby="tooltip564471"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        type="button" title=""
-                                        data-bs-original-title="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        data-original-title="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        aria-describedby="tooltip564471"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        type="button" title=""
-                                        data-bs-original-title="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        data-original-title="btn btn-pill btn-outline-success btn-air-success btn-xs mt-2"
-                                        aria-describedby="tooltip564471"><i class="fa fa-check"></i></button>
+                        </div>
+                        <div class="collapse" id="collapse{{$task->id}}" aria-labelledby="heading{{$task->id}}"
+                            data-bs-parent="#accordionclose">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="card shadow-sm">
+                                            <div class="card-body">
+                                                <b>Deadline : </b> <span
+                                                    class="text-muted text-danger">{{\Carbon\Carbon::create($task->deadline)->toFormattedDateString()}}</span>
+
+                                                <hr>
+                                                <b>Reminder : </b> <span
+                                                    class="badge badge-{{$task->reminder ? 'success' : 'danger'}}">{{$task->reminder ? "ON" : "OFF"}}</span>
+
+                                                <hr>
+                                                <b>Reminder Date Time : </b> <span
+                                                    class="text-muted">{{\Carbon\Carbon::create($task->reminder_date_time)->toFormattedDateString()}}</span>
+
+                                                <hr>
+                                                <b>Channel : </b> @foreach ($task->channel as $channel)
+                                                <span class="badge badge-primary">{{$task->getChannel($channel)}}</span>
+                                                @endforeach
+                                                <hr>
+                                                @if (isset($task->assigned_to))
+                                                <b>Assigned To : </b> <span
+                                                    class="badge badge-primary">{{$task->assignedTo->name ?? 'N/A'}}</span>
+                                                <hr>
+                                                <b>Assigned By : </b> <span
+                                                    class="badge badge-primary">{{$task->user->name ?? 'N/A'}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h4><b class="text-center">Description</b></h4>
+                                        <hr>
+                                        <p>
+                                            {{$task->description}}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="collapse" id="collapse{{$task->id}}" aria-labelledby="heading{{$task->id}}"
-                        data-bs-parent="#accordionclose">
-                        <div class="card-body">
-                            {{$task->description}}
-                        </div>
+                    @endforeach
+                </div>
+                <hr>
+                {{$tasks->links()}}
+                @else
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h4 class="text-center">No Tasks</h4>
                     </div>
                 </div>
-                @endforeach
+                @endif
+                @endif
             </div>
-            @else
-            <div class="card shadow-lg">
-                <div class="card-body">
-                    <h4 class="text-center">No Tasks</h4>
-                </div>
-            </div>
-            @endif
-            @endif
         </div>
     </div>
     {{-- MODAL --}}
@@ -195,6 +239,21 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <select wire:model="assigned_to" id="assigned_to" class="form-control"
+                                        style="width:100%">
+                                        <option value="">Assign Task To ... </option>
+                                        @isset($users)
+                                        @foreach ($users as $user)
+                                        @if ($user->id !- auth()->user()->id)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                        @endif
+                                        @endforeach
+                                        @endisset
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -266,6 +325,41 @@
                         }
                     });
                 });
+         Livewire.on('task_deleted', function() {
+               var notify_allow_dismiss = Boolean(
+                   {{ config('adminetic.notify_allow_dismiss', true) }});
+               var notify_delay = {{ config('adminetic.notify_delay', 2000) }};
+               var notify_showProgressbar = Boolean(
+                   {{ config('adminetic.notify_showProgressbar', true) }});
+               var notify_timer = {{ config('adminetic.notify_timer', 300) }};
+               var notify_newest_on_top = Boolean(
+                   {{ config('adminetic.notify_newest_on_top', true) }});
+               var notify_mouse_over = Boolean(
+                   {{ config('adminetic.notify_mouse_over', true) }});
+               var notify_spacing = {{ config('adminetic.notify_spacing', 1) }};
+               var notify_notify_animate_in =
+                   "{{ config('adminetic.notify_animate_in', 'animated fadeInDown') }}";
+               var notify_notify_animate_out =
+                   "{{ config('adminetic.notify_animate_out', 'animated fadeOutUp') }}";
+               var notify = $.notify({
+                   title: "<i class='{{ config('adminetic.notify_icon', 'fa fa-bell-o') }}'></i> " +
+                       "Success",
+                   message: "Task Deleted !"
+               }, {
+                   type: 'danger',
+                   allow_dismiss: notify_allow_dismiss,
+                   delay: notify_delay,
+                   showProgressbar: notify_showProgressbar,
+                   timer: notify_timer,
+                   newest_on_top: notify_newest_on_top,
+                   mouse_over: notify_mouse_over,
+                   spacing: notify_spacing,
+                   animate: {
+                       enter: notify_notify_animate_in,
+                       exit: notify_notify_animate_out
+                   }
+               });
+           });
     });
     </script>
     @endpush

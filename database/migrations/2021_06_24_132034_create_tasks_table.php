@@ -24,8 +24,11 @@ class CreateTasksTable extends Migration
             $table->json('channel')->nullable();
             $table->integer('status')->default(1);
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('assigned_to')->nullable();
             $table->string('color')->default(random_color());
             $table->timestamps();
+
+            $table->foreign('assigned_to')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

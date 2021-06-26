@@ -32,6 +32,7 @@ class TaskRequest extends FormRequest
             'channel' => 'required_if:reminder,1',
             'status' => 'sometimes|numeric',
             'user_id' => 'required|numeric',
+            'assigned_to' => 'nullable|numeric',
             'color' => 'nullable|max:15'
         ];
     }
