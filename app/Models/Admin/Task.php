@@ -46,11 +46,21 @@ class Task extends Model
     public function getChannel($channel)
     {
         return [
-            1 => 'Mail',
-            2 => 'SMS',
-            3 => 'Slack',
-            4 => 'System Notification'
+            1 => 'mail',
+            2 => 'sms',
+            3 => 'slack',
+            4 => 'database'
         ][$channel];
+    }
+    public function getChannelArray()
+    {
+        $channels = [];
+        if (isset($this->channel)) {
+            foreach ($this->channel as $channel) {
+                $channel[] = $this->getChannel($channel);
+            }
+        }
+        return $channels;
     }
 
     // Scopes

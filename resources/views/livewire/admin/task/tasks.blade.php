@@ -246,7 +246,7 @@
                                         <option value="">Assign Task To ... </option>
                                         @isset($users)
                                         @foreach ($users as $user)
-                                        @if ($user->id !- auth()->user()->id)
+                                        @if ($user->id != auth()->user()->id)
                                         <option value="{{$user->id}}">{{$user->name}}</option>
                                         @endif
                                         @endforeach

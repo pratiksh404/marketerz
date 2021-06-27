@@ -127,7 +127,7 @@ class Tasks extends Component
     {
         $filter = $this->filter;
         if ($filter == 1) {
-            return Task::tenent()->latest()->paginate(2);
+            return Task::tenent()->latest()->paginate(10);
         } elseif ($filter == 2) {
             return Task::tenent()->whereDate('created_at', Carbon::today()->toDateString())->latest()->paginate(10);
         } elseif ($filter == 3) {

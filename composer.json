@@ -10,6 +10,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
+        "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "pratiksh/adminetic": "^1.2",

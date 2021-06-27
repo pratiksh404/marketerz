@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasTaskNotification;
 use Illuminate\Notifications\Notifiable;
 use Pratiksh\Adminetic\Traits\AdmineticUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, AdmineticUser;
+    use HasFactory, Notifiable, AdmineticUser, HasTaskNotification;
 
     /**
      * The attributes that are mass assignable.
