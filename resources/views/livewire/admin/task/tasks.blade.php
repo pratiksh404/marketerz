@@ -69,6 +69,8 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="d-flex justify-content-around">
+                                        <a href="{{adminEditRoute('task',$task->id)}}"
+                                            class="btn btn-pill btn-outline-info btn-air-info btn-xs mt-2">Edit</a>
                                         @livewire('admin.task.check-uncheck-task', ['task' => $task], key($task->id))
                                         <button wire:click="$emitUp('delete_task',{{$task->id}})"
                                             wire:key="delete{{$task->id}}"
@@ -186,8 +188,8 @@
                                         <div class="d-flex date-details">
                                             <div class="d-inline-block">
                                                 <label class="d-block mb-0" for="chk-ani">
-                                                    <input wire:model="reminder" class="checkbox_animated" id="chk-ani"
-                                                        type="checkbox">Remind on
+                                                    <input wire:model.defer="reminder" class="checkbox_animated"
+                                                        id="chk-ani" type="checkbox" value="1">Remind on
                                                 </label>
                                                 @error('reminder')
                                                 <p class="help-block text-danger">{{$message}}</p>
@@ -241,7 +243,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <select wire:model="assigned_to" id="assigned_to" class="form-control"
+                                    <select wire:model.defer="assigned_to" id="assigned_to" class="form-control"
                                         style="width:100%">
                                         <option value="">Assign Task To ... </option>
                                         @isset($users)

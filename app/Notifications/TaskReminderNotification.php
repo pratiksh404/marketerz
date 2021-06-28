@@ -63,9 +63,17 @@ class TaskReminderNotification extends Notification
      */
     public function toSlack($notifiable)
     {
+        $task = $this->task;
         return (new SlackMessage)
-            ->from(env('APP_NAME', 'Marketerz') . ' - Task Reminder')
-            ->content($this->task->task);
+            ->from(env('APP_NAME', 'Marketerz') . ' - Task Reminder : ' . $task->task)
+            ->content($task->description ?? '')
+            ->attachment(function ($attachment) use ($task) {
+                $attachment->title('Reminder')
+                    ->fields([
+                        'Deadline' => isset($task->deadline) ? Carbon::create($task->deadline)->toFormattedDateString() : "N/A",
+                        'Assigned By' => $task->user->name,
+                    ]);
+            });
     }
 
     /**

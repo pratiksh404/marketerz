@@ -12,6 +12,7 @@
         "laravel/framework": "^8.40",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.5",
+        "league/html-to-markdown": "^5.0",
         "maatwebsite/excel": "^3.1",
         "pratiksh/adminetic": "^1.2",
         "rap2hpoutre/laravel-log-viewer": "^1.7"
