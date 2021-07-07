@@ -179,6 +179,23 @@ class MyMenu implements SidebarInterface
             ],
             [
                 'type' => 'menu',
+                'name' => 'Department',
+                'icon' => 'fa fa-building-o',
+                'is_active' => request()->routeIs('department*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Department::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Department::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('department', App\Models\Admin\Department::class)
+            ],
+            [
+                'type' => 'menu',
                 'name' => 'Template',
                 'icon' => 'fa fa-photo',
                 'is_active' => request()->routeIs('template*') ? 'active' : '',
