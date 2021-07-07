@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\JobController;
+use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\Admin\TaskController;
@@ -33,6 +34,7 @@ class AdminRouteMixin
                 $this->resource('template', TemplateController::class);
                 $this->resource('campaign', CampaignController::class);
                 $this->resource('task', TaskController::class);
+                $this->resource('lead', LeadController::class);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');

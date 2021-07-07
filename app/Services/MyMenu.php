@@ -71,6 +71,23 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('task', App\Models\Admin\Task::class)
             ],
             [
+                'type' => 'menu',
+                'name' => 'Leads',
+                'icon' => 'fa fa-lightbulb-o',
+                'is_active' => request()->routeIs('lead*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Lead::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Lead::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('lead', App\Models\Admin\Lead::class)
+            ],
+            [
                 'type' => 'breaker',
                 'name' => 'Jobs',
                 'description' => 'Queue Jobs and Workers',
