@@ -9,6 +9,26 @@
                             <input type="text" class="form-control" id="lead_date_range" value="">
                         </div>
                         <div class="btn-group mx-1" role="group">
+                            <button class="btn btn-primary btn-air-primary dropdown-toggle" id="statusFilter"
+                                type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                data-bs-original-title="status Filter" title="status Filter"><i
+                                    class="fa fa-flag-o"></i></button>
+                            <div class="dropdown-menu" aria-labelledby="statusFilter"
+                                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
+                                data-popper-placement="bottom-start">
+                                <button class="dropdown-item" wire:click="$emitUp('status_leads',1)">New</button>
+                                <button class="dropdown-item" wire:click="$emitUp('status_leads',2)">Qualified</button>
+                                <button class="dropdown-item"
+                                    wire:click="$emitUp('status_leads',3)">Unqualified</button>
+                                <button class="dropdown-item" wire:click="$emitUp('status_leads',4)">Discussion</button>
+                                <button class="dropdown-item"
+                                    wire:click="$emitUp('status_leads',5)">Negotiation</button>
+                                <button class="dropdown-item" wire:click="$emitUp('status_leads',6)">Won</button>
+                                <button class="dropdown-item" wire:click="$emitUp('status_leads',7)">Lost</button>
+                                <button class="dropdown-item" wire:click="$emitUp('status_leads',8)">Follow Up</button>
+                            </div>
+                        </div>
+                        <div class="btn-group mx-1" role="group">
                             <button class="btn btn-success btn-air-success dropdown-toggle" id="leadByFilter"
                                 type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                 data-bs-original-title="leadBy Filter" title="leadBy Filter"><i
@@ -73,19 +93,19 @@
         <div class="col-lg-12">
             <div class="card shadow-lg">
                 <div class="card-body">
-                    <div class="row">
-                        @isset($leads)
-                        @if ($leads->count() > 0)
-                        <div wire:ignore wire:loading.flex>
-                            <div style="width:100%;align-items: center;justify-content: center;">
-                                <div class="loader-box" style="margin:auto">
-                                    <div class="loader-2"></div>
-                                </div>
+                    @isset($leads)
+                    @if ($leads->count() > 0)
+                    <div wire:ignore wire:loading.flex>
+                        <div style="width:100%;align-items: center;justify-content: center;">
+                            <div class="loader-box" style="margin:auto">
+                                <div class="loader-2"></div>
                             </div>
                         </div>
-                        <div wire:loading.remove>
+                    </div>
+                    <div wire:loading.remove>
+                        <div class="row">
                             @foreach ($leads as $lead)
-                            <div class="col-xxl-4 col-lg-6">
+                            <div class="col-lg-4 col-sm-12 col-md-6">
                                 <div class="project-box">
                                     <div class="d-flex justify-content-between">
                                         <h6>{{$lead->name ?? '#'.$lead->code}}</h6>
@@ -93,8 +113,7 @@
                                     </div>
                                     <div class="media"><img class="img-20 me-1 rounded-circle"
                                             src="{{getProfilePlaceholder($lead->leadBy->id)}}"
-                                            alt="{{getProfilePlaceholder($lead->leadBy->name)}}" data-original-title=""
-                                            title="">
+                                            alt="{{getProfilePlaceholder($lead->leadBy->name)}}">
                                         @isset($lead->leadBy->roles)
                                         <div class="media-body">
                                             <p>
@@ -109,7 +128,7 @@
                                         <div class="col-6"><span>Assigned To </span></div>
                                         <div class="col-6 text-primary">{{$lead->assignedTo->name ?? 'N/A'}} </div>
                                         <div class="col-6"> <span>Contact</span></div>
-                                        <div class="col-6 text-primary">{{$lead->lead->name ?? 'N/A'}}</div>
+                                        <div class="col-6 text-primary">{{$lead->contact->name ?? 'N/A'}}</div>
                                         <div class="col-6"> <span>Service</span></div>
                                         <div class="col-6 text-primary">{{$lead->service->name ?? 'N/A'}}</div>
                                         <div class="col-6"> <span>Source</span></div>
@@ -139,11 +158,11 @@
                             @endforeach
                             {{$leads->links()}}
                         </div>
-                        @else
-                        <h4 class="text-center">There are no leads available right now.</h4>
-                        @endif
-                        @endisset
                     </div>
+                    @else
+                    <h4 class="text-center">There are no leads available right now.</h4>
+                    @endif
+                    @endisset
                 </div>
             </div>
         </div>

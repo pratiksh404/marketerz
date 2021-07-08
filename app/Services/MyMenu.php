@@ -105,6 +105,23 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('package', App\Models\Admin\Package::class)
             ],
             [
+                'type' => 'menu',
+                'name' => 'Discussion',
+                'icon' => 'fa fa-comment',
+                'is_active' => request()->routeIs('discussion*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Discussion::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Discussion::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('discussion', App\Models\Admin\Discussion::class)
+            ],
+            [
                 'type' => 'breaker',
                 'name' => 'Jobs',
                 'description' => 'Queue Jobs and Workers',

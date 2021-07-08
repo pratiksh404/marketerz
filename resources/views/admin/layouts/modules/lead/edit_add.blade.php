@@ -142,19 +142,7 @@
                     <div class="col-lg-12">
                         <div class="mb-3">
                             <label for="contact_id">Contact</label>
-                            <div class="input-group">
-                                <select name="contact_id" id="contact_id" class="select2">
-                                    <option selected disabled>Select Contact ... </option>
-                                    @isset($contacts)
-                                    @foreach ($contacts as $contact)
-                                    <option value="{{$contact->id}}"
-                                        {{isset($lead->contact_id) ? ($lead->contact_id == $contact->id ? 'selected' : '') : ''}}>
-                                        {{$contact->name . ' (' . ($contact->phone ?? $contact->email ?? 'N/A') . ' )' }}
-                                    </option>
-                                    @endforeach
-                                    @endisset
-                                </select>
-                            </div>
+                            @livewire('admin.contact.select-contact', ['contact_id' => $lead->contact_id ?? null])
                         </div>
                     </div>
                     <div class="col-lg-12">

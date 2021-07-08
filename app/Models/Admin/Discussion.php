@@ -3,15 +3,11 @@
 namespace App\Models\Admin;
 
 use App\Models\User;
-use App\Models\Admin\Source;
-use App\Models\Admin\Contact;
-use App\Models\Admin\Service;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\This;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Lead extends Model
+class Discussion extends Model
 {
     use LogsActivity;
 
@@ -34,32 +30,25 @@ class Lead extends Model
     // Cache Keys
     private static function cacheKey()
     {
-        Cache::has('leads') ? Cache::forget('leads') : '';
+        Cache::has('discussions') ? Cache::forget('discussions') : '';
     }
 
     // Logs
-    protected static $logName = 'lead';
+    protected static $logName = 'discussion';
 
-    // Relations
-    public function source()
+    // Casts
+    protected $casts = [
+        'channel' => 'array'
+    ];
+
+    // Relation
+    public function lead()
     {
-        return $this->belongsTo(Source::class, 'source_id');
+        return $this->belongsTo(Lead::class, 'lead_id');
     }
-    public function service()
+    public function user()
     {
-        return $this->belongsTo(Service::class, 'service_id');
-    }
-    public function contact()
-    {
-        return $this->belongsTo(Contact::class, 'contact_id');
-    }
-    public function leadBy()
-    {
-        return $this->belongsTo(User::class, 'lead_by');
-    }
-    public function assignedTo()
-    {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Accessors
@@ -76,6 +65,15 @@ class Lead extends Model
             8 => 'Follow Up'
         ][$this->status];
     }
+    public function getTypeAttribute($attribute)
+    {
+        return [
+            1 => 'Feedback',
+            2 => 'Request',
+            3 => 'Demand',
+            4 => 'Complain',
+        ][$attribute];
+    }
 
     // Helper Function
     public function getStatusColor()
@@ -91,17 +89,13 @@ class Lead extends Model
             8 => 'grey'
         ][$this->status];
     }
-    public function getProgressPercent()
+    public function getTypeColor()
     {
         return [
-            1 => 0,
-            2 => 30,
-            3 => 0,
-            4 => 50,
-            5 => 70,
-            6 => 100,
-            7 => 0,
-            8 => 100
+            1 => 'primary',
+            2 => 'warning',
+            3 => 'info',
+            4 => 'danger',
         ][$this->status];
     }
 }

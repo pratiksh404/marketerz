@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ClientController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\DiscussionController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\LeadController;
@@ -39,6 +40,7 @@ class AdminRouteMixin
                 $this->resource('lead', LeadController::class);
                 $this->resource('department', DepartmentController::class);
                 $this->resource('package', PackageController::class);
+                $this->resource('discussion', DiscussionController::class);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');

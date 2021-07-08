@@ -16,14 +16,6 @@ class ContactTable extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $name;
-    public $address = null;
-    public $phone = null;
-    public $email = null;
-    public $gender = 1;
-    public $active = 1;
-    public $favorite = 0;
-
     public $search = '';
 
     public $filter;
@@ -32,25 +24,16 @@ class ContactTable extends Component
 
     public $endDate;
 
-    public $groups_id;
-
-    public $clients_id;
-
     public $group_filter_id = null;
 
     public $client_filter_id = null;
 
-    protected $listeners = ['date_range_filter' => 'dateRangeFilter', 'group_contacts' => 'groupContacts', 'client_contacts' => 'clientContacts'];
+    public $groups_id;
 
-    protected $rules = [
-        'name' => 'required|max:80',
-        'email' => 'required_if:phone,null|max:100',
-        'phone' => 'required_if:email,null|numeric',
-        'gender' => 'nullable|numeric',
-        'address' => 'nullable|max:100',
-        'favorite' => 'nullable|boolean',
-        'active' => 'nullable|boolean'
-    ];
+    public $clients_id;
+
+    protected $listeners = ['date_range_filter' => 'dateRangeFilter', 'contact_created' => '$refresh'];
+
 
     public function mount()
     {
@@ -134,18 +117,6 @@ class ContactTable extends Component
         /* Resets */
         $this->resetPage();
         $this->emit('initialize_contacts');
-    }
-
-    public function submit()
-    {
-        $contact = Contact::create($this->validate());
-        if (isset($this->groups_id)) {
-            $contact->groups()->attach($this->groups_id);
-        }
-        if (isset($this->clients_id)) {
-            $contact->clients()->attach($this->clients_id);
-        }
-        $this->emit('contact_created');
     }
 
     public function getContacts()

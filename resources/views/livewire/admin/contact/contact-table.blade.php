@@ -1,154 +1,7 @@
 <div>
     <div class="row">
         <div class="col-lg-4">
-            <div class="card shadow-lg">
-                <div class="card-header">
-                    <h4 class="card-title">Create Contact</h4>
-                    <div class="card-header-right">
-                        <ul class="list-unstyled card-option">
-                            <li><i class="fa fa-spin fa-cog"></i></li>
-                            <li><i class="icofont icofont-maximize full-card"></i></li>
-                            <li><i class="icofont icofont-minus minimize-card"></i></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <form wire:submit.prevent="submit">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mb-3" style="position: static;">
-                                    <label for="name">Contact Name <span class="text-danger">*</span></label>
-                                    <input wire:model.defer="name" class="form-control btn-square" id="name" type="text"
-                                        placeholder="Enter Contact Name" value="{{ $name ?? old('name') }}">
-                                    <p class="help-block text-danger">@error('name') {{ $message }} @enderror</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-3" style="position: static;">
-                                    <label for="name">Contact Address</label>
-                                    <input wire:model.defer="address" class="form-control btn-square" id="address"
-                                        type="text" placeholder="Enter Contact Address"
-                                        value="{{ $address ?? old('address') }}">
-                                    <p class="help-block text-danger">@error('address') {{ $message }} @enderror
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mb-3" style="position: static;">
-                                    <label for="phone">Contact Phone</label>
-                                    <input wire:model.defer="phone" class="form-control btn-square" id="phone"
-                                        type="number" placeholder="Enter Contact Phone"
-                                        value="{{ $phone ?? old('phone') }}">
-                                    <p class="help-block">Required if no email given.</p>
-                                    <p class="help-block text-danger">@error('phone') {{ $message }} @enderror</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-3" style="position: static;">
-                                    <label for="email">Contact Email</label>
-                                    <input wire:model.defer="email" class="form-control btn-square" id="email"
-                                        type="email" placeholder="Enter Contact Phone"
-                                        value="{{ $email ?? old('email') }}">
-                                    <p class="help-block">Required if no phone given.</p>
-                                    <p class="help-block text-danger">@error('email') {{ $message }} @enderror</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" wire:ignore>
-                            <div class="col-lg-12">
-                                <div class="mb-3" style="position: static;">
-                                    <label for="email">Contact Groups</label>
-                                    <select id="groups" class="select2" multiple="multiple">
-                                        @isset($groups)
-                                        @foreach ($groups as $group)
-                                        <option value="{{ $group->id }}">
-                                            {{ $group->name }}</option>
-                                        @endforeach
-                                        @endisset
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" wire:ignore>
-                            <div class="col-lg-12">
-                                <div class="mb-3" style="position: static;">
-                                    <label for="clients">Contact Client</label>
-                                    <select id="clients" class="select2" multiple="multiple">
-                                        @isset($clients)
-                                        @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}">
-                                            {{ $client->name }}</option>
-                                        @endforeach
-                                        @endisset
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="media mb-2">
-                                    <label class="col-form-label m-r-10">Favorite</label>
-                                    <div class="media-body text-end icon-state">
-                                        <label class="switch">
-                                            <input type="hidden" wire:model.defer="favorite" value="0">
-                                            <input value="1" type="checkbox" wire:model.defer="favorite"
-                                                {{ isset($favorite) ? ($favorite ? 'checked' : '') : (old('favorite') ? 'checked' : '') }}><span
-                                                class="switch-state"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="media mb-2">
-                                    <label class="col-form-label m-r-10">Active</label>
-                                    <div class="media-body text-end icon-state">
-                                        <label class="switch">
-                                            <input type="hidden" wire:model.defer="active" value="0">
-                                            <input value="1" type="checkbox" wire:model.defer="active"
-                                                {{ isset($active) ? ($active ? 'checked' : '') : 'checked' }}><span
-                                                class="switch-state"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="m-t-15 m-checkbox-inline custom-radio-ml">
-                                    <div class="form-check form-check-inline radio radio-primary">
-                                        <input wire:model.defer="gender" class="form-check-input" id="male" type="radio"
-                                            name="gender" value="1" data-bs-original-title="Male" title="Male"
-                                            value="{{ isset($gender) ? ($gender == 2 ? 'checked' : '') : '' }}">
-                                        <label class="form-check-label mb-0" for="male">Male</label>
-                                    </div>
-                                    <div class="form-check form-check-inline radio radio-primary">
-                                        <input wire:model.defer="gender" class="form-check-input" id="female"
-                                            type="radio" name="gender" value="2" data-bs-original-title="Female"
-                                            title="Female"
-                                            value="{{ isset($gender) ? ($gender == 2 ? 'checked' : '') : '' }}">
-                                        <label class="form-check-label mb-0" for="female">Female</label>
-                                    </div>
-                                    <div class="form-check form-check-inline radio radio-primary">
-                                        <input wire:model.defer="gender" class="form-check-input" id="others"
-                                            type="radio" name="gender" value="3" data-bs-original-title="Other"
-                                            title="Other"
-                                            value="{{ isset($gender) ? ($gender == 3 ? 'checked' : '') : '' }}">
-                                        <label class="form-check-label mb-0" for="others">Other</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div wire:loading="submit">
-                            <button type="button" class="btn btn-primary btn-air-primary" disabled><i
-                                    class="fa fa-spin fa-spinner"></i> Loading ...</button>
-                        </div>
-                        <div wire:loading.remove="submit">
-                            <button type="submit" class="btn btn-primary btn-air-primary">Add Contact</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            @livewire('admin.contact.create-contact')
         </div>
         <div class="col-lg-8">
             <div class="row">
@@ -156,85 +9,93 @@
                     {{-- Menu Buttons --}}
                     <div class="card shadow-lg">
                         <div class="card-body">
-                            <div class="d-flex justify-content-end">
-                                <div class="input-group" style="width:15vw">
-                                    <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
-                                    <input type="text" name="contact_date_range" id="contact_date_range" value="">
-                                </div>
-                                <div class="input-group" style="width:15vw">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                    <input type="text" wire:model.debounce.500ms="search" id="search" value="">
-                                </div>
-                                <div class="btn-group mx-1" role="group">
-                                    <button class="btn btn-success btn-air-success dropdown-toggle" id="importExport"
-                                        type="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false" data-bs-original-title="Import Export"
-                                        title="Import Export"><i class="fa fa-mail-reply-all"></i></button>
-                                    <div class="dropdown-menu" aria-labelledby="importExport"
-                                        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
-                                        data-popper-placement="bottom-start">
-                                        <button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                            data-bs-target=".import-contacts">Import</button>
-                                        <form action="{{ route('export_contacts') }}" method="post">
-                                            @csrf
-                                            <button class="dropdown-item" type="submit">Export</button>
-                                        </form>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="input-group" style="width:15vw">
+                                        <span class="input-group-text"><i class="fa fa-clock-o"></i></span>
+                                        <input type="text" name="contact_date_range" id="contact_date_range" value="">
+                                    </div>
+                                    <div class="input-group" style="width:15vw">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                        <input type="text" wire:model.debounce.500ms="search" id="search" value="">
                                     </div>
                                 </div>
-                                <div class="btn-group mx-1" role="group">
-                                    <button class="btn btn-info btn-air-info dropdown-toggle" id="generalFilter"
-                                        type="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false" data-bs-original-title="General Filter"
-                                        title="General Filter"><i class="fa fa-filter"></i></button>
-                                    <div class="dropdown-menu" aria-labelledby="generalFilter"
-                                        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
-                                        data-popper-placement="bottom-start">
-                                        <button class="dropdown-item" wire:click="allContacts">All Contacts</button>
-                                        <button class="dropdown-item" wire:click="favoriteContacts">Favorite
-                                            Contacts</button>
-                                        <button class="dropdown-item" wire:click="nonFavoriteContacts">Non Favorite
-                                            Contacts</button>
-                                        <button class="dropdown-item" wire:click="activeContacts">Active
-                                            Contacts</button>
-                                        <button class="dropdown-item" wire:click="inActiveContacts">Inactive
-                                            Contacts</button>
+                                <div class="col-lg-8">
+                                    <div class="btn-group mx-1" role="group">
+                                        <button class="btn btn-success btn-air-success dropdown-toggle"
+                                            id="importExport" type="button" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false"
+                                            data-bs-original-title="Import Export" title="Import Export"><i
+                                                class="fa fa-mail-reply-all"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="importExport"
+                                            style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
+                                            data-popper-placement="bottom-start">
+                                            <button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                                data-bs-target=".import-contacts">Import</button>
+                                            <form action="{{ route('export_contacts') }}" method="post">
+                                                @csrf
+                                                <button class="dropdown-item" type="submit">Export</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-group mx-1" role="group">
-                                    <button class="btn btn-info btn-air-info dropdown-toggle" id="groupFilter"
-                                        type="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false" data-bs-original-title="Group Filter"
-                                        title="Group Filter"><i class="fa fa-users"></i></button>
-                                    <div class="dropdown-menu" aria-labelledby="groupFilter"
-                                        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
-                                        data-popper-placement="bottom-start">
-                                        @isset($groups)
-                                        @foreach ($groups as $group)
-                                        <button class="dropdown-item"
-                                            wire:click="$emitUp('group_contacts',{{ $group->id }})">{{ $group->name }}</button>
-                                        @endforeach
-                                        @endisset
+                                    <div class="btn-group mx-1" role="group">
+                                        <button class="btn btn-info btn-air-info dropdown-toggle" id="generalFilter"
+                                            type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" data-bs-original-title="General Filter"
+                                            title="General Filter"><i class="fa fa-filter"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="generalFilter"
+                                            style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
+                                            data-popper-placement="bottom-start">
+                                            <button class="dropdown-item" wire:click="allContacts">All
+                                                Contacts</button>
+                                            <button class="dropdown-item" wire:click="favoriteContacts">Favorite
+                                                Contacts</button>
+                                            <button class="dropdown-item" wire:click="nonFavoriteContacts">Non
+                                                Favorite
+                                                Contacts</button>
+                                            <button class="dropdown-item" wire:click="activeContacts">Active
+                                                Contacts</button>
+                                            <button class="dropdown-item" wire:click="inActiveContacts">Inactive
+                                                Contacts</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-group mx-1" role="group">
-                                    <button class="btn btn-warning btn-air-warning dropdown-toggle" id="clientFilter"
-                                        type="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false" data-bs-original-title="Client Filter"
-                                        title="Group Filter"><i class="fa fa-male"></i></button>
-                                    <div class="dropdown-menu" aria-labelledby="clientFilter"
-                                        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
-                                        data-popper-placement="bottom-start">
-                                        @isset($clients)
-                                        @foreach ($clients as $client)
-                                        <button class="dropdown-item"
-                                            wire:click="$emitUp('client_contacts',{{ $client->id }})">{{ $client->name }}</button>
-                                        @endforeach
-                                        @endisset
+                                    <div class="btn-group mx-1" role="group">
+                                        <button class="btn btn-info btn-air-info dropdown-toggle" id="groupFilter"
+                                            type="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" data-bs-original-title="Group Filter"
+                                            title="Group Filter"><i class="fa fa-users"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="groupFilter"
+                                            style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
+                                            data-popper-placement="bottom-start">
+                                            @isset($groups)
+                                            @foreach ($groups as $group)
+                                            <button class="dropdown-item"
+                                                wire:click="$emitUp('group_contacts',{{ $group->id }})">{{ $group->name }}</button>
+                                            @endforeach
+                                            @endisset
+                                        </div>
                                     </div>
+                                    <div class="btn-group mx-1" role="group">
+                                        <button class="btn btn-warning btn-air-warning dropdown-toggle"
+                                            id="clientFilter" type="button" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false"
+                                            data-bs-original-title="Client Filter" title="Group Filter"><i
+                                                class="fa fa-male"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="clientFilter"
+                                            style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
+                                            data-popper-placement="bottom-start">
+                                            @isset($clients)
+                                            @foreach ($clients as $client)
+                                            <button class="dropdown-item"
+                                                wire:click="$emitUp('client_contacts',{{ $client->id }})">{{ $client->name }}</button>
+                                            @endforeach
+                                            @endisset
+                                        </div>
+                                    </div>
+                                    <a href="{{ adminCreateRoute('contact') }}"
+                                        class="btn btn-primary btn-air-primary mx-1">Create
+                                        Contact</a>
                                 </div>
-                                <a href="{{ adminCreateRoute('contact') }}"
-                                    class="btn btn-primary btn-air-primary mx-1">Create
-                                    Contact</a>
                             </div>
                         </div>
                     </div>

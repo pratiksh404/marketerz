@@ -18,9 +18,9 @@ class LeadRepository implements LeadRepositoryInterface
     {
         $leads = config('coderz.caching', true)
             ? (Cache::has('leads') ? Cache::get('leads') : Cache::rememberForever('leads', function () {
-                return Lead::latest()->get();
+                return Lead::with('source', 'service', 'contact', 'leadBy', 'assignedTo')->latest()->get();
             }))
-            : Lead::latest()->get();
+            : Lead::with('source', 'service', 'contact', 'leadBy', 'assignedTo')->latest()->get();
         return compact('leads');
     }
 
