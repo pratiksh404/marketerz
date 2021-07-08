@@ -88,6 +88,23 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('lead', App\Models\Admin\Lead::class)
             ],
             [
+                'type' => 'menu',
+                'name' => 'Packages',
+                'icon' => 'fa fa-shopping-basket',
+                'is_active' => request()->routeIs('package*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Package::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Package::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('package', App\Models\Admin\Package::class)
+            ],
+            [
                 'type' => 'breaker',
                 'name' => 'Jobs',
                 'description' => 'Queue Jobs and Workers',

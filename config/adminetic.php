@@ -154,6 +154,22 @@ return [
                 ],
             ],
         ],
+        [
+            'name' => 'DualListBox',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'active' => true,
+                    'location' => 'assets/plugins/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'active' => true,
+                    'location' => 'assets/plugins/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js',
+                ],
+            ],
+        ],
     ],
 
     // Plugin Adapters

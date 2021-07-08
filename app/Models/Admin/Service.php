@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin\Package;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,5 +51,10 @@ class Service extends Model
     public function allChildren()
     {
         return $this->children()->with('allChildren');
+    }
+
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class)->withTimestamps();
     }
 }
