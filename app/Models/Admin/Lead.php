@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Admin\Source;
 use App\Models\Admin\Contact;
 use App\Models\Admin\Service;
+use App\Models\Admin\Discussion;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use phpDocumentor\Reflection\Types\This;
@@ -60,6 +61,10 @@ class Lead extends Model
     public function assignedTo()
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+    public function discussions()
+    {
+        return $this->hasMany(Discussion::class);
     }
 
     // Accessors

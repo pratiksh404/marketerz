@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use App\Models\Admin\Lead;
 use App\Models\Admin\Client;
 use App\Models\Admin\Campaign;
 
@@ -189,5 +190,30 @@ class Marketerz
     public function totalClientEvaluationCost(Client $client)
     {
         return Campaign::sms()->where('client_id', $client->id)->get()->sum('estimated_cost');
+    }
+
+    /**
+     *
+     * Total Lead Discussions
+     *
+     *@return integer
+     *
+     */
+    public function totalLeadDiscussions($leads)
+    {
+        return $leads->sum(function ($lead) {
+            return isset($lead->discussions) ? $lead->discussions->count() : 0;
+        });
+    }
+    /**
+     *
+     * Total Status Lead Discussions
+     *
+     *@return integer
+     *
+     */
+    public function totalStatusLeadDiscussions($status)
+    {
+        return Lead::where('status', $status)->count();
     }
 }
