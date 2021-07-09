@@ -57,7 +57,7 @@ class Task extends Model
         $channels = [];
         if (isset($this->channel)) {
             foreach ($this->channel as $channel) {
-                $channel[] = $this->getChannel($channel);
+                $channels[] = $this->getChannel($channel);
             }
         }
         return $channels;

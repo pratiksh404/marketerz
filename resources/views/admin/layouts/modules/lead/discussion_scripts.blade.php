@@ -6,6 +6,7 @@
         });
 
         $('#discussion_date').daterangepicker({
+             parentEl: "#create_lead_discussion",
                 singleDatePicker: true,
                 showDropdowns: true,
                   locale: {
@@ -14,6 +15,7 @@
             });
 
         $('#deadline_date_time').daterangepicker({
+             parentEl: "#create_lead_discussion",
                 singleDatePicker: true,
                 showDropdowns: true,
                   locale: {

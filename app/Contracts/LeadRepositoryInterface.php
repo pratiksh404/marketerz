@@ -20,4 +20,6 @@ interface LeadRepositoryInterface
     public function updateLead(LeadRequest $request, Lead $Lead);
 
     public function destroyLead(Lead $Lead);
+
+    public function leadDiscussions(Lead $lead);
 }

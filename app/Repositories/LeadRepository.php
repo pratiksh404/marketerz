@@ -10,6 +10,7 @@ use App\Models\Admin\Service;
 use App\Http\Requests\LeadRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\LeadRepositoryInterface;
+use App\Models\Admin\Discussion;
 
 class LeadRepository implements LeadRepositoryInterface
 {
@@ -66,5 +67,12 @@ class LeadRepository implements LeadRepositoryInterface
     public function destroyLead(Lead $lead)
     {
         $lead->delete();
+    }
+
+    // Lead Discussions
+    public function leadDiscussions(Lead $lead)
+    {
+        $discussions = Discussion::where('lead_id', $lead->id)->latest()->paginate(10);
+        return compact('lead', 'discussions');
     }
 }

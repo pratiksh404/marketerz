@@ -53,6 +53,8 @@ class AdminRouteMixin
                 $this->get('failed-jobs', [JobController::class, 'failed_jobs'])->name('failed_jobs');
                 $this->get('show-failed-job/{uuid}', [JobController::class, 'show_failed_job'])->name('show_failed_job');
                 $this->get('processes', [JobController::class, 'processes'])->name('processes');
+                $this->get('lead-discussions/{lead}', [LeadController::class, 'lead_discussions'])->name('lead_discussions');
+                $this->post('store-lead-discussion', [LeadController::class, 'store_lead_discussion'])->name('store_lead_discussion');
 
 
                 /* CHARTS ROUTES */

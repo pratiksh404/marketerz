@@ -31,7 +31,10 @@ class DiscussionRepository implements DiscussionRepositoryInterface
     // Discussion Store
     public function storeDiscussion(DiscussionRequest $request)
     {
-        Discussion::create($request->validated());
+        $discussion = Discussion::create($request->validated());
+        $discussion->lead()->update([
+            'status' => $discussion->status
+        ]);
     }
 
     // Discussion Show
@@ -51,6 +54,9 @@ class DiscussionRepository implements DiscussionRepositoryInterface
     public function updateDiscussion(DiscussionRequest $request, Discussion $discussion)
     {
         $discussion->update($request->validated());
+        $discussion->lead()->update([
+            'status' => $discussion->status
+        ]);
     }
 
     // Discussion Destroy

@@ -106,7 +106,7 @@ class MyMenu implements SidebarInterface
             ],
             [
                 'type' => 'menu',
-                'name' => 'Discussion',
+                'name' => 'Discussions',
                 'icon' => 'fa fa-comment',
                 'is_active' => request()->routeIs('discussion*') ? 'active' : '',
                 'conditions' => [

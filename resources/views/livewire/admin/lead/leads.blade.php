@@ -151,7 +151,13 @@
                                     </div>
                                     <br>
                                     <div class="d-flex justify-content-center">
-                                        <x-adminetic-action :model="$lead" route="lead" />
+                                        <x-adminetic-action :model="$lead" route="lead">
+                                            <x-slot name="buttons">
+                                                <a href="{{route('lead_discussions',['lead' => $lead->id])}}"
+                                                    class="btn btn-success btn-air-success btn-sm p-2"><i
+                                                        class="fa fa-comment"></i></a>
+                                            </x-slot>
+                                        </x-adminetic-action>
                                     </div>
                                 </div>
                             </div>

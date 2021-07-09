@@ -96,6 +96,34 @@ class Discussion extends Model
             2 => 'warning',
             3 => 'info',
             4 => 'danger',
-        ][$this->status];
+        ][$this->getRawOriginal('type')];
+    }
+    public function getChannel($channel)
+    {
+        return [
+            1 => 'mail',
+            2 => 'sms',
+            3 => 'slack',
+            4 => 'database'
+        ][$channel];
+    }
+    public function getIcon()
+    {
+        return [
+            1 => 'fa fa-comments',
+            2 => 'fa fa-check',
+            3 => 'fa fa-fire',
+            4 => 'fa fa-exclamation'
+        ][$this->getRawOriginal('type')];
+    }
+    public function getChannelArray()
+    {
+        $channels = [];
+        if (isset($this->channel)) {
+            foreach ($this->channel as $channel) {
+                $channels[] = $this->getChannel($channel);
+            }
+        }
+        return $channels;
     }
 }
