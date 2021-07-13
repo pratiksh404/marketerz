@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-lg">
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12">
@@ -93,10 +93,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-12">
+                        <div class="mb-3">
+                            <label for="estimate_cost">Estimated Price</label>
+                            <div class="input-group">
+                                <input type="number" name="estimate_cost" id="estimate_cost" class="form-control"
+                                    value="{{$lead->estimate_cost ?? old('estimate_cost')}}"
+                                    placeholder="Estimated Price">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card shadow-sm">
+        <div class="card shadow-lg">
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12">
@@ -142,7 +152,8 @@
                     <div class="col-lg-12">
                         <div class="mb-3">
                             <label for="contact_id">Contact</label>
-                            @livewire('admin.contact.select-contact', ['contact_id' => $lead->contact_id ?? null])
+                            @livewire('admin.contact.select-contact', ['contact_id' => $lead->contact_id ??
+                            null],key('quick_contact'))
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -164,22 +175,15 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="mb-3">
-                            <label for="service_id">Service</label>
+                            <label for="package_id">Package</label>
                             <div class="input-group">
-                                <select name="service_id" id="service_id" class="select2">
-                                    <option selected disabled>Select Service ... </option>
-                                    @isset($services)
-                                    @foreach ($services as $service)
-                                    @if (!isset($service->parent_id))
-                                    <option value="{{$service->id}}"
-                                        {{isset($lead->service_id) ? ($lead->service_id == $service->id ? 'selected' : '') : ''}}>
-                                        {{$service->name}}</option>
-                                    @isset($service->children)
-                                    @foreach ($service->children as $children)
-                                    <option value="{{$children->id}}">--> {{$children->name}}</option>
-                                    @endforeach
-                                    @endisset
-                                    @endif
+                                <select name="package_id" id="package_id" class="select2">
+                                    <option selected disabled>Select Package ... </option>
+                                    @isset($packages)
+                                    @foreach ($packages as $package)
+                                    <option value="{{$package->id}}"
+                                        {{isset($lead->package_id) ? ($lead->package_id == $package->id ? 'selected' : '') : ''}}>
+                                        {{$package->name}}</option>
                                     @endforeach
                                     @endisset
                                 </select>
@@ -187,6 +191,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="card shadow-lg">
+            <div class="card-body">
+                @livewire('admin.service.quick-service', ['model' => $lead ?? null] , key('quick_service'))
             </div>
         </div>
     </div>

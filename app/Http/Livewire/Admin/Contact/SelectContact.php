@@ -25,6 +25,8 @@ class SelectContact extends Component
 
     public $contact_id;
 
+    public $contacts;
+
     protected $rules = [
         'name' => 'required|max:80',
         'email' => 'required_if:phone,null|max:100',
@@ -35,11 +37,12 @@ class SelectContact extends Component
         'active' => 'nullable|boolean'
     ];
 
-    protected $listeners = ['contact_created' => '$refresh', 'group_contacts' => 'groupContacts', 'client_contacts' => 'clientContacts'];
+    protected $listeners = ['group_contacts' => 'groupContacts', 'client_contacts' => 'clientContacts'];
 
     public function mount($contact_id)
     {
         $this->contact_id = $contact_id;
+        $this->contacts = Cache::get('contacts', Contact::latest()->get());
     }
 
     public function submit()
@@ -51,14 +54,15 @@ class SelectContact extends Component
         if (isset($this->clients_id)) {
             $contact->clients()->attach($this->clients_id);
         }
+        $this->contact_id = $contact->id;
+        $this->contacts = Cache::get('contacts', Contact::latest()->get());
         $this->emit('contact_created');
     }
 
     public function render()
     {
-        $contacts = Cache::get('contacts', Contact::latest()->get());
         $groups = Cache::get('groups', Group::latest()->get());
         $clients = Cache::get('clients', Client::latest()->get());
-        return view('livewire.admin.contact.select-contact', compact('contacts', 'groups', 'clients'));
+        return view('livewire.admin.contact.select-contact', compact('groups', 'clients'));
     }
 }

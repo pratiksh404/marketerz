@@ -32,9 +32,12 @@ class LeadRequest extends FormRequest
             'lead_by' => 'required|numeric',
             'assigned_to' => 'nullable|numeric',
             'contact_id' => 'required|numeric',
-            'service_id' => 'required|numeric',
+            'service_id' => 'required_if:package_id,null|numeric',
+            'package_id' => 'required_if:service_id,null|numeric',
+            'estimate_cost' => 'nullable|numeric',
             'source_id' => 'required|numeric',
-            'contact_date' => 'nullable'
+            'contact_date' => 'nullable',
+            'converted_to_client' => 'nullable|boolean'
         ];
     }
 }

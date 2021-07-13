@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Admin\Task;
 use Illuminate\Bus\Queueable;
 use App\Mail\TaskReminderMail;
+use League\HTMLToMarkdown\HtmlConverter;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -66,7 +67,7 @@ class TaskReminderNotification extends Notification
         $task = $this->task;
         return (new SlackMessage)
             ->from(env('APP_NAME', 'Marketerz') . ' - Task Reminder : ' . $task->task)
-            ->content($task->description ?? '')
+            ->content((new HtmlConverter())->convert($task->description))
             ->attachment(function ($attachment) use ($task) {
                 $attachment->title('Reminder')
                     ->fields([

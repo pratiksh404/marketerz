@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin\Lead;
 use App\Models\Admin\Package;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -36,25 +37,24 @@ class Service extends Model
     // Logs
     protected static $logName = 'service';
 
-    protected $parentColumn = 'parent_id';
-
-    public function parent()
+    // Accessor
+    public function getTypeAttribute($attribute)
     {
-        return $this->belongsTo(Service::class, $this->parentColumn);
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Service::class, $this->parentColumn);
-    }
-
-    public function allChildren()
-    {
-        return $this->children()->with('allChildren');
+        return [
+            1 => 'Per Unit',
+            2 => 'Per Day',
+            3 => 'Per Week',
+            4 => 'Per Month',
+            5 => 'Per Year',
+        ][$attribute];
     }
 
     public function packages()
     {
-        return $this->belongsToMany(Package::class)->withTimestamps();
+        return $this->belongsToMany(Package::class)->withPivot('quantity', 'price')->withTimestamps();
+    }
+    public function leads()
+    {
+        return $this->belongsToMany(Lead::class)->withTimestamps();
     }
 }

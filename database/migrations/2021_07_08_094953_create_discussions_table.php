@@ -18,7 +18,7 @@ class CreateDiscussionsTable extends Migration
             $table->id();
             $table->foreignId('lead_id')->constrained()->cascadeOnDelete();
             $table->string('subject')->nullable();
-            $table->string('discussion');
+            $table->text('discussion');
             $table->integer('type')->nullable();
             $table->integer('status');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();

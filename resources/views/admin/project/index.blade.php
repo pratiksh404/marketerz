@@ -1,40 +1,32 @@
 @extends('adminetic::admin.layouts.app')
 
 @section('content')
-<x-adminetic-index-page name="service" route="service">
+<x-adminetic-index-page name="project" route="project">
     <x-slot name="content">
         {{-- ================================Card================================ --}}
         <table class="table table-striped table-bordered datatable">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Plan</th>
-                    <th>Active</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($services as $service)
+                @foreach ($projects as $project)
                 <tr>
-                    <td>{{ $service->name }}</td>
-                    <td>{{ config('adminetic.currency_symbol','Rs.') . ($service->price ?? 0)}}</td>
-                    <td>{{$service->type}}</td>
-                    <td><span
-                            class="badge badge-{{ $service->active ? 'success' : 'danger' }}">{{ $service->active ? 'Active' : 'Inactive' }}</span>
-                    </td>
+                    <td></td>
+                    <td></td>
                     <td>
-                        <x-adminetic-action :model="$service" route="service" show="0" />
+                        <x-adminetic-action :model="$project" route="project" />
                     </td>
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Plan</th>
-                    <th>Active</th>
                     <th>Actions</th>
                 </tr>
             </tfoot>
@@ -45,5 +37,5 @@
 @endsection
 
 @section('custom_js')
-@include('admin.layouts.modules.service.scripts')
+@include('admin.layouts.modules.project.scripts')
 @endsection

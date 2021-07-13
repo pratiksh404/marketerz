@@ -5,6 +5,7 @@ namespace App\Models\Admin;
 use App\Models\User;
 use App\Models\Admin\Source;
 use App\Models\Admin\Contact;
+use App\Models\Admin\Package;
 use App\Models\Admin\Service;
 use App\Models\Admin\Discussion;
 use Illuminate\Support\Facades\Cache;
@@ -46,9 +47,9 @@ class Lead extends Model
     {
         return $this->belongsTo(Source::class, 'source_id');
     }
-    public function service()
+    public function package()
     {
-        return $this->belongsTo(Service::class, 'service_id');
+        return $this->belongsTo(Package::class, 'package_id');
     }
     public function contact()
     {
@@ -65,6 +66,10 @@ class Lead extends Model
     public function discussions()
     {
         return $this->hasMany(Discussion::class);
+    }
+    public function services()
+    {
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 
     // Accessors

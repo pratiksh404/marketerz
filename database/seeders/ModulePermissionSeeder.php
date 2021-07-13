@@ -21,5 +21,11 @@ class ModulePermissionSeeder extends Seeder
         Artisan::call('make:permission Service --all');
         Artisan::call('make:permission Template --all');
         Artisan::call('make:permission Campaign --all');
+        Artisan::call('make:permission Task --all');
+        Artisan::call('make:permission Department --all');
+        Artisan::call('make:permission Package --all');
+        Artisan::call('make:permission Lead --all');
+        Artisan::call('make:permission Discussion --all');
+        Artisan::call('make:permission Project --all');
     }
 }

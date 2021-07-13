@@ -107,27 +107,6 @@ return [
     // ASSETS DEPENDENCIES INJECTION
     'assets' => [
         [
-            'name' => 'Daterange Picker',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'css',
-                    'active' => true,
-                    'location' => 'adminetic/assets/css/vendors/daterange-picker.css',
-                ],
-                [
-                    'type' => 'js',
-                    'active' => true,
-                    'location' => 'adminetic/assets/js/datepicker/daterange-picker/moment.min.js',
-                ],
-                [
-                    'type' => 'js',
-                    'active' => true,
-                    'location' => 'adminetic/assets/js/datepicker/daterange-picker/daterangepicker.js',
-                ],
-            ],
-        ],
-        [
             'name' => 'Charts',
             'active' => true,
             'files' => [
@@ -156,7 +135,7 @@ return [
         ],
         [
             'name' => 'DualListBox',
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'css',

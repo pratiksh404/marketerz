@@ -24,9 +24,10 @@ class ServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_id' => 'sometimes|numeric',
             'name' => 'required|max:255',
-            'active' => 'sometimes|boolean'
+            'active' => 'sometimes|boolean',
+            'price' => 'nullable|numeric',
+            'type' => 'required|numeric'
         ];
     }
 }

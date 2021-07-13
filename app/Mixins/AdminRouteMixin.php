@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\Admin\TaskController;
@@ -41,6 +42,7 @@ class AdminRouteMixin
                 $this->resource('department', DepartmentController::class);
                 $this->resource('package', PackageController::class);
                 $this->resource('discussion', DiscussionController::class);
+                $this->resource('project', ProjectController::class);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');

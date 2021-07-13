@@ -14,9 +14,9 @@ class ServiceRepository implements ServiceRepositoryInterface
     {
         $services = config('coderz.caching', true)
             ? (Cache::has('services') ? Cache::get('services') : Cache::rememberForever('services', function () {
-                return Service::with('children')->get();
+                return Service::latest()->get();
             }))
-            : Service::with('children')->get();
+            : Service::latest()->get();
         return compact('services');
     }
 

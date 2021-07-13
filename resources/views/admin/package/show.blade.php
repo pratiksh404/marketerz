@@ -46,7 +46,7 @@
                                             class="badge badge-{{ $service->active ? 'success' : 'danger' }}">{{ $service->active ? 'Active' : 'Inactive' }}</span>
                                     </td>
                                     <td>
-                                        <x-adminetic-action :model="$service" route="service" show="0" />
+                                        <x-adminetic-action :model="$service" route="service" show="0" delete="0" />
                                     </td>
                                 </tr>
                                 @endforeach

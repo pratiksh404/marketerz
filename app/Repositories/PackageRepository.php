@@ -55,7 +55,7 @@ class PackageRepository implements PackageRepositoryInterface
     public function updatePackage(PackageRequest $request, Package $package)
     {
         $package->update($request->validated());
-        $this->packageServices($package);
+        $this->packageServices($package, true);
     }
 
     // Package Destroy

@@ -122,6 +122,23 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('discussion', App\Models\Admin\Discussion::class)
             ],
             [
+                'type' => 'menu',
+                'name' => 'Projects',
+                'icon' => 'fa fa-coffee',
+                'is_active' => request()->routeIs('project*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Project::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Project::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('project', App\Models\Admin\Project::class)
+            ],
+            [
                 'type' => 'breaker',
                 'name' => 'Jobs',
                 'description' => 'Queue Jobs and Workers',

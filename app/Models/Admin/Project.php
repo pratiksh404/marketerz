@@ -2,12 +2,11 @@
 
 namespace App\Models\Admin;
 
-use App\Models\Admin\Department;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Package extends Model
+class Project extends Model
 {
     use LogsActivity;
 
@@ -30,19 +29,9 @@ class Package extends Model
     // Cache Keys
     private static function cacheKey()
     {
-        Cache::has('packages') ? Cache::forget('packages') : '';
+        Cache::has('projects') ? Cache::forget('projects') : '';
     }
 
     // Logs
-    protected static $logName = 'package';
-
-    public function services()
-    {
-        return $this->belongsToMany(Service::class)->withPivot('quantity', 'price')->withTimestamps();
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
+    protected static $logName = 'project';
 }

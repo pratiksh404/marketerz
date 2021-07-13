@@ -23,9 +23,11 @@ class CreateLeadsTable extends Migration
             $table->unsignedBigInteger('lead_by');
             $table->unsignedBigInteger('assigned_to')->nullable();
             $table->foreignId('contact_id')->constrained('contacts')->cascadeOnDelete();
-            $table->foreignId('service_id')->constrained('services')->cascadeOnDelete();
+            $table->foreignId('package_id')->nullable()->constrained('packages')->cascadeOnDelete();
+            $table->bigInteger('estimate_cost')->nullable();
             $table->foreignId('source_id')->constrained('sources')->cascadeOnDelete();
             $table->date('contact_date')->default(Carbon::now());
+            $table->boolean('converted_to_client')->default(0);
             $table->timestamps();
 
             // Foreign Key

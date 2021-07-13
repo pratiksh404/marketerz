@@ -17,6 +17,8 @@ class CreatePackageServiceTable extends Migration
             $table->id();
             $table->unsignedBigInteger('package_id');
             $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('quantity')->nullable();
+            $table->unsignedBigInteger('price')->nullable();
             $table->timestamps();
         });
     }

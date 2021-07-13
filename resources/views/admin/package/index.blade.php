@@ -36,6 +36,7 @@
                     <th>Discounted Price</th>
                     <th>Department</th>
                     <th>Interval</th>
+                    <th>Actions</th>
                 </tr>
             </tfoot>
         </table>

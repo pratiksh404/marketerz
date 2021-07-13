@@ -12,7 +12,7 @@
         <div class="mb-3">
             <label for="interval">Package Interval (in days)</label>
             <div class="input-group">
-                <input type="number" name="interval" id="interval" class="touchspin"
+                <input type="number" name="interval" id="interval" class="form-control"
                     value="{{$package->interval ?? old('interval')}}" placeholder="Package Interval (in days)">
             </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="mb-3">
             <label for="price">Price</label>
             <div class="input-group">
-                <input type="number" name="price" id="price" class="touchspin"
+                <input type="number" name="price" id="price" class="form-control"
                     value="{{$package->price ?? old('price') ?? 0}}" placeholder="Package Price">
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="mb-3">
             <label for="discounted_price">Discounted Price</label>
             <div class="input-group">
-                <input type="number" name="discounted_price" id="discounted_price" class="touchspin"
+                <input type="number" name="discounted_price" id="discounted_price" class="form-control"
                     value="{{$package->discounted_price ?? old('discounted_price')}}" placeholder="Discounted Price">
             </div>
         </div>
@@ -55,29 +55,5 @@
     </div>
 </div>
 <br>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="mb-3">
-            <label for="services">Services</label>
-            <select name="services[]" id="services" class="form-control" multiple="multiple">
-                @isset($services)
-                @foreach ($services as $service)
-                @if (!isset($service->parent_id))
-                <option value="{{$service->id}}"
-                    {{isset($package->services) ? (in_array($service->id,$package->services->pluck('id')->toArray()) ? 'selected' : '') : ''}}>
-                    {{$service->name}}</option>
-                @isset($service->children)
-                @foreach ($service->children as $child)
-                <option value="{{$child->id}}"
-                    {{isset($package->services) ? (in_array($child->id,$package->services->pluck('id')->toArray()) ? 'selected' : '') : ''}}>
-                    --> {{$child->name . '( ' . $child->parent->name . ' )'}}</option>
-                @endforeach
-                @endisset
-                @endif
-                @endforeach
-                @endisset
-            </select>
-        </div>
-    </div>
-</div>
+@livewire('admin.service.quick-service', ['model' => $package ?? null])
 <x-adminetic-edit-add-button :model="$package ?? null" name="Package" />

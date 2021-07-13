@@ -19,6 +19,8 @@ class LeadStatus extends Component
         ]);
 
         $this->lead = $lead;
+
+        $this->emit('lead_status_changed');
     }
 
     public function render()
