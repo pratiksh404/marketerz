@@ -36,7 +36,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.project.create');
+        return view('admin.project.create', $this->projectRepositoryInterface->createProject());
     }
 
     /**

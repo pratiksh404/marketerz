@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Models\Admin\Package;
 use App\Models\Admin\Project;
+use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\ProjectRepositoryInterface;
-use App\Http\Requests\ProjectRequest;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -23,7 +24,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     // Project Create
     public function createProject()
     {
-        //
+        $packages = Cache::get('package', Package::latest()->get());
+        return compact('packages');
     }
 
     // Project Store
@@ -41,7 +43,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     // Project Edit
     public function editProject(Project $project)
     {
-        return compact('project');
+        $packages = Cache::get('package', Package::latest()->get());
+        return compact('project', 'packages');
     }
 
     // Project Update

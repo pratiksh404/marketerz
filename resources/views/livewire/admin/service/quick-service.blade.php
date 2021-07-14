@@ -76,6 +76,7 @@
         </div>
     </div>
     <hr>
+
     @isset($services)
     @if ($services->count() > 0)
     <div class="row">

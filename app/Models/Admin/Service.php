@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use App\Models\Admin\Lead;
 use App\Models\Admin\Package;
+use App\Models\Admin\Project;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -56,5 +57,9 @@ class Service extends Model
     public function leads()
     {
         return $this->belongsToMany(Lead::class)->withTimestamps();
+    }
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class)->withTimestamps();
     }
 }

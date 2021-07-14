@@ -23,8 +23,11 @@
                         <span class="text-bold">Source : </span> <span
                             class="text-muted">{{$lead->source->name ?? 'N/A'}}</span>
                         <hr>
-                        <span class="text-bold">service date : </span> <span
-                            class="text-muted">{{\Carbon\Carbon::create($lead->service_date)->toFormattedDateString() ?? 'N/A'}}</span>
+                        <span class="text-bold">Service date : </span> <span
+                            class="text-muted">{{\Carbon\Carbon::create($lead->contact_date)->toFormattedDateString() ?? 'N/A'}}</span>
+                        <hr>
+                        <span class="text-bold">Estimated Cost : </span> <span
+                            class="text-muted">{{$lead->estimate_cost ?? 'N/A'}}</span>
                     </div>
                 </div>
             </div>
@@ -343,7 +346,6 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>
-                                                            <th>Parent</th>
                                                             <th>Active</th>
                                                             <th>Actions</th>
                                                         </tr>
@@ -353,7 +355,6 @@
                                                         @foreach ($lead->package->services as $service)
                                                         <tr>
                                                             <td>{{ $service->name }}</td>
-                                                            <td>{{ $service->parent->name ?? 'No Parent' }}</td>
                                                             <td><span
                                                                     class="badge badge-{{ $service->active ? 'success' : 'danger' }}">{{ $service->active ? 'Active' : 'Inactive' }}</span>
                                                             </td>
@@ -368,7 +369,6 @@
                                                     <tfoot>
                                                         <tr>
                                                             <th>Name</th>
-                                                            <th>Parent</th>
                                                             <th>Active</th>
                                                             <th>Actions</th>
                                                         </tr>

@@ -21,16 +21,15 @@ class CreateProjectsTable extends Migration
             $table->text('description')->nullable();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('lead_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('service_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('package_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('department_id')->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('project_head')->nullable();
+            $table->text('project_interval');
             $table->dateTime('project_startdate')->default(Carbon::now());
             $table->dateTime('project_deadline')->default(Carbon::now());
-            $table->dateTime('expire_date')->nullable();
             $table->bigInteger('price')->default(0);
             $table->bigInteger('discounted_price');
-            $table->bigInteger('paid_ammount')->default(0);
+            $table->bigInteger('paid_amount')->default(0);
             $table->string('color')->default(random_color());
             /* Notification Setting */
             $table->boolean('team_notify')->default(0);
@@ -40,7 +39,7 @@ class CreateProjectsTable extends Migration
             $table->boolean('client_notify')->default(0);
             $table->boolean('client_service_expire_notify')->default(0);
             $table->boolean('client_payment_notify')->default(0);
-            $table->boolean('client_channel')->nullable();
+            $table->json('client_channel')->nullable();
             $table->timestamps();
 
             // Foreign Key
