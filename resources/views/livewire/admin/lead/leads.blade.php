@@ -91,10 +91,10 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="card shadow-lg">
-                <div class="card-body">
-                    @isset($leads)
-                    @if ($leads->count() > 0)
+            @isset($leads)
+            @if ($leads->count() > 0)
+            <div class="row">
+                <div class="col-lg-12">
                     <div wire:ignore wire:loading.flex>
                         <div style="width:100%;align-items: center;justify-content: center;">
                             <div class="loader-box" style="margin:auto">
@@ -102,75 +102,75 @@
                             </div>
                         </div>
                     </div>
-                    <div wire:loading.remove>
-                        <div class="row">
-                            @foreach ($leads as $lead)
-                            <div class="col-lg-4 col-sm-12 col-md-6">
-                                <div class="project-box">
-                                    <div class="d-flex justify-content-between">
-                                        <h6>{{$lead->name ?? '#'.$lead->code}}</h6>
-                                        @livewire('admin.lead.lead-status', ['lead' => $lead], key($lead->id))
-                                    </div>
-                                    <div class="media"><img class="img-20 me-1 rounded-circle"
-                                            src="{{getProfilePlaceholder($lead->leadBy->id)}}"
-                                            alt="{{getProfilePlaceholder($lead->leadBy->name)}}">
-                                        @isset($lead->leadBy->roles)
-                                        <div class="media-body">
-                                            <p>
-                                                @foreach ($lead->leadBy->roles as $role)
-                                                {{$role->name}},
-                                                @endforeach
-                                            </p>
-                                        </div>
-                                        @endisset
-                                    </div>
-                                    <div class="row details">
-                                        <div class="col-6"><span>Assigned To </span></div>
-                                        <div class="col-6 text-primary">{{$lead->assignedTo->name ?? 'N/A'}} </div>
-                                        <div class="col-6"> <span>Contact</span></div>
-                                        <div class="col-6 text-primary">{{$lead->contact->name ?? 'N/A'}}</div>
-                                        <div class="col-6"> <span>Service</span></div>
-                                        <div class="col-6 text-primary">{{$lead->service->name ?? 'N/A'}}</div>
-                                        <div class="col-6"> <span>Source</span></div>
-                                        <div class="col-6 text-primary">{{$lead->source->name ?? 'N/A'}}</div>
-                                        <div class="col-6"> <span>Contact Date</span></div>
-                                        <div class="col-6 text-primary">
-                                            {{\Carbon\Carbon::create($lead->lead_date)->toFormattedDateString() ?? 'N/A'}}
-                                        </div>
-                                    </div>
-                                    <div class="project-status mt-4">
-                                        <div class="media mb-0">
-                                            <p>{{$lead->getProgressPercent()}}% </p>
-                                            <div class="media-body text-end"><span>Done</span></div>
-                                        </div>
-                                        <div class="progress" style="height: 5px">
-                                            <div class="progress-bar-animated bg-primary progress-bar-striped"
-                                                role="progressbar" style="width: {{$lead->getProgressPercent()}}%"
-                                                aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="d-flex justify-content-center">
-                                        <x-adminetic-action :model="$lead" route="lead">
-                                            <x-slot name="buttons">
-                                                <a href="{{route('lead_discussions',['lead' => $lead->id])}}"
-                                                    class="btn btn-success btn-air-success btn-sm p-2"><i
-                                                        class="fa fa-comment"></i></a>
-                                            </x-slot>
-                                        </x-adminetic-action>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                            {{$leads->links()}}
-                        </div>
-                    </div>
-                    @else
-                    <h4 class="text-center">There are no leads available right now.</h4>
-                    @endif
-                    @endisset
                 </div>
             </div>
+            <div wire:loading.remove>
+                <div class="row">
+                    @foreach ($leads as $lead)
+                    <div class="col-lg-4 col-sm-12 col-md-6">
+                        <div class="project-box shadow-lg">
+                            <div class="d-flex justify-content-between">
+                                <h6>{{$lead->name ?? '#'.$lead->code}}</h6>
+                                @livewire('admin.lead.lead-status', ['lead' => $lead], key($lead->id))
+                            </div>
+                            <div class="media"><img class="img-20 me-1 rounded-circle"
+                                    src="{{getProfilePlaceholder($lead->leadBy->id)}}"
+                                    alt="{{getProfilePlaceholder($lead->leadBy->name)}}">
+                                @isset($lead->leadBy->roles)
+                                <div class="media-body">
+                                    <p>
+                                        @foreach ($lead->leadBy->roles as $role)
+                                        {{$role->name}},
+                                        @endforeach
+                                    </p>
+                                </div>
+                                @endisset
+                            </div>
+                            <div class="row details">
+                                <div class="col-6"><span>Assigned To </span></div>
+                                <div class="col-6 text-primary">{{$lead->assignedTo->name ?? 'N/A'}} </div>
+                                <div class="col-6"> <span>Contact</span></div>
+                                <div class="col-6 text-primary">{{$lead->contact->name ?? 'N/A'}}</div>
+                                <div class="col-6"> <span>Service</span></div>
+                                <div class="col-6 text-primary">{{$lead->service->name ?? 'N/A'}}</div>
+                                <div class="col-6"> <span>Source</span></div>
+                                <div class="col-6 text-primary">{{$lead->source->name ?? 'N/A'}}</div>
+                                <div class="col-6"> <span>Contact Date</span></div>
+                                <div class="col-6 text-primary">
+                                    {{\Carbon\Carbon::create($lead->lead_date)->toFormattedDateString() ?? 'N/A'}}
+                                </div>
+                            </div>
+                            <div class="project-status mt-4">
+                                <div class="media mb-0">
+                                    <p>{{$lead->getProgressPercent()}}% </p>
+                                    <div class="media-body text-end"><span>Done</span></div>
+                                </div>
+                                <div class="progress" style="height: 5px">
+                                    <div class="progress-bar-animated bg-primary progress-bar-striped"
+                                        role="progressbar" style="width: {{$lead->getProgressPercent()}}%"
+                                        aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="d-flex justify-content-center">
+                                <x-adminetic-action :model="$lead" route="lead">
+                                    <x-slot name="buttons">
+                                        <a href="{{route('lead_discussions',['lead' => $lead->id])}}"
+                                            class="btn btn-success btn-air-success btn-sm p-2"><i
+                                                class="fa fa-comment"></i></a>
+                                    </x-slot>
+                                </x-adminetic-action>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    {{$leads->links()}}
+                </div>
+            </div>
+            @else
+            <h4 class="text-center">There are no leads available right now.</h4>
+            @endif
+            @endisset
         </div>
     </div>
     @push('livewire_third_party')

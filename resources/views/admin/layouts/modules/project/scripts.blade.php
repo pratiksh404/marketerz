@@ -13,7 +13,7 @@
          window.addEventListener('from_lead_event', event => {
            $('#leadid').val(event.detail.lead_id);
         });
-         window.addEventListener('from_lead_event', event => {
+         window.addEventListener('from_client_event', event => {
            $('#clientid').val(event.detail.client_id);
         });
           $('#project_interval').daterangepicker({
@@ -24,10 +24,10 @@
             });
 
             $('#project_interval').on('change',function(){
-               var start_date = formattedDay(new Date($(this).data('daterangepicker').startDate));
-               var end_date = formattedDay(new Date($(this).data('daterangepicker').endDate));
-               $('#project_startdate').val(start_date);
-                $('#project_deadline').val(end_date);
+               assignStartEnd();
+            });
+            $(document).ready(function(){
+              assignStartEnd();
             });
 
               // Date Time with Format
@@ -42,5 +42,14 @@
 		         date = yyyy + '/' + mm + '/' + dd + ' ' + h + ':' + m;
 		         return date;
 		         }
+
+             // Assign First and Last Date
+             function assignStartEnd()
+             {
+                var start_date = formattedDay(new Date($('#project_interval').data('daterangepicker').startDate));
+                var end_date = formattedDay(new Date($('#project_interval').data('daterangepicker').endDate));
+                $('#project_startdate').val(start_date);
+                $('#project_deadline').val(end_date);
+             }
     });
 </script>

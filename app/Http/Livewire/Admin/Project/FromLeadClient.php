@@ -24,8 +24,12 @@ class FromLeadClient extends Component
     {
         $this->project = $project;
         $this->projectfrom = $projectfrom;
-        $this->leadid = isset($project) ? $project->leadid : null;
-        $this->clientid = isset($project) ? $project->clientid : null;
+        $this->leadid = $project->lead_id ?? null;
+        $this->clientid = $project->client_id ?? null;
+        $this->lead = $project->lead ?? null;
+        $this->client = $project->client ?? null;
+        $this->package = $project->package ?? null;
+        $this->packageid = $project->package_id ?? null;
     }
 
 
@@ -34,6 +38,7 @@ class FromLeadClient extends Component
         if ($this->leadid) {
             $this->lead = Lead::find($this->leadid);
             $this->package = $this->lead->package ?? null;
+            $this->packageid = $this->lead->package_id ?? null;
         }
         $this->dispatchBrowserEvent('from_lead_event', ['lead_id' => $this->leadid]);
     }
@@ -43,7 +48,7 @@ class FromLeadClient extends Component
         if ($this->clientid) {
             $this->client = Client::find($this->clientid);
         }
-        $this->emit('from_client_event', ['client_id' => $this->clientid]);
+        $this->dispatchBrowserEvent('from_client_event', ['client_id' => $this->clientid]);
     }
 
     public function updatedPackageid()

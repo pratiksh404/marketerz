@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Models\Admin\Package;
 use App\Models\Admin\Project;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\ProjectRepositoryInterface;
+use App\Models\Admin\Department;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -15,17 +17,19 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         $projects = config('coderz.caching', true)
             ? (Cache::has('projects') ? Cache::get('projects') : Cache::rememberForever('projects', function () {
-                return Project::latest()->get();
+                return             Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest()->paginate(9);
             }))
-            : Project::latest()->get();
-        return compact('projects');
+            : Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest()->paginate(9);
+        return [];
     }
 
     // Project Create
     public function createProject()
     {
         $packages = Cache::get('package', Package::latest()->get());
-        return compact('packages');
+        $users = Cache::get('users', User::latest()->get());
+        $departments = Cache::get('departments', Department::latest()->get());
+        return compact('packages', 'users', 'departments');
     }
 
     // Project Store
@@ -44,7 +48,9 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function editProject(Project $project)
     {
         $packages = Cache::get('package', Package::latest()->get());
-        return compact('project', 'packages');
+        $users = Cache::get('users', User::latest()->get());
+        $departments = Cache::get('departments', Department::latest()->get());
+        return compact('project', 'packages', 'users', 'departments');
     }
 
     // Project Update

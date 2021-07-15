@@ -2,7 +2,14 @@
 
 namespace App\Models\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Admin\Lead;
+use App\Models\Admin\Client;
+use App\Models\Admin\Package;
+use App\Models\Admin\Payment;
+use App\Models\Admin\Service;
+use App\Models\Admin\Department;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -42,6 +49,33 @@ class Project extends Model
         'client_channel' => 'array',
     ];
 
+    // Appends
+    protected $appends = ['remaining_amount', 'deadline_percent', 'valid_price'];
+
+    public function getRemainingAmountAttribute()
+    {
+        return $this->paid_amount > $this->price ? 0
+            : $this->price - $this->paid_amount;
+    }
+    public function getDeadlinePercentAttribute()
+    {
+        $start = Carbon::create($this->project_startdate);
+        $end = Carbon::create($this->project_deadline);
+        $now = Carbon::now();
+        $interval = $start->diffInDays($end);
+        $remaining_days = $now->diffInDays($end);
+        return $remaining_days == 0 ? 100 : (($remaining_days / $interval) * 100);
+    }
+    public function getValidPriceAttribute()
+    {
+        if (isset($this->discounted_price)) {
+            if ($this->discounted_price > 0) {
+                return $this->discounted_price;
+            }
+        }
+        return $this->price;
+    }
+
     // Relations
     public function client()
     {
@@ -63,8 +97,16 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'project_head');
     }
-    public function projects()
+    public function services()
     {
-        return $this->belongsToMany(Project::class)->withTimestamps();
+        return $this->belongsToMany(Service::class)->withTimestamps();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }

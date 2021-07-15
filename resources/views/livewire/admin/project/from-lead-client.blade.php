@@ -5,12 +5,14 @@
                 <div class="m-t-15 m-checkbox-inline custom-radio-ml">
                     <div class="form-check form-check-inline radio radio-primary">
                         <input class="form-check-input" id="radioinline1" type="radio" name="radio1" value="1"
-                            wire:model="projectfrom">
+                            wire:model="projectfrom"
+                            {{isset($projectfrom) ? ($projectfrom == 1 ? 'checked' : '') : ''}}>
                         <label class="form-check-label mb-0" for="radioinline1">Lead</label>
                     </div>
                     <div class="form-check form-check-inline radio radio-primary">
                         <input class="form-check-input" id="radioinline2" type="radio" name="radio1" value="2"
-                            wire:model="projectfrom">
+                            wire:model="projectfrom"
+                            {{isset($projectfrom) ? ($projectfrom == 2 ? 'checked' : '') : ''}}>
                         <label class="form-check-label mb-0" for="radioinline2">Client</label>
                     </div>
                 </div>
@@ -175,7 +177,7 @@
                             @isset($packages)
                             @foreach ($packages as $select_package)
                             <option value="{{$select_package->id}}"
-                                {{isset($package) ? ($package->id == $select_package->id ? 'selected' : '') : ''}}>
+                                {{isset($package) ? ($packageid == $select_package->id ? 'selected' : '') : ''}}>
                                 {{$select_package->name}}</option>
                             @endforeach
                             @endisset

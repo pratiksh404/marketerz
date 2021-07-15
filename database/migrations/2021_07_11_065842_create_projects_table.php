@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
@@ -30,6 +31,7 @@ class CreateProjectsTable extends Migration
             $table->bigInteger('price')->default(0);
             $table->bigInteger('discounted_price');
             $table->bigInteger('paid_amount')->default(0);
+            $table->bigInteger('fine')->default(0);
             $table->string('color')->default(random_color());
             /* Notification Setting */
             $table->boolean('team_notify')->default(0);
@@ -40,6 +42,10 @@ class CreateProjectsTable extends Migration
             $table->boolean('client_service_expire_notify')->default(0);
             $table->boolean('client_payment_notify')->default(0);
             $table->json('client_channel')->nullable();
+            /* Return Policy */
+            $table->boolean('cancel')->default(0);
+            $table->dateTime('cancel_date')->nullable();
+            $table->bigInteger('return')->default(0);
             $table->timestamps();
 
             // Foreign Key

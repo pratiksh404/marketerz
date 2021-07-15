@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use App\Models\Admin\Lead;
 use App\Models\Admin\Client;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectRequest extends FormRequest
@@ -54,9 +56,15 @@ class ProjectRequest extends FormRequest
                 }
                 $this->merge([
                     'client_id' => $client_id,
+                    'user_id' => $this->project->user_id ?? Auth::user()->id
                 ]);
             }
         }
+        $this->merge([
+            'user_id' => $this->project->user_id ?? Auth::user()->id,
+            'project_startdate' => Carbon::create($this->project_startdate),
+            'project_deadline' => Carbon::create($this->project_deadline)
+        ]);
     }
 
     /**
@@ -69,6 +77,7 @@ class ProjectRequest extends FormRequest
         $id = $this->project->code ?? '';
         return [
             'code' => 'required|unique:projects,code,' . $id,
+            'user_id' => 'required|numeric',
             'name' => 'required|max:255',
             'description' => 'nullable|max:3000',
             'client_id' => 'required|numeric',
@@ -83,6 +92,7 @@ class ProjectRequest extends FormRequest
             'price' => 'required|numeric',
             'discounted_price' => 'nullable|numeric',
             'paid_amount' => 'required|numeric',
+            'fine' => 'nullable|numeric',
             'color' => 'nullable|max:255',
             'team_notify' => 'nullable|boolean',
             'team_slack_notifiy' => 'nullable|boolean',
@@ -91,6 +101,9 @@ class ProjectRequest extends FormRequest
             'client_service_expire_notify' => 'nullable|boolean',
             'client_payment_notify' => 'nullable|boolean',
             'client_channel' => 'nullable',
+            'cancel' => 'sometimes"boolean',
+            'cancel_date' => 'required_if:cancel,1',
+            'return' => 'required_if:cancel,1|numeric'
         ];
     }
 }

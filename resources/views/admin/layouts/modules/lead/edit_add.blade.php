@@ -49,7 +49,7 @@
                                 <select name="status" id="status" class="select2">
                                     <option selected disabled>Select Status ... </option>
                                     <option value="1"
-                                        {{isset($lead) ? ($lead->getRawOriginal('status') == 1 ? "selected" : "") : ""}}>
+                                        {{isset($lead) ? ($lead->getRawOriginal('status') == 1 ? "selected" : "") : "selected"}}>
                                         New
                                     </option>
                                     <option value="2"

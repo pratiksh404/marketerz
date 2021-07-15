@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Controllers\Controller;
 use App\Contracts\ProjectRepositoryInterface;
+use App\Events\PaymentEvent;
+use App\Http\Requests\PaymentRequest;
 
 class ProjectController extends Controller
 {
@@ -96,5 +98,26 @@ class ProjectController extends Controller
     {
         $this->projectRepositoryInterface->destroyProject($project);
         return redirect(adminRedirectRoute('project'))->withFail('Project Deleted Successfully.');
+    }
+
+    /**
+     *
+     * Project Payment
+     *
+     */
+    public function project_payment(Project $project)
+    {
+        return view('admin.project.project_payment', compact('project'));
+    }
+
+    /**
+     *
+     * Store Project Payment
+     *
+     */
+    public function store_project_payment(Project $project, PaymentRequest $request)
+    {
+        event(new PaymentEvent($project, $request));
+        return redirect()->back()->withInfo('Project Payment Successfull');
     }
 }

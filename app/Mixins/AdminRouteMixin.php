@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\PackageController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SourceController;
@@ -43,6 +44,7 @@ class AdminRouteMixin
                 $this->resource('package', PackageController::class);
                 $this->resource('discussion', DiscussionController::class);
                 $this->resource('project', ProjectController::class);
+                $this->resource('payment', PaymentController::class);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');
@@ -57,6 +59,8 @@ class AdminRouteMixin
                 $this->get('processes', [JobController::class, 'processes'])->name('processes');
                 $this->get('lead-discussions/{lead}', [LeadController::class, 'lead_discussions'])->name('lead_discussions');
                 $this->post('store-lead-discussion', [LeadController::class, 'store_lead_discussion'])->name('store_lead_discussion');
+                $this->get('project-payment/{project}', [ProjectController::class, 'project_payment'])->name('project_payment');
+                $this->post('store-project-payment/{project}', [ProjectController::class, 'store_project_payment'])->name('store_project_payment');
 
 
                 /* CHARTS ROUTES */

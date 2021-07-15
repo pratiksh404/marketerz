@@ -53,6 +53,7 @@
                         <tr>
                             <th>Price</th>
                             <th>Discounted Price</th>
+                            <th>Fine</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,18 +74,18 @@
                                         placeholder="Project Discounted Price">
                                 </div>
                             </td>
+                            <td>
+                                <div class="input-group">
+                                    <span class="input-group-text">{{config('adminetic.currency_symbol','Rs.')}}</span>
+                                    <input type="number" name="fine" id="fine" class="form-control"
+                                        value="{{$project->fine ?? old('fine') ?? 0}}" placeholder="Fine">
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <br>
-                <div class="mt-2">
-                    <label for="paid_amount">Paid Amount</label>
-                    <div class="input-group">
-                        <span class="input-group-text">{{config('adminetic.currency_symbol','Rs.')}}</span>
-                        <input type="number" name="paid_amount" id="paid_amount" class="form-control"
-                            value="{{$project->paid_amount ?? 0}}" readonly>
-                    </div>
-                </div>
+                {{-- Hidden Input --}}
+                <input type="hidden" name="paid_amount" value="{{$project->paid_amount ?? 0}}">
             </div>
         </div>
         <div class="card shadow-lg">
@@ -166,22 +167,55 @@
             <div class="col-lg-12">
                 <div class="card shadow-lg">
                     <div class="card-body">
-                        <label class="form-label">Code</label>
-                        <div class="input-group">
-                            <button class="btn btn-outline-primary p-2" type="button" id="code_reload"><i
-                                    class="fa fa-refresh"></i></button>
-                            <input name="code" type="number" class="form-control" id="code"
-                                value="{{$project->code ?? old('code')}}" placeholder="Code">
+                        <div class="mb-3">
+                            <label class="form-label">Code</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary p-2" type="button" id="code_reload"><i
+                                        class="fa fa-refresh"></i></button>
+                                <input name="code" type="number" class="form-control" id="code"
+                                    value="{{$project->code ?? old('code')}}" placeholder="Code">
+                            </div>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between">
+                            <label class="col-form-label pt-2">Color</label>
+                            <input name="color" class="form-control form-control-color" type="color"
+                                value="{{$project->color ?? old('color') ?? '#563d7c'}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="project_head">Project Head</label>
+                            <select name="project_head" id="project_head" class="select2" style="width: 100%">
+                                <option selected disabled>Select Project Head .. </option>
+                                @isset($users)
+                                @foreach ($users as $user)
+                                <option value="{{$user->id}}"
+                                    {{isset($project->project_head) ? ($project->project_head == $user->id ? 'selected' : '') : ''}}>
+                                    {{$user->name}}</option>
+                                @endforeach
+                                @endisset
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="department_id">Department</label>
+                            <select name="department_id" id="department_id" class="select2" style="width: 100%">
+                                <option selected disabled>Select Department .. </option>
+                                @isset($departments)
+                                @foreach ($departments as $department)
+                                <option value="{{$department->id}}"
+                                    {{isset($project->department) ? ($project->department_id == $department->id ? 'selected' : '') : ''}}>
+                                    {{$department->name}}</option>
+                                @endforeach
+                                @endisset
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
+            @livewire('admin.project.from-lead-client', ['project' => $project ?? null,'projectfrom' => isset($project)
+            ?
+            ($project->lead_id ? 1
+            :
+            ($project->client_id
+            ? 2 : null)) : null], key('project_from_lead_or_client'))
+            <x-adminetic-edit-add-button :model="$project ?? null" name="Project" />
         </div>
-        @livewire('admin.project.from-lead-client', ['project' => $project ?? null,'projectfrom' => isset($project) ?
-        ($project->lead_id ? 1
-        :
-        ($project->client_id
-        ? 2 : null)) : null], key('project_from_lead_or_client'))
-        <x-adminetic-edit-add-button :model="$project ?? null" name="Project" />
     </div>
-</div>
