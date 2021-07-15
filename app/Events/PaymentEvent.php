@@ -16,18 +16,21 @@ class PaymentEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $type;
     public $project;
     public $request;
-
+    public $payment;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Project $project, PaymentRequest $request)
+    public function __construct($type, Project $project, PaymentRequest $request, $payment = null)
     {
-        $this->request = $request;
+        $this->type = $type;
         $this->project = $project;
+        $this->project = $project;
+        $this->payment = $payment;
     }
 }

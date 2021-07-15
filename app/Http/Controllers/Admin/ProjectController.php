@@ -117,7 +117,7 @@ class ProjectController extends Controller
      */
     public function store_project_payment(Project $project, PaymentRequest $request)
     {
-        event(new PaymentEvent($project, $request));
+        event(new PaymentEvent(1, $project, $request));
         return redirect()->back()->withInfo('Project Payment Successfull');
     }
 }

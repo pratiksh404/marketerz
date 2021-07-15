@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Events\PaymentEvent;
 use App\Models\Admin\Payment;
+use App\Http\Requests\PaymentRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\PaymentRepositoryInterface;
-use App\Http\Requests\PaymentRequest;
 
 class PaymentRepository implements PaymentRepositoryInterface
 {
@@ -47,12 +48,16 @@ class PaymentRepository implements PaymentRepositoryInterface
     // Payment Update
     public function updatePayment(PaymentRequest $request, Payment $payment)
     {
-        $payment->update($request->validated());
+        event(new PaymentEvent(1, $payment->project, $request, $payment));
     }
 
     // Payment Destroy
     public function destroyPayment(Payment $payment)
     {
+        $project = $payment->project;
         $payment->delete();
+        $project->update([
+            'paid_amount' => Payment::where('project_id', $project->id)->sum('payment')
+        ]);
     }
 }
