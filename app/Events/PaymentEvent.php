@@ -30,7 +30,7 @@ class PaymentEvent
     {
         $this->type = $type;
         $this->project = $project;
-        $this->project = $project;
+        $this->request = $request;
         $this->payment = $payment;
     }
 }

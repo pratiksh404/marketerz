@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\Admin\Lead;
 use App\Models\Admin\Client;
+use App\Models\Admin\Payment;
 use App\Models\Admin\Campaign;
 
 class Marketerz
@@ -215,5 +216,50 @@ class Marketerz
     public function totalStatusLeadDiscussions($status)
     {
         return Lead::where('status', $status)->count();
+    }
+
+    /**
+     *
+     * Total Payment
+     *
+     *@return integer
+     *
+     */
+    public function totalPayment($given_payments = null)
+    {
+        $payments = $given_payments ?? Payment::all();
+        return $payments->sum('payment');
+    }
+
+    /**
+     *
+     * Daily Payment
+     *
+     */
+    public function dailyPayments($limit = 7)
+    {
+        $dailyPayment = array();
+        $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+        if (isset($periods)) {
+            foreach ($periods as $period) {
+                $dailyPayment[$period->toFormattedDateString()] = Payment::whereDate('updated_at', $period)->sum('payment');
+            }
+        }
+        return $dailyPayment;
+    }
+
+    /**
+     *
+     * Monthly Payment
+     *
+     */
+    public function monthlyPayments($given_year = null)
+    {
+        $monthlyPayment = array();
+        $year = $given_year ?? Carbon::now()->year;
+        foreach (range(1, 12) as $month) {
+            $monthlyPayment[Carbon::create($year, $month, 1)->format('F')] = Payment::whereYear('updated_at', $year)->whereMonth('updated_at', $month)->sum('payment');
+        }
+        return $monthlyPayment;
     }
 }

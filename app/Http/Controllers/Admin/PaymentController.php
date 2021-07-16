@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Facades\Marketerz;
 use App\Models\Admin\Payment;
-use Illuminate\Http\Request;
-use App\Http\Requests\PaymentRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentRequest;
 use App\Contracts\PaymentRepositoryInterface;
 
 class PaymentController extends Controller

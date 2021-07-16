@@ -46,6 +46,7 @@ class CreateProjectsTable extends Migration
             $table->boolean('cancel')->default(0);
             $table->dateTime('cancel_date')->nullable();
             $table->bigInteger('return')->default(0);
+            $table->text('return_remark')->nullable();
             $table->timestamps();
 
             // Foreign Key

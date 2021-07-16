@@ -5,15 +5,14 @@ namespace App\Http\Livewire\Admin\Project;
 use Livewire\Component;
 use App\Models\Admin\Project;
 
-class ProjectPayment extends Component
+class ProjectReturn extends Component
 {
     public $project;
     public $price;
     public $paid_amount;
     public $fine;
-    public $payment;
+    public $return;
     public $remaining_amount;
-    public $payment_method;
 
     public function mount(Project $project)
     {
@@ -24,17 +23,17 @@ class ProjectPayment extends Component
         $this->remaining_amount = $project->remaining_amount;
     }
 
-    public function updatedPayment()
+    public function updatedReturn()
     {
-        if ($this->payment > $this->remaining_amount) {
-            $this->emit('remaining_amount_exceeded');
+        if ($this->return > $this->paid_amount) {
+            $this->emit('return_amount_exceeded');
         } else {
-            $this->remaining_amount = ($this->grand_total) - ($this->paid_amount + $this->payment);
+            $this->remaining_amount = ($this->grand_total) - ($this->paid_amount - $this->return);
         }
     }
 
     public function render()
     {
-        return view('livewire.admin.project.project-payment');
+        return view('livewire.admin.project.project-return');
     }
 }

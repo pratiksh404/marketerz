@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Carbon\Carbon;
 use App\Events\PaymentEvent;
 use App\Models\Admin\Payment;
 use App\Http\Requests\PaymentRequest;
@@ -18,7 +19,13 @@ class PaymentRepository implements PaymentRepositoryInterface
                 return Payment::latest()->get();
             }))
             : Payment::latest()->get();
-        return compact('payments');
+
+        $total_payments = Payment::sum('payment');
+        $today_total_payments = Payment::whereDate('updated_at', Carbon::now())->sum('payment');
+        $week_total_payments = Payment::whereBetween('updated_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('payment');
+        $month_total_payment = Payment::whereBetween('updated_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->sum('payment');
+        $year_total_payment = Payment::whereBetween('updated_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('payment');
+        return compact('payments', 'total_payments', 'today_total_payments', 'week_total_payments', 'month_total_payment', 'year_total_payment');
     }
 
     // Payment Create

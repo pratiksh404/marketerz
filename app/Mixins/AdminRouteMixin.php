@@ -61,6 +61,8 @@ class AdminRouteMixin
                 $this->post('store-lead-discussion', [LeadController::class, 'store_lead_discussion'])->name('store_lead_discussion');
                 $this->get('project-payment/{project}', [ProjectController::class, 'project_payment'])->name('project_payment');
                 $this->post('store-project-payment/{project}', [ProjectController::class, 'store_project_payment'])->name('store_project_payment');
+                $this->get('project-return/{project}', [ProjectController::class, 'project_return'])->name('project_return');
+                $this->post('store-project-return/{project}', [ProjectController::class, 'store_project_return'])->name('store_project_return');
 
 
                 /* CHARTS ROUTES */
@@ -69,6 +71,8 @@ class AdminRouteMixin
                 $this->get('get-daily-email-count', [ChartController::class, 'get_daily_email_count'])->name('get_daily_email_count');
                 $this->get('get-client-email-count', [ChartController::class, 'get_client_sms_email_count'])->name('get_client_sms_email_count');
                 $this->get('get-client-monthly-email-count', [ChartController::class, 'get_client_monthly_sms_email_count'])->name('get_client_monthly_sms_email_count');
+                $this->get('get-week-payment', [ChartController::class, 'get_week_payment'])->name('get_week_payment');
+                $this->get('get-monthly-payment', [ChartController::class, 'get_monthly_payment'])->name('get_monthly_payment');
             });
         };
     }

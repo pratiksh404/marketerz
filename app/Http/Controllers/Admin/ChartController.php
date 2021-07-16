@@ -64,4 +64,24 @@ class ChartController extends Controller
             return response()->json(['sms_email_count' => Marketerz::monthlyClientEmailsSMS($client)], 200);
         }
     }
+
+    /**
+     *
+     * Get Week Payment
+     *
+     */
+    public function get_week_payment()
+    {
+        return response()->json(['weekly_payment' => Marketerz::dailyPayments(7)], 200);
+    }
+
+    /**
+     *
+     * Get Monthly Payment
+     *
+     */
+    public function get_monthly_payment()
+    {
+        return response()->json(['monthly_payment' => Marketerz::monthlyPayments()], 200,);
+    }
 }

@@ -120,4 +120,24 @@ class ProjectController extends Controller
         event(new PaymentEvent(1, $project, $request));
         return redirect()->back()->withInfo('Project Payment Successfull');
     }
+    /**
+     *
+     * Project Return
+     *
+     */
+    public function project_return(Project $project)
+    {
+        return view('admin.project.project_return', compact('project'));
+    }
+
+    /**
+     *
+     * Store Project Return
+     *
+     */
+    public function store_project_return(Project $project, ReturnRequest $request)
+    {
+        event(new ReturnEvent(1, $project, $request));
+        return redirect()->back()->withInfo('Project Return Successfull');
+    }
 }

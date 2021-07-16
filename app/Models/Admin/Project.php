@@ -50,12 +50,16 @@ class Project extends Model
     ];
 
     // Appends
-    protected $appends = ['remaining_amount', 'deadline_percent', 'valid_price'];
+    protected $appends = ['grand_total', 'remaining_amount', 'deadline_percent', 'valid_price', 'status'];
 
+    public function getGrandTotalAttribute()
+    {
+        return $this->valid_price + ($this->fine ?? 0);
+    }
     public function getRemainingAmountAttribute()
     {
-        return $this->paid_amount > $this->price ? 0
-            : $this->price - $this->paid_amount;
+        return $this->paid_amount > ($this->price + ($this->fine ?? 0)) ? 0
+            : ($this->price + ($this->fine ?? 0)) - $this->paid_amount;
     }
     public function getDeadlinePercentAttribute()
     {
@@ -74,6 +78,31 @@ class Project extends Model
             }
         }
         return $this->price;
+    }
+    public function getStatusAttribute()
+    {
+        $start = Carbon::create($this->project_startdate);
+        $end = Carbon::create($this->project_deadline);
+        $is_between = Carbon::now()->between($start, $end);
+        return $this->cancel ? 1 : ($is_between ? 2 : ($this->price == $this->paid_amount ? 3 : 4));
+    }
+    public function getStatus()
+    {
+        return [
+            1 => 'Cancelled',
+            2 => 'Running',
+            3 => 'Completed',
+            4 => 'Late'
+        ][$this->status];
+    }
+    public function getStatusColor()
+    {
+        return [
+            1 => 'danger',
+            2 => 'primary',
+            3 => 'success',
+            4 => 'danger'
+        ][$this->status];
     }
 
     // Relations

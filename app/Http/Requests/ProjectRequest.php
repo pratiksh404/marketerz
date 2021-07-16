@@ -103,7 +103,8 @@ class ProjectRequest extends FormRequest
             'client_channel' => 'nullable',
             'cancel' => 'sometimes"boolean',
             'cancel_date' => 'required_if:cancel,1',
-            'return' => 'required_if:cancel,1|numeric'
+            'return' => 'required_if:cancel,1|numeric',
+            'return_remark' => 'nullable|max:3000',
         ];
     }
 }

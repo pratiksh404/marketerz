@@ -23,6 +23,14 @@
                   }
             });
 
+          $('#cancel_date').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                  locale: {
+                 format: 'YYYY-MM-DD'
+                  },
+            });
+
             $('#project_interval').on('change',function(){
                assignStartEnd();
             });
