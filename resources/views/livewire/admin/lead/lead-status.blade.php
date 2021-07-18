@@ -3,7 +3,8 @@
     <div class="btn-group mx-1" role="group">
         <button class="btn btn-sm btn-{{$lead->getStatusColor()}} btn-air-{{$lead->getStatusColor()}} dropdown-toggle"
             type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            data-bs-original-title="Lead Status" title="Lead Status">{{$lead->getStatus()}}</button>
+            data-bs-original-title="Lead Status" title="Lead Status"
+            {{$converted_to_client ? 'disabled' : ''}}>{{$lead->getStatus()}}</button>
         <div class="dropdown-menu" aria-labelledby="leadStatus"
             style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
             data-popper-placement="bottom-start">

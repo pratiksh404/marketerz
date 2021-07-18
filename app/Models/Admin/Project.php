@@ -67,8 +67,8 @@ class Project extends Model
         $end = Carbon::create($this->project_deadline);
         $now = Carbon::now();
         $interval = $start->diffInDays($end);
-        $remaining_days = $now->diffInDays($end);
-        return $remaining_days == 0 ? 100 : (($remaining_days / $interval) * 100);
+        $remaining_days = $now->gt($end) ? 0 : $now->diffInDays($end);;
+        return $remaining_days == 0 ? 100 : ($remaining_days == $interval ? 0 : (($remaining_days / ($interval == 0 ? 1 : $interval)) * 100));
     }
     public function getValidPriceAttribute()
     {

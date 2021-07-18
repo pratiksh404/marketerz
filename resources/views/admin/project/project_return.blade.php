@@ -58,7 +58,69 @@
             </div>
         </div>
     </div>
-    <input type="submit" value="Submit" class="btn btn-primary btn-air-primary">
+    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">Execute
+        Return Transaction</button>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mySmallModalLabel">Confirm Return Transaction</h4>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center text-bold text-danger">Are you sure you want to cancel this project and
+                        return the amount ?</div>
+                    <br>
+                    <div class="text-center text-bold">Project Detail</div>
+                    <hr>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <b>Code</b> <span class="text-muted">#{{$project->code}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>client_id</b> <span class="text-muted">{{$project->client->name ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Lead</b> <span
+                                class="text-muted">{{$project->lead->name ?? $project->lead->code ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Package</b> <span class="text-muted">{{$project->package->name ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Department</b> <span class="text-muted">{{$project->department->name ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Project Head</b> <span class="text-muted">{{$project->projectHead->name ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Price</b> <span
+                                class="text-muted">{{config('adminetic.currency_symbol','Rs.').$project->valid_price ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Paid Amount</b> <span
+                                class="text-muted">{{config('adminetic.currency_symbol','Rs.').$project->paid_amount ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Fine</b> <span
+                                class="text-muted">{{config('adminetic.currency_symbol','Rs.').$project->fine ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Project Interval</b> <span
+                                class="text-muted">{{$project->project_interval ?? 'N/A'}}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Status</b> <span class="text-muted">{{$project->getStatus() ?? 'N/A'}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Confirm" class="btn btn-primary btn-air-primary">
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 @endsection
 

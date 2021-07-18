@@ -20,4 +20,6 @@ interface ProjectRepositoryInterface
     public function updateProject(ProjectRequest $request, Project $Project);
 
     public function destroyProject(Project $Project);
+
+    public function convertToClient($lead_id);
 }

@@ -63,6 +63,7 @@ class AdminRouteMixin
                 $this->post('store-project-payment/{project}', [ProjectController::class, 'store_project_payment'])->name('store_project_payment');
                 $this->get('project-return/{project}', [ProjectController::class, 'project_return'])->name('project_return');
                 $this->post('store-project-return/{project}', [ProjectController::class, 'store_project_return'])->name('store_project_return');
+                $this->get('convert-to-client/{lead}', [ProjectController::class, 'convert_to_client'])->name('convert_to_client');
 
 
                 /* CHARTS ROUTES */

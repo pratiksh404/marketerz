@@ -210,12 +210,13 @@
                     </div>
                 </div>
             </div>
-            @livewire('admin.project.from-lead-client', ['project' => $project ?? null,'projectfrom' => isset($project)
+            @livewire('admin.project.from-lead-client', ['project' => $project ?? null,'projectfrom' => isset($lead_id)
+            ? 1 : (isset($project)
             ?
             ($project->lead_id ? 1
             :
             ($project->client_id
-            ? 2 : null)) : null], key('project_from_lead_or_client'))
+            ? 2 : null)) : null),'leadid' => $lead_id ?? $project->lead_id ?? null], key('project_from_lead_or_client'))
             <x-adminetic-edit-add-button :model="$project ?? null" name="Project" />
         </div>
     </div>

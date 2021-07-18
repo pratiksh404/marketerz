@@ -3,12 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\User;
+
 use App\Models\Admin\Package;
 use App\Models\Admin\Project;
+use App\Models\Admin\Department;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\ProjectRepositoryInterface;
-use App\Models\Admin\Department;
+use App\Events\ProjectInitializedEvent;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -35,7 +37,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     // Project Store
     public function storeProject(ProjectRequest $request)
     {
-        Project::create($request->validated());
+        $project = Project::create($request->validated());
+        event(new ProjectInitializedEvent(1, $project));
     }
 
     // Project Show
@@ -56,12 +59,23 @@ class ProjectRepository implements ProjectRepositoryInterface
     // Project Update
     public function updateProject(ProjectRequest $request, Project $project)
     {
+        $old_lead_id = $project->lead_id ?? null;
         $project->update($request->validated());
+        event(new ProjectInitializedEvent(2, $project, $old_lead_id));
     }
 
     // Project Destroy
     public function destroyProject(Project $project)
     {
         $project->delete();
+    }
+
+    // Convert To Client
+    public function convertToClient($lead_id)
+    {
+        $packages = Cache::get('package', Package::latest()->get());
+        $users = Cache::get('users', User::latest()->get());
+        $departments = Cache::get('departments', Department::latest()->get());
+        return compact('packages', 'users', 'departments', 'lead_id');
     }
 }

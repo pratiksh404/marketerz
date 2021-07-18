@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin\Project;
-use Illuminate\Http\Request;
-use App\Http\Requests\ProjectRequest;
-use App\Http\Controllers\Controller;
-use App\Contracts\ProjectRepositoryInterface;
+use App\Models\Admin\Lead;
+use App\Events\ReturnEvent;
 use App\Events\PaymentEvent;
+use Illuminate\Http\Request;
+use App\Models\Admin\Project;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ReturnRequest;
 use App\Http\Requests\PaymentRequest;
+use App\Http\Requests\ProjectRequest;
+use App\Contracts\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
 {
@@ -138,6 +141,16 @@ class ProjectController extends Controller
     public function store_project_return(Project $project, ReturnRequest $request)
     {
         event(new ReturnEvent(1, $project, $request));
-        return redirect()->back()->withInfo('Project Return Successfull');
+        return redirect(adminRedirectRoute('project'))->withInfo('Project Return Successfull');
+    }
+
+    /**
+     *
+     * Convert To Client
+     *
+     */
+    public function convert_to_client(Lead $lead)
+    {
+        return view('admin.project.create', $this->projectRepositoryInterface->convertToClient($lead->id));
     }
 }

@@ -213,14 +213,16 @@
                                 </div>
                                 <br>
                                 <div class="d-flex justify-content-center">
-                                    <x-adminetic-action :model="$project" route="project">
+                                    <x-adminetic-action :model="$project" route="project" edit="{{!$project->cancel}}">
                                         <x-slot name="buttons">
+                                            @if (!$project->cancel)
                                             <a href="{{route('project_payment',['project' => $project->id])}}"
                                                 class="btn btn-success btn-air-success btn-sm p-2"><i
                                                     class="fa fa-money"></i></a>
                                             <a href="{{route('project_return',['project' => $project->id])}}"
                                                 class="btn btn-danger btn-air-danger btn-sm p-2"><i
                                                     class="fa fa-retweet"></i></a>
+                                            @endif
                                         </x-slot>
                                     </x-adminetic-action>
                                 </div>

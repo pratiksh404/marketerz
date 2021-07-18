@@ -8,8 +8,15 @@ use App\Models\Admin\Lead;
 class LeadStatus extends Component
 {
     public $lead;
+    public $converted_to_client;
 
     protected $listeners = ['status_changed' => 'statusChanged'];
+
+    public function mount($lead, $converted_to_client = false)
+    {
+        $this->lead = $lead;
+        $this->converted_to_client = $converted_to_client;
+    }
 
 
     public function statusChanged($status, Lead $lead)

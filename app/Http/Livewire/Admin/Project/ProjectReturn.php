@@ -9,6 +9,7 @@ class ProjectReturn extends Component
 {
     public $project;
     public $price;
+    public $grand_total;
     public $paid_amount;
     public $fine;
     public $return;
@@ -18,6 +19,7 @@ class ProjectReturn extends Component
     {
         $this->project = $project;
         $this->price = $project->valid_price;
+        $this->grand_total = $project->grand_total ?? 0;
         $this->paid_amount = $project->paid_amount;
         $this->fine = $project->fine;
         $this->remaining_amount = $project->remaining_amount;

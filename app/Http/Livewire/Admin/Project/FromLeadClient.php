@@ -20,16 +20,16 @@ class FromLeadClient extends Component
     public $packageid;
     public $package;
 
-    public function mount($project, $projectfrom)
+    public function mount($project, $projectfrom, $leadid = null)
     {
         $this->project = $project;
         $this->projectfrom = $projectfrom;
-        $this->leadid = $project->lead_id ?? null;
+        $this->leadid = $leadid ?? $project->lead_id ?? null;
         $this->clientid = $project->client_id ?? null;
-        $this->lead = $project->lead ?? null;
+        $this->lead = Lead::find($leadid) ?? $project->lead ?? null;
         $this->client = $project->client ?? null;
-        $this->package = $project->package ?? null;
-        $this->packageid = $project->package_id ?? null;
+        $this->package = $this->lead->package ?? $project->package ?? null;
+        $this->packageid = $this->lead->package->id ?? $project->package_id ?? null;
     }
 
 

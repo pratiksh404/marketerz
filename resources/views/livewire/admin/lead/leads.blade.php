@@ -109,9 +109,14 @@
                     @foreach ($leads as $lead)
                     <div class="col-lg-4 col-sm-12 col-md-6">
                         <div class="project-box shadow-lg">
+                            @if ($lead->converted_to_client)
+                            <div class="ribbon ribbon-bookmark ribbon-success">Converted to client</div>
+                            <br>
+                            @endif
                             <div class="d-flex justify-content-between">
                                 <h6>{{$lead->name ?? '#'.$lead->code}}</h6>
-                                @livewire('admin.lead.lead-status', ['lead' => $lead], key($lead->id))
+                                @livewire('admin.lead.lead-status', ['lead' => $lead,'converted_to_client' =>
+                                $lead->converted_to_client], key($lead->id))
                             </div>
                             <div class="media"><img class="img-20 me-1 rounded-circle"
                                     src="{{getProfilePlaceholder($lead->leadBy->id)}}"
@@ -158,6 +163,13 @@
                                         <a href="{{route('lead_discussions',['lead' => $lead->id])}}"
                                             class="btn btn-success btn-air-success btn-sm p-2"><i
                                                 class="fa fa-comment"></i></a>
+                                        @if (isset($lead->converted_to_client))
+                                        @if (!$lead->converted_to_client)
+                                        <a href="{{route('convert_to_client',['lead' => $lead->id])}}"
+                                            class="btn btn-primary btn-air-primary btn-sm p-2"><i
+                                                class="fa fa-refresh"></i></a>
+                                        @endif
+                                        @endif
                                     </x-slot>
                                 </x-adminetic-action>
                             </div>

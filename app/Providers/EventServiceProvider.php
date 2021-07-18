@@ -4,8 +4,12 @@ namespace App\Providers;
 
 use App\Events\CampaignCreatedEvent;
 use App\Events\PaymentEvent;
+use App\Events\ProjectInitializedEvent;
+use App\Events\ReturnEvent;
 use App\Listeners\ExecuteCampaignListener;
 use App\Listeners\PaymentTransactionListener;
+use App\Listeners\ProjectInitializedListener;
+use App\Listeners\ReturnTransactionListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,8 +29,14 @@ class EventServiceProvider extends ServiceProvider
         CampaignCreatedEvent::class => [
             ExecuteCampaignListener::class,
         ],
+        ProjectInitializedEvent::class => [
+            ProjectInitializedListener::class,
+        ],
         PaymentEvent::class => [
             PaymentTransactionListener::class,
+        ],
+        ReturnEvent::class => [
+            ReturnTransactionListener::class,
         ],
     ];
 
