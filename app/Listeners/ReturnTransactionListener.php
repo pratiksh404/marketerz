@@ -32,7 +32,19 @@ class ReturnTransactionListener
                         'paid_amount' => $project->paid_amount - $request->return
                     ]);
                 }
+                $this->handleClientAccount($project);
             });
+        }
+    }
+
+    protected function handleClientAccount($project)
+    {
+        $client = $project->client;
+        if (isset($client) && isset($project)) {
+            $client->update([
+                'credit' => $client->credit + $project->return,
+                'debit' => $client->debit - $project->return
+            ]);
         }
     }
 }

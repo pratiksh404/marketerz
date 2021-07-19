@@ -26,11 +26,11 @@ class PaymentTransactionListener
             DB::transaction(function () use ($type, $project, $request, $payment) {
                 if ($type == 1) {
                     $project->payments()->create($request->validated());
-                    $this->updateProject($project);
                 } elseif ($type = 2) {
                     $payment->update($request->validated());
-                    $this->updateProject($project);
                 }
+                $this->updateProject($project);
+                $this->handleClientAccount($project);
             });
         }
     }
@@ -40,5 +40,23 @@ class PaymentTransactionListener
         $project->update([
             'paid_amount' => Payment::where('project_id', $project->id)->sum('payment')
         ]);
+    }
+
+    protected function handleClientAccount($project)
+    {
+        $client = $project->client;
+        $debit = 0;
+        if (isset($client)) {
+            if (isset($client->projects)) {
+                foreach ($client->projects as $project) {
+                    if (isset($project->payments)) {
+                        $debit += $project->payments->sum('payment');
+                    }
+                }
+                $client->update([
+                    'debit' => $debit
+                ]);
+            }
+        }
     }
 }

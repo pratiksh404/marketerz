@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\AdvanceRepositoryInterface;
 use App\Services\Marketerz;
 use App\Mixins\AdminRouteMixin;
 use Illuminate\Support\Facades\App;
@@ -29,6 +30,7 @@ use App\Contracts\PaymentRepositoryInterface;
 use App\Contracts\ProjectRepositoryInterface;
 use App\Contracts\TaskRepositoryInterface;
 use App\Contracts\TemplateRepositoryInterface;
+use App\Repositories\AdvanceRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\DiscussionRepository;
 use App\Repositories\LeadRepository;
@@ -81,6 +83,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(DiscussionRepositoryInterface::class, DiscussionRepository::class);
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
         $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
+        $this->app->bind(AdvanceRepositoryInterface::class, AdvanceRepository::class);
     }
 
     /**

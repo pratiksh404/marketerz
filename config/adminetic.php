@@ -151,6 +151,15 @@ return [
         ],
     ],
 
+    // Profile Tabs
+    'profile_tab' => [
+        [
+            'name' => 'Barcode',
+            'icon' => 'fa fa-barcode',
+            'view' => 'admin.profile.tabs.barcode'
+        ]
+    ],
+
     // Plugin Adapters
     'adapters' => [],
 

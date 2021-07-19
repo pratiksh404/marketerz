@@ -2,9 +2,10 @@
 
 namespace App\Listeners;
 
+use Carbon\Carbon;
 use App\Events\ProjectInitializedEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProjectInitializedListener
 {
@@ -30,7 +31,8 @@ class ProjectInitializedListener
             if ($type == 1) {
                 $project->lead()->update([
                     'converted_to_client' => 1,
-                    'status' => 6
+                    'status' => 6,
+                    'converted_to_client_date' => Carbon::now()
                 ]);
             } elseif ($type == 2) {
                 if (isset($old_lead)) {
@@ -44,7 +46,8 @@ class ProjectInitializedListener
                         }
                         $project->lead()->update([
                             'converted_to_client' => 1,
-                            'status' => 6
+                            'status' => 6,
+                            'converted_to_client_date' => Carbon::now()
                         ]);
                     }
                 }

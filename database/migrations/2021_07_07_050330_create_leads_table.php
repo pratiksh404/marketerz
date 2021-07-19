@@ -28,6 +28,7 @@ class CreateLeadsTable extends Migration
             $table->foreignId('source_id')->constrained('sources')->cascadeOnDelete();
             $table->date('contact_date')->default(Carbon::now());
             $table->boolean('converted_to_client')->default(0);
+            $table->dateTime('converted_to_client_date')->nullable();
             $table->timestamps();
 
             // Foreign Key

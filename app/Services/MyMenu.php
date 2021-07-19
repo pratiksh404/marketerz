@@ -156,6 +156,23 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('payment', App\Models\Admin\Payment::class)
             ],
             [
+                'type' => 'menu',
+                'name' => 'Advance Payments',
+                'icon' => 'fa fa-credit-card',
+                'is_active' => request()->routeIs('advance*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Advance::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Advance::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('advance', App\Models\Admin\Advance::class)
+            ],
+            [
                 'type' => 'breaker',
                 'name' => 'Jobs',
                 'description' => 'Queue Jobs and Workers',

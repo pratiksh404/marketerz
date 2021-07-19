@@ -2,6 +2,7 @@
 
 namespace App\Mixins;
 
+use App\Http\Controllers\Admin\AdvanceController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\ClientController;
@@ -44,7 +45,12 @@ class AdminRouteMixin
                 $this->resource('package', PackageController::class);
                 $this->resource('discussion', DiscussionController::class);
                 $this->resource('project', ProjectController::class);
-                $this->resource('payment', PaymentController::class);
+                $this->resource('payment', PaymentController::class, [
+                    'except' => ['create', 'store']
+                ]);
+                $this->resource('advance', AdvanceController::class, [
+                    'except' => ['create', 'store']
+                ]);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');
@@ -63,6 +69,8 @@ class AdminRouteMixin
                 $this->post('store-project-payment/{project}', [ProjectController::class, 'store_project_payment'])->name('store_project_payment');
                 $this->get('project-return/{project}', [ProjectController::class, 'project_return'])->name('project_return');
                 $this->post('store-project-return/{project}', [ProjectController::class, 'store_project_return'])->name('store_project_return');
+                $this->get('client-advance/{client}', [ClientController::class, 'client_advance'])->name('client_advance');
+                $this->post('store-client-advance/{client}', [ClientController::class, 'store_client_advance'])->name('store_client_advance');
                 $this->get('convert-to-client/{lead}', [ProjectController::class, 'convert_to_client'])->name('convert_to_client');
 
 

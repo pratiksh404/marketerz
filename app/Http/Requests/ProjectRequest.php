@@ -36,8 +36,8 @@ class ProjectRequest extends FormRequest
                     $client_id = $lead->client->id;
                 } else {
                     $contact_name = $lead->contact->name;
-                    $contact_phone = $lead->contact->phone;
-                    $contact_email = $lead->contact->email;
+                    $contact_phone = $lead->contact->phone ?? null;
+                    $contact_email = $lead->contact->email ?? null;
                     $client_exist = Client::where([
                         'name' => $contact_name,
                         'phone' => $contact_phone,

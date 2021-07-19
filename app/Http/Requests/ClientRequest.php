@@ -27,7 +27,10 @@ class ClientRequest extends FormRequest
             'name' => 'required|max:100',
             'phone' => 'required|numeric',
             'email' => 'required|max:100',
-            'address' => 'nullable|max:255'
+            'address' => 'nullable|max:255',
+            'credit' => 'sometimes|numeric',
+            'debit' => 'sometimes|numeric',
+            'description' => 'nullable|max:3000'
         ];
     }
 }

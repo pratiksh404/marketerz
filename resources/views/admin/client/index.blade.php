@@ -11,7 +11,8 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>Address</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -22,13 +23,21 @@
                     <td>{{ $client->name }}</td>
                     <td>{{ $client->phone }}</td>
                     <td>{{ $client->email }}</td>
-                    <td>{{ $client->address }}</td>
+                    <td><span
+                            class="text-success">{{ config('adminetic.currency_symbol','Rs.') . $client->credit }}</span>
+                    </td>
+                    <td><span
+                            class="text-danger">{{ config('adminetic.currency_symbol','Rs.') . $client->debit }}</span>
+                    </td>
                     <td>
                         <x-adminetic-action :model="$client" route="client">
                             <x-slot name="buttons">
-                                <button class="btn btn-success btn-air-success" type="button" data-bs-toggle="modal"
-                                    data-bs-target=".import-client-contacts{{$client->id}}"
+                                <button class="btn btn-sm btn-success btn-air-success p-2" type="button"
+                                    data-bs-toggle="modal" data-bs-target=".import-client-contacts{{$client->id}}"
                                     title="Import Client Contact"><i class="fa fa-mail-reply-all"></i></button>
+                                <a href="{{route('client_advance',['client' => $client->id])}}"
+                                    class="btn btn-sm btn-primary btn-air-primary p-2"><i
+                                        class="fa fa-credit-card"></i></a>
                             </x-slot>
                         </x-adminetic-action>
                     </td>
@@ -69,7 +78,8 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>Address</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
                     <th>Actions</th>
                 </tr>
             </tfoot>

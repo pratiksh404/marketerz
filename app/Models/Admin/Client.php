@@ -2,7 +2,9 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin\Advance;
 use App\Models\Admin\Contact;
+use App\Models\Admin\Project;
 use App\Models\Admin\Campaign;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -45,5 +47,13 @@ class Client extends Model
     public function campaigns()
     {
         return $this->hasMany(Campaign::class);
+    }
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+    public function advances()
+    {
+        return $this->hasMany(Advance::class);
     }
 }

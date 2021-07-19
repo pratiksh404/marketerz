@@ -25,7 +25,6 @@ class SelectContact extends Component
 
     public $contact_id;
 
-    public $contacts;
 
     protected $rules = [
         'name' => 'required|max:80',
@@ -42,7 +41,6 @@ class SelectContact extends Component
     public function mount($contact_id)
     {
         $this->contact_id = $contact_id;
-        $this->contacts = Cache::get('contacts', Contact::latest()->get());
     }
 
     public function submit()
@@ -55,7 +53,6 @@ class SelectContact extends Component
             $contact->clients()->attach($this->clients_id);
         }
         $this->contact_id = $contact->id;
-        $this->contacts = Cache::get('contacts', Contact::latest()->get());
         $this->emit('contact_created');
     }
 
@@ -63,6 +60,7 @@ class SelectContact extends Component
     {
         $groups = Cache::get('groups', Group::latest()->get());
         $clients = Cache::get('clients', Client::latest()->get());
-        return view('livewire.admin.contact.select-contact', compact('groups', 'clients'));
+        $contacts = Cache::get('contacts', Contact::latest()->get());
+        return view('livewire.admin.contact.select-contact', compact('contacts', 'groups', 'clients'));
     }
 }

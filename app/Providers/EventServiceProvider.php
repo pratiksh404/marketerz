@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\AdvanceEvent;
 use App\Events\CampaignCreatedEvent;
 use App\Events\PaymentEvent;
 use App\Events\ProjectInitializedEvent;
 use App\Events\ReturnEvent;
+use App\Listeners\AdvanceTransactionListener;
 use App\Listeners\ExecuteCampaignListener;
 use App\Listeners\PaymentTransactionListener;
 use App\Listeners\ProjectInitializedListener;
@@ -37,6 +39,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ReturnEvent::class => [
             ReturnTransactionListener::class,
+        ],
+        AdvanceEvent::class => [
+            AdvanceTransactionListener::class,
         ],
     ];
 

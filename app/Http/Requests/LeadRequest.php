@@ -37,7 +37,8 @@ class LeadRequest extends FormRequest
             'estimate_cost' => 'nullable|numeric',
             'source_id' => 'required|numeric',
             'contact_date' => 'nullable',
-            'converted_to_client' => 'nullable|boolean'
+            'converted_to_client' => 'nullable|boolean',
+            'converted_to_client_date' => 'required_if:converted_to_client,1',
         ];
     }
 }

@@ -30,7 +30,7 @@ class ProjectReturn extends Component
         if ($this->return > $this->paid_amount) {
             $this->emit('return_amount_exceeded');
         } else {
-            $this->remaining_amount = ($this->grand_total) - ($this->paid_amount - $this->return);
+            $this->remaining_amount = ($this->grand_total) - (($this->paid_amount ?? 0) - ($this->return ?? 0));
         }
     }
 

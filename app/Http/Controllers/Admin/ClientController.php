@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\AdvanceEvent;
 use App\Models\Admin\Client;
 use Illuminate\Http\Request;
+use App\Imports\ClientContact;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\AdvanceRequest;
 use App\Contracts\ClientRepositoryInterface;
-use App\Imports\ClientContact;
 
 class ClientController extends Controller
 {
@@ -109,5 +111,26 @@ class ClientController extends Controller
     {
         Excel::import(new ClientContact($client), request()->file('contacts_import'));
         return redirect(adminRedirectRoute('client'))->withSuccess('Contacts Imported.');
+    }
+
+    /**
+     *
+     * Client Return
+     *
+     */
+    public function client_advance(Client $client)
+    {
+        return view('admin.client.client_advance', compact('client'));
+    }
+
+    /**
+     *
+     * Store Client Return
+     *
+     */
+    public function store_client_advance(Client $client, AdvanceRequest $request)
+    {
+        event(new AdvanceEvent(1, $client, $request));
+        return redirect(adminRedirectRoute('client'))->withInfo('Client Advance Payment Successfull');
     }
 }

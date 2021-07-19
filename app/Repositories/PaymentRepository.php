@@ -55,7 +55,7 @@ class PaymentRepository implements PaymentRepositoryInterface
     // Payment Update
     public function updatePayment(PaymentRequest $request, Payment $payment)
     {
-        event(new PaymentEvent(1, $payment->project, $request, $payment));
+        event(new PaymentEvent(2, $payment->project, $request, $payment));
     }
 
     // Payment Destroy

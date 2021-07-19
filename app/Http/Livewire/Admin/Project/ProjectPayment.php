@@ -31,7 +31,7 @@ class ProjectPayment extends Component
         if ($this->payment > $this->remaining_amount) {
             $this->emit('remaining_amount_exceeded');
         } else {
-            $this->remaining_amount = ($this->grand_total) - ($this->paid_amount + $this->payment);
+            $this->remaining_amount = ($this->grand_total) - (($this->paid_amount ?? 0) + ($this->payment ?? 0));
         }
     }
 
