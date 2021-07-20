@@ -7,6 +7,7 @@ use App\Models\Admin\Advance;
 use App\Http\Requests\AdvanceRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\AdvanceRepositoryInterface;
+use App\Events\AdvanceEvent;
 
 class AdvanceRepository implements AdvanceRepositoryInterface
 {
@@ -51,12 +52,18 @@ class AdvanceRepository implements AdvanceRepositoryInterface
     public function updateAdvance(AdvanceRequest $request, Advance $advance)
     {
         $old_advance_amount = $advance->amount;
-        event(new PaymentEvent(2, $advance->client, $request, $advance, $old_advance_amount));
+        event(new AdvanceEvent(2, $advance->client, $request, $advance, $old_advance_amount));
     }
 
     // Advance Destroy
     public function destroyAdvance(Advance $advance)
     {
+        $client = $advance->client;
+        if (isset($client)) {
+            $client->update([
+                'credit' => $client->credit - $advance->amount
+            ]);
+        }
         $advance->delete();
     }
 }

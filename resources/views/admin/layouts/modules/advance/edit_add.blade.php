@@ -1,6 +1,6 @@
 <div class="row">
     {{-- Hidden Input --}}
-    <input type="hidden" name="client_id" value="{{$client->id}}">
+    <input type="hidden" name="client_id" value="{{$client->id ?? $advance->client_id ?? null}}">
     <div class="col-lg-12">
         <div class="mb-3">
             <label for="amount">Advance Amount</label>

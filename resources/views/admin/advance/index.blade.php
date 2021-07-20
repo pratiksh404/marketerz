@@ -18,7 +18,7 @@
         </div>
     </div>
 </div>
-<x-adminetic-card title="category" route="category">
+<x-adminetic-card title="Advance" route="advance">
     <x-slot name="content">
         <div class="row">
             <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">
@@ -56,7 +56,7 @@
                                     <td>{{$advance->user->name}}</td>
                                     <td>{{ config('adminetic.currency_symbol','Rs.') . $advance->amount}}</td>
                                     <td><span
-                                            class="badge badge-{{$advance->getAdvanceMethodColor()}}">{{$advance->payment_method}}</span>
+                                            class="badge badge-{{$advance->getPaymentMethodColor()}}">{{$advance->payment_method}}</span>
                                     </td>
                                     <td>
                                         <x-adminetic-action :model="$advance" route="advance" show="0"

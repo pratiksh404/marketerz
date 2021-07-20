@@ -82,6 +82,10 @@ class AdminRouteMixin
                 $this->get('get-client-monthly-email-count', [ChartController::class, 'get_client_monthly_sms_email_count'])->name('get_client_monthly_sms_email_count');
                 $this->get('get-week-payment', [ChartController::class, 'get_week_payment'])->name('get_week_payment');
                 $this->get('get-monthly-payment', [ChartController::class, 'get_monthly_payment'])->name('get_monthly_payment');
+                $this->get('daily-client-payment', [ChartController::class, 'daily_client_payment'])->name('daily_client_payment');
+                $this->get('monthly-client-payment', [ChartController::class, 'monthly_client_payment'])->name('monthly_client_payment');
+                $this->get('daily-client-advance', [ChartController::class, 'daily_client_advance'])->name('daily_client_advance');
+                $this->get('monthly-client-advance', [ChartController::class, 'monthly_client_advance'])->name('monthly_client_advance');
             });
         };
     }

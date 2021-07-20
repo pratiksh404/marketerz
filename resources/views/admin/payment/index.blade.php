@@ -18,7 +18,7 @@
         </div>
     </div>
 </div>
-<x-adminetic-card title="category" route="category">
+<x-adminetic-card title="Payment" route="payment">
     <x-slot name="content">
         <div class="row">
             <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">

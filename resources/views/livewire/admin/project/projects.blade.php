@@ -217,11 +217,11 @@
                                         <x-slot name="buttons">
                                             @if (!$project->cancel)
                                             <a href="{{route('project_payment',['project' => $project->id])}}"
-                                                class="btn btn-success btn-air-success btn-sm p-2"><i
-                                                    class="fa fa-money"></i></a>
+                                                class="btn btn-success btn-air-success btn-sm p-2"
+                                                title="Project Payment"><i class="fa fa-money"></i></a>
                                             <a href="{{route('project_return',['project' => $project->id])}}"
-                                                class="btn btn-danger btn-air-danger btn-sm p-2"><i
-                                                    class="fa fa-retweet"></i></a>
+                                                class="btn btn-danger btn-air-danger btn-sm p-2"
+                                                title="Cancel Project"><i class="fa fa-retweet"></i></a>
                                             @endif
                                         </x-slot>
                                     </x-adminetic-action>

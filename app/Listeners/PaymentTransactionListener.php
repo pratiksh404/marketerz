@@ -54,7 +54,8 @@ class PaymentTransactionListener
                     }
                 }
                 $client->update([
-                    'debit' => $debit
+                    'debit' => $debit,
+                    'credit' => $client->credit - $debit
                 ]);
             }
         }

@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\Admin\Lead;
 use App\Models\Admin\Client;
+use App\Models\Admin\Advance;
 use App\Models\Admin\Payment;
+use App\Models\Admin\Project;
 use App\Models\Admin\Campaign;
 
 class Marketerz
@@ -261,5 +263,101 @@ class Marketerz
             $monthlyPayment[Carbon::create($year, $month, 1)->format('F')] = Payment::whereYear('updated_at', $year)->whereMonth('updated_at', $month)->sum('payment');
         }
         return $monthlyPayment;
+    }
+
+    /**
+     *
+     * Toral Client Payment
+     *
+     */
+    public function totalClientPayments($client)
+    {
+        $total_payment = 0;
+        $projects = Project::where('client_id', $client->id)->get();
+        foreach ($projects as $project) {
+            if ($project->payments) {
+                $total_payment += $project->payments->sum('payment');
+            }
+        }
+        return $total_payment;
+    }
+
+    /**
+     *
+     * Daily Client Payment
+     *
+     */
+    public function dailyClientPayments($client, $limit = 7)
+    {
+        $dailyClientPayment = array();
+        $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+        if (isset($periods)) {
+            foreach ($periods as $period) {
+                $projects = Project::whereDate('updated_at', $period)->where('client_id', $client->id)->get();
+                $total_payment = 0;
+                foreach ($projects as $project) {
+                    if ($project->payments) {
+                        $total_payment += $project->payments->sum('payment');
+                    }
+                }
+                $dailyClientPayment[$period->toFormattedDateString()] = $total_payment;
+            }
+        }
+        return $dailyClientPayment;
+    }
+
+    /**
+     *
+     * Monthly Payment
+     *
+     */
+    public function monthlyClientPayments($client, $given_year = null)
+    {
+        $monthlyClientPayment = array();
+        $year = $given_year ?? Carbon::now()->year;
+        foreach (range(1, 12) as $month) {
+            $projects = Project::whereYear('updated_at', $year)->whereMonth('updated_at', $month)->where('client_id', $client->id)->get();
+            $total_payment = 0;
+            foreach ($projects as $project) {
+                if ($project->payments) {
+                    $total_payment += $project->payments->sum('payment');
+                }
+            }
+            $monthlyClientPayment[Carbon::create($year, $month, 1)->format('F')] = $total_payment;
+        }
+        return $monthlyClientPayment;
+    }
+    /**
+     *
+     * Daily Client Advance
+     *
+     */
+    public function dailyClientAdvances($client, $limit = 7)
+    {
+        $dailyClientAdvance = array();
+        $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+        if (isset($periods)) {
+            foreach ($periods as $period) {
+                $total_advance = Advance::where('client_id', $client->id)->whereDate('updated_at', $period)->sum('amount');
+                $dailyClientAdvance[$period->toFormattedDateString()] = $total_advance;
+            }
+        }
+        return $dailyClientAdvance;
+    }
+
+    /**
+     *
+     * Monthly Advance
+     *
+     */
+    public function monthlyClientAdvances($client, $given_year = null)
+    {
+        $monthlyClientAdvance = array();
+        $year = $given_year ?? Carbon::now()->year;
+        foreach (range(1, 12) as $month) {
+            $total_advance = Advance::where('client_id', $client->id)->whereYear('updated_at', $year)->whereMonth('updated_at', $month)->sum('amount');
+            $monthlyClientAdvance[Carbon::create($year, $month, 1)->format('F')] = $total_advance;
+        }
+        return $monthlyClientAdvance;
     }
 }

@@ -84,4 +84,49 @@ class ChartController extends Controller
     {
         return response()->json(['monthly_payment' => Marketerz::monthlyPayments()], 200,);
     }
+
+    /**
+     *
+     * Daily Client Payment
+     *
+     */
+    public function daily_client_payment(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        $limit = $request->limit;
+        return response()->json(['daily_client_payment' => Marketerz::dailyClientPayments($client, $limit)], 200,);
+    }
+
+    /**
+     *
+     * Monthly Client Payment
+     *
+     */
+    public function monthly_client_payment(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        return response()->json(['monthly_client_payment' => Marketerz::monthlyClientPayments($client)], 200,);
+    }
+    /**
+     *
+     * Daily Client Advance
+     *
+     */
+    public function daily_client_advance(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        $limit = $request->limit;
+        return response()->json(['daily_client_advance' => Marketerz::dailyClientAdvances($client, $limit)], 200,);
+    }
+
+    /**
+     *
+     * Monthly Client Advance
+     *
+     */
+    public function monthly_client_advance(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        return response()->json(['monthly_client_advance' => Marketerz::monthlyClientAdvances($client)], 200,);
+    }
 }

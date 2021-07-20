@@ -4,7 +4,7 @@
 <x-adminetic-show-page name="client" route="client" :model="$client">
     <x-slot name="content">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <b>Name </b> : <span class="text-muted">{{$client->name}}</span>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <div class="tab-content" id="v-pills-tabContent">

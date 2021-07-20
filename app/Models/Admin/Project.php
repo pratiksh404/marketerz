@@ -59,7 +59,7 @@ class Project extends Model
     public function getRemainingAmountAttribute()
     {
         return $this->paid_amount > ($this->price + ($this->fine ?? 0)) ? 0
-            : ($this->price + ($this->fine ?? 0)) - $this->paid_amount;
+            : $this->grand_total - $this->paid_amount;
     }
     public function getDeadlinePercentAttribute()
     {
@@ -103,6 +103,34 @@ class Project extends Model
             3 => 'success',
             4 => 'danger'
         ][$this->status];
+    }
+
+    public function getChannel($channel)
+    {
+        return [
+            1 => 'mail',
+            2 => 'sms',
+            3 => 'slack',
+            4 => 'database'
+        ][$channel];
+    }
+    public function getChannelArray($type)
+    {
+        $channels = [];
+        if ($type == 1) {
+            if (isset($this->team_channel)) {
+                foreach ($this->team_channel as $channel) {
+                    $channels[] = $this->getChannel($channel);
+                }
+            }
+        } else {
+            if (isset($this->client_channel)) {
+                foreach ($this->client_channel as $channel) {
+                    $channels[] = $this->getChannel($channel);
+                }
+            }
+        }
+        return $channels;
     }
 
     // Relations

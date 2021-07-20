@@ -139,10 +139,9 @@ class MyMenu implements SidebarInterface
                 'children' => $this->indexCreateChildren('project', App\Models\Admin\Project::class)
             ],
             [
-                'type' => 'menu',
-                'name' => 'Payments',
+                'type' => 'link',
+                'name' => ' Payments',
                 'icon' => 'fa fa-money',
-                'is_active' => request()->routeIs('payment*') ? 'active' : '',
                 'conditions' => [
                     [
                         'type' => 'or',
@@ -153,13 +152,12 @@ class MyMenu implements SidebarInterface
                         'condition' => auth()->user()->can('create', App\Models\Admin\Payment::class),
                     ],
                 ],
-                'children' => $this->indexCreateChildren('payment', App\Models\Admin\Payment::class)
+                'link' => adminRedirectRoute('payment'),
             ],
             [
-                'type' => 'menu',
-                'name' => 'Advance Payments',
+                'type' => 'link',
+                'name' => ' Advance Payments',
                 'icon' => 'fa fa-credit-card',
-                'is_active' => request()->routeIs('advance*') ? 'active' : '',
                 'conditions' => [
                     [
                         'type' => 'or',
@@ -170,7 +168,7 @@ class MyMenu implements SidebarInterface
                         'condition' => auth()->user()->can('create', App\Models\Admin\Advance::class),
                     ],
                 ],
-                'children' => $this->indexCreateChildren('advance', App\Models\Admin\Advance::class)
+                'link' => adminRedirectRoute('advance'),
             ],
             [
                 'type' => 'breaker',
