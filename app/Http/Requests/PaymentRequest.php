@@ -25,6 +25,7 @@ class PaymentRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'code' => rand(100000, 999999),
             'user_id' => Auth::user()->id,
         ]);
     }
@@ -36,8 +37,11 @@ class PaymentRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->payment->id ?? '';
         return [
+            'code' => 'required|unique:payments,code,' . $id,
             'project_id' => 'required|numeric',
+            'campaign_id' => 'required|numeric',
             'user_id' => 'required|numeric',
             'payment' => 'required|numeric',
             'payment_method' => 'required|numeric'

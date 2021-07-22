@@ -103,6 +103,10 @@
                                     aria-controls="top-packageandservices" aria-selected="false">Package And
                                     Services</a>
                             </li>
+                            <li class="nav-item"><a class="nav-link" id="invoice-top-tab" data-bs-toggle="tab"
+                                    href="#top-invoice" role="tab" aria-controls="top-invoice"
+                                    aria-selected="false">Invoice</a>
+                            </li>
                         </ul>
                         <div class="tab-content" id="top-tabContent">
                             <div class="tab-pane fade show active" id="top-account" role="tabpanel"
@@ -112,6 +116,10 @@
                             <div class="tab-pane fade" id="top-packageandservices" role="tabpanel"
                                 aria-labelledby="packageandservices-top-tab">
                                 @include('admin.layouts.modules.project.tabs.packageandservices')
+                            </div>
+                            <div class="tab-pane fade" id="top-invoice" role="tabpanel"
+                                aria-labelledby="invoice-top-tab">
+                                @include('admin.layouts.modules.project.tabs.invoice')
                             </div>
                         </div>
                     </div>
@@ -125,4 +133,5 @@
 
 @section('custom_js')
 @include('admin.layouts.modules.project.statistic_scripts')
+@include('admin.layouts.modules.project.scripts')
 @endsection

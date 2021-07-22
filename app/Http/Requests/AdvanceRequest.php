@@ -26,6 +26,7 @@ class AdvanceRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'code' => rand(100000, 999999),
             'user_id' => Auth::user()->id,
         ]);
     }

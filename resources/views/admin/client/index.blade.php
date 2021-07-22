@@ -36,8 +36,11 @@
                                     data-bs-toggle="modal" data-bs-target=".import-client-contacts{{$client->id}}"
                                     title="Import Client Contact"><i class="fa fa-mail-reply-all"></i></button>
                                 <a href="{{route('client_advance',['client' => $client->id])}}"
-                                    class="btn btn-sm btn-primary btn-air-primary p-2"><i
+                                    class="btn btn-sm btn-info btn-air-info p-2" title="Client Advance Payment"><i
                                         class="fa fa-credit-card"></i></a>
+                                <a href="{{route('make_client_project_invoice',['client' => $client->id])}}"
+                                    class="btn btn-sm btn-primary btn-air-primary p-2" title="Make Client Invoice"><i
+                                        class="fa fa-file-excel-o"></i></a>
                             </x-slot>
                         </x-adminetic-action>
                     </td>

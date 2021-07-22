@@ -149,6 +149,17 @@ return [
                 ],
             ],
         ],
+        [
+            'name' => 'PrintThis',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'active' => true,
+                    'location' => 'assets/plugins/printthis/printThis.js',
+                ],
+            ],
+        ],
     ],
 
     // Profile Tabs

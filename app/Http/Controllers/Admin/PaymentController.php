@@ -97,4 +97,14 @@ class PaymentController extends Controller
         $this->paymentRepositoryInterface->destroyPayment($payment);
         return redirect(adminRedirectRoute('payment'))->withFail('Payment Deleted Successfully.');
     }
+
+    /**
+     *
+     * Payment Invoice
+     *
+     */
+    public function payment_invoice(Payment $payment)
+    {
+        return view('admin.payment.invoice', compact('payment'));
+    }
 }

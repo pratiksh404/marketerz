@@ -73,6 +73,13 @@ class AdminRouteMixin
                 $this->post('store-client-advance/{client}', [ClientController::class, 'store_client_advance'])->name('store_client_advance');
                 $this->get('convert-to-client/{lead}', [ProjectController::class, 'convert_to_client'])->name('convert_to_client');
 
+                /* INVOICE ROUTES */
+                $this->get('payment-invoice/{payment}', [PaymentController::class, 'payment_invoice'])->name('payment_invoice');
+                $this->get('project-invoice/{project}', [ProjectController::class, 'project_invoice'])->name('project_invoice');
+                $this->get('advance-invoice/{advance}', [AdvanceController::class, 'advance_invoice'])->name('advance_invoice');
+                $this->get('make-client-project-invoice/{client}', [ClientController::class, 'make_client_project_invoice'])->name('make_client_project_invoice');
+                $this->post('client-project-invoice/{client}', [ClientController::class, 'client_project_invoice'])->name('client_project_invoice');
+
 
                 /* CHARTS ROUTES */
                 $this->get('get-daily-sms-email-count', [ChartController::class, 'get_daily_sms_email_count'])->name('get_daily_sms_email_count');

@@ -60,7 +60,13 @@
                                     </td>
                                     <td>
                                         <x-adminetic-action :model="$payment" route="payment" show="0"
-                                            delete="$payment->project->remaining_amount == 0 ? 0 : 1" />
+                                            delete="$payment->project->remaining_amount == 0 ? 0 : 1">
+                                            <x-slot name="buttons">
+                                                <a href="{{route('payment_invoice',['payment' => $payment->id])}}"
+                                                    class="btn btn-primary btn-air-primary btn-sm p-2"><i
+                                                        class="fa fa-file-excel-o"></i></a>
+                                            </x-slot>
+                                        </x-adminetic-action>
                                     </td>
                                 </tr>
                                 @endforeach

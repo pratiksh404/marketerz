@@ -97,4 +97,14 @@ class AdvanceController extends Controller
         $this->advanceRepositoryInterface->destroyAdvance($advance);
         return redirect(adminRedirectRoute('advance'))->withFail('Advance Deleted Successfully.');
     }
+
+    /**
+     *
+     * Advance Invoice
+     *
+     */
+    public function advance_invoice(Advance $advance)
+    {
+        return view('admin.advance.invoice', compact('advance'));
+    }
 }

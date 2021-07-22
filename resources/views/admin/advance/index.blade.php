@@ -60,7 +60,13 @@
                                     </td>
                                     <td>
                                         <x-adminetic-action :model="$advance" route="advance" show="0"
-                                            delete="$advance->project->remaining_amount == 0 ? 0 : 1" />
+                                            delete="$advance->project->remaining_amount == 0 ? 0 : 1">
+                                            <x-slot name="buttons">
+                                                <a href="{{route('advance_invoice',['advance' => $advance->id])}}"
+                                                    class="btn btn-primary btn-air-primary btn-sm p-2"><i
+                                                        class="fa fa-file-excel-o"></i></a>
+                                            </x-slot>
+                                        </x-adminetic-action>
                                     </td>
                                 </tr>
                                 @endforeach

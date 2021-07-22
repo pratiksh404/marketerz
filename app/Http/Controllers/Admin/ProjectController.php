@@ -153,4 +153,14 @@ class ProjectController extends Controller
     {
         return view('admin.project.create', $this->projectRepositoryInterface->convertToClient($lead->id));
     }
+
+    /**
+     *
+     * Project Invoice
+     *
+     */
+    public function project_invoice(Project $project)
+    {
+        return view('admin.project.invoice', compact('project'));
+    }
 }

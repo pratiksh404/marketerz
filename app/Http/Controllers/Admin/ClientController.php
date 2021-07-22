@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\AdvanceEvent;
 use App\Models\Admin\Client;
 use Illuminate\Http\Request;
+use App\Models\Admin\Project;
 use App\Imports\ClientContact;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
@@ -132,5 +133,36 @@ class ClientController extends Controller
     {
         event(new AdvanceEvent(1, $client, $request));
         return redirect(adminRedirectRoute('client'))->withInfo('Client Advance Payment Successfull');
+    }
+
+    /**
+     *
+     * Make Client Invoice
+     *
+     */
+    public function make_client_project_invoice(Client $client)
+    {
+        return view('admin.client.make_project_invoice', compact('client'));
+    }
+
+    /**
+     *
+     * Generate Client Invoice
+     *
+     */
+    public function client_project_invoice(Request $request, Client $client)
+    {
+        if ($request->has('projects')) {
+            $projects = Project::find($request->projects);
+            $grand_total = 0;
+            $remaining_amount = 0;
+            foreach ($projects as $project) {
+                $grand_total += $project->grand_total;
+                $remaining_amount += $project->remaining_amount;
+            }
+            return view('admin.client.client_project_invoice', compact('projects', 'client', 'grand_total', 'remaining_amount'));
+        } else {
+            return redirect()->back()->withFail('Please select projects.');
+        }
     }
 }

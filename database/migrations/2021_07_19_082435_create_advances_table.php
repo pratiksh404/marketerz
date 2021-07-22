@@ -15,6 +15,7 @@ class CreateAdvancesTable extends Migration
     {
         Schema::create('advances', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->bigInteger('amount')->default(0);

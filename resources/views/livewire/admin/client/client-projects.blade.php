@@ -18,20 +18,6 @@
                             </div>
                         </div>
                         <div class="btn-group mx-1" role="group">
-                            <button class="btn btn-success btn-air-success dropdown-toggle" id="clientFilter"
-                                type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                data-bs-original-title="client Filter" title="client Filter"><i
-                                    class="fa fa-male"></i></button>
-                            <div class="dropdown-menu" aria-labelledby="clientFilter"
-                                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
-                                data-popper-placement="bottom-start">
-                                @foreach ($clients as $client)
-                                <button class="dropdown-item"
-                                    wire:click="$emitUp('client_projects',{{$client->id}})">{{$client->name}}</button>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="btn-group mx-1" role="group">
                             <button class="btn btn-info btn-air-info dropdown-toggle" id="leadFilter" type="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                 data-bs-original-title="lead Filter" title="lead Filter"><i
@@ -123,116 +109,49 @@
                 </div>
                 <div wire:loading.remove>
                     <div class="row">
-                        @foreach ($projects as $project)
-                        <div class="col-lg-4 col-sm-12 col-md-6">
-                            <div class="project-box shadow-lg">
-                                <div class="ribbon ribbon-bookmark ribbon-{{$project->getStatusColor()}}">
-                                    {{$project->getStatus()}}</div>
-                                <br>
-                                <div class="d-flex justify-content-between">
-                                    <h6>{{$project->name ?? '#'.$project->code}}</h6>
-
-                                </div>
-                                <div class="media">
-                                    <img class="img-20 me-1 rounded-circle"
-                                        src="{{getProfilePlaceholder($project->user->id)}}"
-                                        alt="{{getProfilePlaceholder($project->user->name)}}">
-                                    @isset($project->user->roles)
-                                    <div class="media-body">
-                                        <p>
-                                            @foreach ($project->user->roles as $role)
-                                            {{$role->name}},
-                                            @endforeach
-                                        </p>
-                                    </div>
-                                    @endisset
-                                </div>
-                                <div class="row details">
-                                    @isset($project->client)
-                                    <div class="col-6"><span>Interval </span></div>
-                                    <div class="col-6 text-info">{{$project->project_interval}}</a>
-                                    </div>
-                                    <div class="col-6"><span>Client </span></div>
-                                    <div class="col-6 text-primary"><a
-                                            href="{{adminShowRoute('client',$project->client_id)}}">{{$project->client->name ?? 'N/A'}}</a>
-                                    </div>
-                                    @endisset
-                                    @isset($project->package)
-                                    <div class="col-6"><span>Package </span></div>
-                                    <div class="col-6 text-primary"><a
-                                            href="{{adminShowRoute('package',$project->package_id)}}">{{$project->package->name ?? 'N/A'}}</a>
-                                    </div>
-                                    @endisset
-                                    @isset($project->projectHead)
-                                    <div class="col-6"><span>Project Head </span></div>
-                                    <div class="col-6 text-primary">{{$project->projectHead->name ?? 'N/A'}}</a>
-                                    </div>
-                                    @endisset
-                                    @isset($project->lead)
-                                    <div class="col-6"><span>Lead </span></div>
-                                    <div class="col-6 text-primary"><a
-                                            href="{{adminShowRoute('lead',$project->lead_id)}}">{{$project->lead->name ?? '#' . $project->lead->code ?? 'N/A'}}</a>
-                                    </div>
-                                    @endisset
-                                    @isset($project->department)
-                                    <div class="col-6"><span>Department </span></div>
-                                    <div class="col-6 text-primary"><a
-                                            href="{{adminShowRoute('department',$project->department_id)}}">{{$project->department->name ?? 'N/A'}}</a>
-                                    </div>
-                                    @endisset
-                                    <div class="col-6"> <span>Price</span></div>
-                                    <div class="col-6 text-success">
-                                        {{config('adminetic.currency_symbol','Rs.') . $project->price ?? 'N/A'}}</div>
-                                    <div class="col-6"> <span>Discounted Price</span></div>
-                                    <div class="col-6 text-warning">
-                                        {{config('adminetic.currency_symbol','Rs.') . $project->discounted_price ?? 'N/A'}}
-                                    </div>
-                                    <div class="col-6"> <span>Paid Amount</span></div>
-                                    <div class="col-6 text-success">
-                                        {{config('adminetic.currency_symbol','Rs.') . $project->paid_amount ?? 'N/A'}}
-                                    </div>
-                                    <div class="col-6"> <span>Remaining Amount</span></div>
-                                    <div class="col-6 text-danger">
-                                        {{config('adminetic.currency_symbol','Rs.') . $project->remaining_amount ?? 'N/A'}}
-                                    </div>
-                                    <div class="col-6"> <span>Fine</span></div>
-                                    <div class="col-6 text-danger">
-                                        {{config('adminetic.currency_symbol','Rs.') . $project->fine ?? 'N/A'}}</div>
-
-                                </div>
-                                <div class="project-status mt-4">
-                                    <div class="media mb-0">
-                                        <p>{{$project->deadline_percent}}% </p>
-                                        <div class="media-body text-end"><span>Deadline %</span></div>
-                                    </div>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar-animated bg-danger progress-bar-striped"
-                                            role="progressbar" style="width: {{$project->deadline_percent}}%"
-                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="d-flex justify-content-center">
-                                    <x-adminetic-action :model="$project" route="project" edit="{{!$project->cancel}}">
-                                        <x-slot name="buttons">
-                                            @if (!$project->cancel)
-                                            <a href="{{route('project_payment',['project' => $project->id])}}"
-                                                class="btn btn-success btn-air-success btn-sm p-2"
-                                                title="Project Payment"><i class="fa fa-money"></i></a>
-                                            <a href="{{route('project_return',['project' => $project->id])}}"
-                                                class="btn btn-danger btn-air-danger btn-sm p-2"
-                                                title="Cancel Project"><i class="fa fa-retweet"></i></a>
-                                            <a href="{{route('project_invoice',['project' => $project->id])}}"
-                                                class="btn btn-primary btn-air-primary btn-sm p-2"
-                                                title="Project Invoice"><i class="fa fa-file-excel-o"></i></a>
-                                            @endif
-                                        </x-slot>
-                                    </x-adminetic-action>
-                                </div>
+                        <div class="col-lg-12">
+                            @if(isset($projects))
+                            <div class="float-right">
+                                <input type="submit" value="Generate" class="btn btn-primary btn-air-primary">
                             </div>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name/Code</th>
+                                        <th>Project Head</th>
+                                        <th>Project Period</th>
+                                        <th>Grand Total</th>
+                                        <th>Paid Amount</th>
+                                        <th>Remaining Amount</th>
+                                        <th>Generate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($projects as $project)
+                                    <tr>
+                                        <td>{{isset($project->name) ? \Illuminate\Support\Str::limit($project->name,30) : ('#'.$project->code)}}
+                                        </td>
+                                        <td>{{$project->projectHead->name ?? 'N/A'}}</td>
+                                        <td>{{$project->project_interval}}</td>
+                                        <td><b>{{config('adminetic.currency_symbol','Rs.') . $project->grand_total}}</b>
+                                        </td>
+                                        <td><span
+                                                class="text-success">{{config('adminetic.currency_symbol','Rs.') . $project->paid_amount}}</span>
+                                        </td>
+                                        <td><span
+                                                class="text-danger">{{config('adminetic.currency_symbol','Rs.') . $project->remaining_amount}}</span>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="projects[]" value="{{$project->id}}">
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            @else
+                            <span class="text-muted">There is no project registered to this client yet.</span>
+                            @endif
                         </div>
-                        @endforeach
-                        {{$projects->links()}}
                     </div>
                 </div>
                 @else
