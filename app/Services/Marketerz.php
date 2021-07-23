@@ -222,19 +222,6 @@ class Marketerz
 
     /**
      *
-     * Total Payment
-     *
-     *@return integer
-     *
-     */
-    public function totalPayment($given_payments = null)
-    {
-        $payments = $given_payments ?? Payment::all();
-        return $payments->sum('payment');
-    }
-
-    /**
-     *
      * Daily Payment
      *
      */
@@ -327,6 +314,7 @@ class Marketerz
         }
         return $monthlyClientPayment;
     }
+
     /**
      *
      * Daily Client Advance
@@ -359,5 +347,114 @@ class Marketerz
             $monthlyClientAdvance[Carbon::create($year, $month, 1)->format('F')] = $total_advance;
         }
         return $monthlyClientAdvance;
+    }
+
+    // TOTAL AMOUNTS
+
+    /**
+     *
+     * Total Payment
+     *
+     *@return integer
+     *
+     */
+    public function totalPayment($given_payments = null)
+    {
+        $payments = $given_payments ?? Payment::all();
+        return $payments->sum('payment');
+    }
+
+
+    /**
+     *
+     * Total Advance
+     *
+     *@return integer
+     *
+     */
+    public function totalAdvance($iven_advances = null)
+    {
+        $advances = $iven_advances ?? Advance::all();
+        return $advances->sum('amount');
+    }
+
+    /**
+     *
+     * Total Remaining Amount
+     *
+     *@return integer
+     *
+     */
+    public function totalRemainingAmount($given_projects = null)
+    {
+        $projects = $given_projects ?? Project::all();
+        $total_remaining_amount = 0;
+        foreach ($projects as $project) {
+            $total_remaining_amount += $project->remaining_amount;
+        }
+        return $total_remaining_amount;
+    }
+
+    /**
+     *
+     * Total Paid Amount
+     *
+     *@return integer
+     *
+     */
+    public function totalPaidAmount($given_projects = null)
+    {
+        $projects = $given_projects ?? Project::all();
+        return $projects->sum('paid_amount');
+    }
+
+    /**
+     *
+     * Total Credit
+     *
+     *@return integer
+     *
+     */
+    public function totalCredit($given_clients = null)
+    {
+        $clients = $given_clients ?? Client::all();
+        return $clients->sum('credit');
+    }
+
+    /**
+     *
+     * Total Debit
+     *
+     *@return integer
+     *
+     */
+    public function totalDebit($given_clients = null)
+    {
+        $clients = $given_clients ?? Client::all();
+        return $clients->sum('debit');
+    }
+
+    /**
+     *
+     * Total Projects
+     *
+     *@return integer
+     *
+     */
+    public function totalProjects($given_projects = null)
+    {
+        return isset($given_projects) ? $given_projects->count() : Project::count();
+    }
+
+    /**
+     *
+     * Total Leads
+     *
+     *@return integer
+     *
+     */
+    public function totalLeads($given_leads = null)
+    {
+        return isset($given_leads) ? $given_leads->count() : Lead::count();
     }
 }

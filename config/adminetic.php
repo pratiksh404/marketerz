@@ -150,6 +150,22 @@ return [
             ],
         ],
         [
+            'name' => 'Fullcalender',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'active' => true,
+                    'location' => 'assets/plugins/fullcalender/fullcalendar.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'active' => true,
+                    'location' => 'assets/plugins/fullcalender/fullcalendar.min.js',
+                ],
+            ],
+        ],
+        [
             'name' => 'PrintThis',
             'active' => true,
             'files' => [

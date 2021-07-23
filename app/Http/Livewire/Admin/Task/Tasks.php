@@ -33,7 +33,7 @@ class Tasks extends Component
         'task' => 'required|max:255',
         'description' => 'nullable|max:3000',
         'deadline' => 'nullable',
-        'reminder' => 'sometimes|boolean',
+        'reminder' => 'sometimes',
         'reminder_date_time' => 'required_if:reminder,1',
         'channel' => 'required_if:reminder,1',
         'assigned_to' => 'nullable|numeric'
@@ -48,7 +48,7 @@ class Tasks extends Component
             'task' => $this->task,
             'description' => $this->description,
             'deadline' => isset($this->deadline) ? Carbon::createFromFormat('Y-m-d', $this->deadline) : Carbon::now(),
-            'reminder' => $this->reminder,
+            'reminder' => $this->reminder ?? 0,
             'reminder_date_time' => isset($this->reminder_date_time) ? Carbon::createFromFormat('Y-m-d', $this->deadline) : null,
             'channel' => $this->channel,
             'user_id' => Auth::user()->id,

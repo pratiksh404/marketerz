@@ -15,6 +15,11 @@ class ProjectPayment extends Component
     public $payment;
     public $remaining_amount;
     public $payment_method;
+    public $original_remaining_amount = 0;
+
+    protected $rules = [
+        'payment' => 'required|numeric'
+    ];
 
     public function mount(Project $project)
     {
@@ -24,11 +29,13 @@ class ProjectPayment extends Component
         $this->paid_amount = $project->paid_amount;
         $this->fine = $project->fine;
         $this->remaining_amount = $project->remaining_amount;
+        $this->original_remaining_amount = $project->remaining_amount;
     }
 
     public function updatedPayment()
     {
-        if ($this->payment > $this->remaining_amount) {
+        $this->validate();
+        if (($this->payment ?? 0) > $this->remaining_amount) {
             $this->emit('remaining_amount_exceeded');
         } else {
             $this->remaining_amount = ($this->grand_total) - (($this->paid_amount ?? 0) + ($this->payment ?? 0));

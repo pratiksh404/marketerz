@@ -10,8 +10,14 @@
                                 {{config('adminetic.currency_symbol','Rs.').($paid_amount ?? 0)}}
                             </span>
                             <span class="text-muted">
+                                Client Name : {{$project->client->name ?? 'N/A'}} <br>
+                                Client Phone : {{$project->client->phone ?? 'N/A'}} <br>
+                                Client Email : {{$project->client->email ?? 'N/A'}} <br>
+                            </span>
+                            <span class="text-muted">
                                 Remaining Amount <br>
-                                {{config('adminetic.currency_symbol','Rs.').($remaining_amount ?? 0)}}
+                                {{config('adminetic.currency_symbol','Rs.')}} @if($errors->has('payment'))
+                                {{$original_remaining_amount}} @else {{$remaining_amount ?? 0}} @endif
                             </span>
                         </div>
                     </div>
@@ -41,8 +47,12 @@
                                     <span class="input-group-text">{{config('adminetic.currency_symbol','Rs.')}}</span>
                                     <input wire:model.debounce.500ms="payment" type="number" name="payment"
                                         class="form-control" id="payment" value="{{old('payment') ?? 0}}"
-                                        placeholder="Payment" min="0" max="{{$remaining_amount ?? 0}}">
+                                        placeholder="Payment" min="0"
+                                        max="@if($errors->has('payment')) {{$original_remaining_amount}} @else {{$remaining_amount ?? 0}} @endif">
                                 </div>
+                                @error('payment')
+                                <p class="help-block"><span class="text-danger">{{$message}}</span></p>
+                                @enderror
                             </div>
                             <div class="col-lg-12">
                                 <div class="mt-3">

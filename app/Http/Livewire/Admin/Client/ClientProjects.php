@@ -121,7 +121,7 @@ class ClientProjects extends Component
     {
         $projects = null;
         $filter = $this->filter;
-        $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+        $default = Project::where('client_id', $this->clientid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
         if ($filter == 1) {
             $projects = $default;
         } elseif ($filter == 2) {

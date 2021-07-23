@@ -46,7 +46,7 @@ class DiscussionRepository implements DiscussionRepositoryInterface
     // Discussion Edit
     public function editDiscussion(Discussion $discussion)
     {
-        $leads = Cache::get('leads', Lead::with('source', 'service', 'contact', 'leadBy', 'assignedTo')->latest()->get());
+        $leads = Cache::get('leads', Lead::with('source', 'services', 'contact', 'leadBy', 'assignedTo')->latest()->get());
         return compact('discussion', 'leads');
     }
 

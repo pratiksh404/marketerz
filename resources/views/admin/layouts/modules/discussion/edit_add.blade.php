@@ -39,13 +39,14 @@
                     <option value="2">Request</option>
                     <option value="3">Demand</option>
                     <option value="4">Complain</option>
+                    <option value="5" selected>Coversation</option>
                 </select>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="mb-3">
-            <label for="type">Discussion Type</label>
+            <label for="type">Lead Status</label>
             <div class="input-group">
                 <select name="status" id="status" class="select2">
                     <option selected disabled>Select Status ... </option>

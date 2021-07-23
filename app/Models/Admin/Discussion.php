@@ -72,6 +72,7 @@ class Discussion extends Model
             2 => 'Request',
             3 => 'Demand',
             4 => 'Complain',
+            5 => 'Conversation',
         ][$attribute];
     }
 
@@ -96,6 +97,7 @@ class Discussion extends Model
             2 => 'warning',
             3 => 'info',
             4 => 'danger',
+            5 => 'success',
         ][$this->getRawOriginal('type')];
     }
     public function getChannel($channel)

@@ -87,6 +87,7 @@
                     <span class="text-bold">Estimated Cost : </span> <span
                         class="text-muted">{{$lead->estimate_cost ?? 'N/A'}}</span>
                 </div>
+                @isset($lead->package)
                 <div class="tab-pane fade" id="info-package" role="tabpanel" aria-labelledby="package-info-tab">
                     <span class="text-bold">Name : </span> <span class="text-muted">{{$lead->package->name}}</span>
                     <hr>
@@ -112,6 +113,7 @@
                     </ul>
                     @endisset
                 </div>
+                @endisset
                 @isset($lead->services)
                 @if (!isset($lead->package))
                 <div class="tab-pane fade" id="info-service" role="tabpanel" aria-labelledby="service-info-tab">
