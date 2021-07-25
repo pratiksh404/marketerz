@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\Admin\TaskController;
@@ -80,6 +81,9 @@ class AdminRouteMixin
                 $this->get('make-client-project-invoice/{client}', [ClientController::class, 'make_client_project_invoice'])->name('make_client_project_invoice');
                 $this->post('client-project-invoice/{client}', [ClientController::class, 'client_project_invoice'])->name('client_project_invoice');
 
+                /* Report Routes */
+                $this->get('payment-report', [ReportController::class, 'payment_report'])->name('payment_report');
+
 
                 /* CHARTS ROUTES */
                 $this->get('get-daily-sms-email-count', [ChartController::class, 'get_daily_sms_email_count'])->name('get_daily_sms_email_count');
@@ -93,6 +97,8 @@ class AdminRouteMixin
                 $this->get('monthly-client-payment', [ChartController::class, 'monthly_client_payment'])->name('monthly_client_payment');
                 $this->get('daily-client-advance', [ChartController::class, 'daily_client_advance'])->name('daily_client_advance');
                 $this->get('monthly-client-advance', [ChartController::class, 'monthly_client_advance'])->name('monthly_client_advance');
+                $this->get('monthly-payment-advance-return', [ChartController::class, 'monthly_payment_advance_return'])->name('monthly_payment_advance_return');
+                $this->get('get-debit-credit', [ChartController::class, 'get_debit_credit'])->name('get_debit_credit');
             });
         };
     }

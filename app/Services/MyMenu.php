@@ -302,6 +302,29 @@ class MyMenu implements SidebarInterface
             ],
             [
                 'type' => 'breaker',
+                'name' => 'Reports',
+                'description' => 'View and Generate Reports',
+            ],
+            [
+                'type' => 'menu',
+                'name' => 'Reports',
+                'icon' => 'fa fa-bar-chart-o',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->hasRole('admin'),
+                    ],
+                ],
+                'children' => [
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Payment Reports',
+                        'link' => route('payment_report'),
+                    ],
+                ]
+            ],
+            [
+                'type' => 'breaker',
                 'name' => 'DEV TOOLS',
                 'description' => 'Development Environment',
             ],

@@ -15,6 +15,7 @@ class MyDashboard implements DashboardInterface
         $projects = Project::latest()->get();
         $tasks = Task::where('user_id', auth()->user()->id)->orWhere('assigned_to', auth()->user()->id)->latest()->take(6)->get();
         $leads = Lead::latest()->take(6)->get();
+
         return view($view, compact('projects', 'tasks', 'leads'));
     }
 }

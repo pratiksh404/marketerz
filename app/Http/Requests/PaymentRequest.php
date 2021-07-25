@@ -41,6 +41,7 @@ class PaymentRequest extends FormRequest
         return [
             'code' => 'required|unique:payments,code,' . $id,
             'project_id' => 'required|numeric',
+            'client_id' => 'nullable|numeric',
             'campaign_id' => 'required|numeric',
             'user_id' => 'required|numeric',
             'payment' => 'required|numeric',

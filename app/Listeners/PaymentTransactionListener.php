@@ -25,9 +25,15 @@ class PaymentTransactionListener
         if (isset($project) && isset($request)) {
             DB::transaction(function () use ($type, $project, $request, $payment) {
                 if ($type == 1) {
-                    $project->payments()->create($request->validated());
+                    $payment = $project->payments()->create($request->validated());
+                    $payment->update([
+                        'client_id' => $payment->project->client_id ?? null
+                    ]);
                 } elseif ($type = 2) {
                     $payment->update($request->validated());
+                    $payment->update([
+                        'client_id' => $payment->project->client_id ?? null
+                    ]);
                 }
                 $this->updateProject($project);
                 $this->handleClientAccount($project);

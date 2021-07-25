@@ -254,7 +254,7 @@ class Marketerz
 
     /**
      *
-     * Toral Client Payment
+     * Total Client Payment
      *
      */
     public function totalClientPayments($client)
@@ -267,6 +267,38 @@ class Marketerz
             }
         }
         return $total_payment;
+    }
+
+    /**
+     *
+     * Daily Advance
+     *
+     */
+    public function dailyAdvances($limit = 7)
+    {
+        $dailyAdvance = array();
+        $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+        if (isset($periods)) {
+            foreach ($periods as $period) {
+                $dailyAdvance[$period->toFormattedDateString()] = Advance::whereDate('updated_at', $period)->sum('amount');
+            }
+        }
+        return $dailyAdvance;
+    }
+
+    /**
+     *
+     * Monthly Advance
+     *
+     */
+    public function monthlyAdvances($given_year = null)
+    {
+        $monthlyAdvance = array();
+        $year = $given_year ?? Carbon::now()->year;
+        foreach (range(1, 12) as $month) {
+            $monthlyAdvance[Carbon::create($year, $month, 1)->format('F')] = Advance::whereYear('updated_at', $year)->whereMonth('updated_at', $month)->sum('amount');
+        }
+        return $monthlyAdvance;
     }
 
     /**
@@ -347,6 +379,38 @@ class Marketerz
             $monthlyClientAdvance[Carbon::create($year, $month, 1)->format('F')] = $total_advance;
         }
         return $monthlyClientAdvance;
+    }
+
+    /**
+     *
+     * Daily Return
+     *
+     */
+    public function dailyReturns($limit = 7)
+    {
+        $dailyReturn = array();
+        $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+        if (isset($periods)) {
+            foreach ($periods as $period) {
+                $dailyReturn[$period->toFormattedDateString()] = Project::whereDate('updated_at', $period)->where('cancel', 1)->sum('return');
+            }
+        }
+        return $dailyReturn;
+    }
+
+    /**
+     *
+     * Monthly Return
+     *
+     */
+    public function monthlyReturns($given_year = null)
+    {
+        $monthlyReturn = array();
+        $year = $given_year ?? Carbon::now()->year;
+        foreach (range(1, 12) as $month) {
+            $monthlyReturn[Carbon::create($year, $month, 1)->format('F')] = Project::whereYear('updated_at', $year)->whereMonth('updated_at', $month)->where('cancel', 1)->sum('return');
+        }
+        return $monthlyReturn;
     }
 
     // TOTAL AMOUNTS
@@ -456,5 +520,80 @@ class Marketerz
     public function totalLeads($given_leads = null)
     {
         return isset($given_leads) ? $given_leads->count() : Lead::count();
+    }
+
+    /**
+     *
+     * Project Count
+     *
+     */
+    public function projectCount()
+    {
+        $allprojectscount = Project::count();
+        $ongoingprojectscount = Project::where('project_deadline', '>', Carbon::now())->count();
+        $cancelledProjectscount = Project::where('cancel', 1)->count();
+        $deadlineprojectscount = Project::where(
+            [
+                ['project_deadline', '<', Carbon::now()],
+                ['cancel', '=', 0],
+            ]
+        )->get()->where('remaining_amount', '<>', 0)->count();
+        $finishedprojectscount = Project::where(
+            [
+                ['project_deadline', '<', Carbon::now()],
+                ['cancel', '=', 0],
+            ]
+        )->get()->where('remaining_amount', '=', 0)->count();
+
+        return [
+            'allprojectscount' => $allprojectscount,
+            'ongoingprojectscount' => $ongoingprojectscount,
+            'cancelledProjectscount' => $cancelledProjectscount,
+            'deadlineprojectscount' => $deadlineprojectscount,
+            'finishedprojectscount' => $finishedprojectscount,
+        ];
+    }
+
+    /* ================================PAYMENT REPORT================================ */
+
+    /**
+     *
+     * Payment Report
+     *
+     */
+    public function paymentReport($payments, $type, $limit = 7)
+    {
+        $paymentTotal = null;
+        switch ($type) {
+            case 1:
+                $paymentTotal = $this->getPaymentTotal($payments->get());
+            case 2:
+                $total = array();
+                $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+                if (isset($periods)) {
+                    foreach ($periods as $period) {
+                        $period_payments = $payments->whereDate($period)->get();
+                        $total[$period->toFormattedDateString()] = $this->getPaymentTotal($period_payments);
+                    }
+                    $paymentTotal = $total;
+                }
+            case 3:
+                $total = array();
+                foreach (range(1, 12) as $month) {
+                    $total[Carbon::create($payments->first()->updated_at)->format('F')] = $this->getPaymentTotal(Payment::whereMonth('updated_at', $month)->get());
+                }
+                $paymentTotal = $total;
+        }
+    }
+
+    public function getPaymentTotal($payments)
+    {
+        $total = array();
+        $total['total_project_count'] = count(array_unique($payments->pluck('project_id')->toArray()));
+        $total['total_campaign_count'] = count(array_unique($payments->pluck('campaign_id')->toArray()));
+        $total['total_payment_method_count'] = count(array_unique($payments->pluck('payment_method')->toArray()));
+        $total['total_payment_count'] = $payments->count();
+        $total['total_payment'] = $payments->sum('payment');
+        return $total;
     }
 }

@@ -129,4 +129,31 @@ class ChartController extends Controller
         $client = Client::find($request->client_id);
         return response()->json(['monthly_client_advance' => Marketerz::monthlyClientAdvances($client)], 200,);
     }
+
+    /**
+     *
+     * Monthly Payment Advance Return
+     *
+     */
+    public function monthly_payment_advance_return()
+    {
+        return response()->json([
+            'monthly_payment' => Marketerz::monthlyPayments(),
+            'monthly_advance' => Marketerz::monthlyAdvances(),
+            'monthly_return' => Marketerz::monthlyReturns()
+        ], 200);
+    }
+
+    /**
+     *
+     * Debit VS Credit
+     *
+     */
+    public function get_debit_credit()
+    {
+        return response()->json([
+            'debit' => Marketerz::totalDebit(),
+            'credit' => Marketerz::totalCredit()
+        ], 200);
+    }
 }

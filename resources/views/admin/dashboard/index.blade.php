@@ -22,6 +22,9 @@
     {{-- Total Count --}}
     @livewire('admin.statistics.total-count')
     <div class="row">
+        @include('admin.layouts.modules.dashboard.charts')
+    </div>
+    <div class="row">
         <div class="col-lg-4">
             <div class="card shadow-lg">
                 <div class="card-body">
@@ -96,6 +99,17 @@
             <div class="card shadow-lg">
                 <div class="card-body">
                     <div id="project_calendar"></div>
+                </div>
+            </div>
+            {{-- Projects --}}
+            @include('admin.layouts.modules.dashboard.project_count')
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    @livewire('admin.project.projects')
                 </div>
             </div>
         </div>
