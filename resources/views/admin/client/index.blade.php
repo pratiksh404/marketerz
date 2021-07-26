@@ -13,6 +13,7 @@
                     <th>Email</th>
                     <th>Credit</th>
                     <th>Debit</th>
+                    <th>Advance</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -28,6 +29,9 @@
                     </td>
                     <td><span
                             class="text-danger">{{ config('adminetic.currency_symbol','Rs.') . $client->debit }}</span>
+                    </td>
+                    <td><span
+                            class="text-primary">{{ config('adminetic.currency_symbol','Rs.') . $client->advances->sum('amount') }}</span>
                     </td>
                     <td>
                         <x-adminetic-action :model="$client" route="client">
@@ -83,6 +87,7 @@
                     <th>Email</th>
                     <th>Credit</th>
                     <th>Debit</th>
+                    <th>Advance</th>
                     <th>Actions</th>
                 </tr>
             </tfoot>

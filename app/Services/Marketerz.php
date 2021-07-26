@@ -567,23 +567,42 @@ class Marketerz
         switch ($type) {
             case 1:
                 $paymentTotal = $this->getPaymentTotal($payments->get());
+                break;
             case 2:
                 $total = array();
                 $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
                 if (isset($periods)) {
                     foreach ($periods as $period) {
-                        $period_payments = $payments->whereDate($period)->get();
+                        $period_payments = $payments->whereDate('created_at', $period)->get();
                         $total[$period->toFormattedDateString()] = $this->getPaymentTotal($period_payments);
                     }
                     $paymentTotal = $total;
+                    break;
                 }
             case 3:
                 $total = array();
+                $year = isset($payments) ? ($payments->count() > 0 ? $payments->first()->created_at->year : Carbon::now()->year) : Carbon::now()->year;
+                $payment_ids = $payments->pluck('id')->toArray();
+
                 foreach (range(1, 12) as $month) {
-                    $total[Carbon::create($payments->first()->updated_at)->format('F')] = $this->getPaymentTotal(Payment::whereMonth('updated_at', $month)->get());
+                    $total[Carbon::create($year, $month, 1)->format('F')] = $this->getPaymentTotal(Payment::whereIn('id', $payment_ids)->whereMonth('created_at', $month)->get());
                 }
                 $paymentTotal = $total;
+                break;
+            case 4:
+                $current_year = Carbon::now()->year;
+                $payment_ids = $payments->pluck('id')->toArray();
+                foreach (range(($current_year - $limit), ($current_year + $limit)) as $year) {
+                    $year_payments = Payment::whereIn('id', $payment_ids)->whereYear('created_at', $year)->get();
+                    $total[$year] = $this->getPaymentTotal($year_payments);
+                }
+                $paymentTotal = $total;
+                break;
+            default:
+                $paymentTotal = $this->getPaymentTotal($payments->get());
+                break;
         }
+        return $paymentTotal;
     }
 
     public function getPaymentTotal($payments)
@@ -591,9 +610,83 @@ class Marketerz
         $total = array();
         $total['total_project_count'] = count(array_unique($payments->pluck('project_id')->toArray()));
         $total['total_campaign_count'] = count(array_unique($payments->pluck('campaign_id')->toArray()));
+        $total['total_client_count'] = count(array_unique($payments->pluck('client_id')->toArray()));
         $total['total_payment_method_count'] = count(array_unique($payments->pluck('payment_method')->toArray()));
         $total['total_payment_count'] = $payments->count();
         $total['total_payment'] = $payments->sum('payment');
+        return $total;
+    }
+
+    /* =====================================PROJECT PAYMENT===================================== */
+    /**
+     *
+     * Project Report
+     *
+     */
+    public function projectReport($projects, $type, $limit = 10)
+    {
+        $projectTotal = null;
+        switch ($type) {
+            case 1:
+                $projectTotal = $this->getProjectTotal($projects->get());
+                break;
+            case 2:
+                $total = array();
+                $periods = CarbonPeriod::create(Carbon::now()->subdays($limit), Carbon::now());
+                if (isset($periods)) {
+                    foreach ($periods as $period) {
+                        $period_projects = $projects->whereDate('created_at', $period)->get();
+                        $total[$period->toFormattedDateString()] = $this->getProjectTotal($period_projects);
+                    }
+                    $projectTotal = $total;
+                    break;
+                }
+            case 3:
+                $total = array();
+                $year = isset($projects) ? ($projects->count() > 0 ? $projects->first()->created_at->year : Carbon::now()->year) : Carbon::now()->year;
+                $project_ids = $projects->pluck('id')->toArray();
+
+                foreach (range(1, 12) as $month) {
+                    $total[Carbon::create($year, $month, 1)->format('F')] = $this->getProjectTotal(Project::whereIn('id', $project_ids)->whereMonth('created_at', $month)->get());
+                }
+                $projectTotal = $total;
+                break;
+            case 4:
+                $current_year = Carbon::now()->year;
+                $project_ids = $projects->pluck('id')->toArray();
+                foreach (range(($current_year - $limit), ($current_year + $limit)) as $year) {
+                    $year_projects = Project::whereIn('id', $project_ids)->whereYear('created_at', $year)->get();
+                    $total[$year] = $this->getProjectTotal($year_projects);
+                }
+                $projectTotal = $total;
+                break;
+            default:
+                $projectTotal = $this->getProjectTotal($projects->get());
+                break;
+        }
+        return $projectTotal;
+    }
+
+    public function getProjectTotal($projects)
+    {
+        $total = array();
+
+        $total_price = 0;
+        $total_remaining_amount = 0;
+        $total_grand_total = 0;
+        foreach ($projects as $project) {
+            $total_price += $project->valid_price;
+            $total_remaining_amount += $project->remaining_amount;
+            $total_grand_total += $project->grand_total;
+        }
+
+        $total['total_project_count'] = $projects->count() ?? 0;
+        $total['total_price'] = $total_price;
+        $total['total_discounted_price'] = $project->sum('discounted_price') ?? 0;
+        $total['total_paid_amount'] = $project->sum('paid_amount') ?? 0;
+        $total['fine'] = $project->sum('fine') ?? 0;
+        $total['total_remaining_amount'] = $total_price;
+        $total['total_grand_total'] = $total_price;
         return $total;
     }
 }

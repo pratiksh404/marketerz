@@ -40,9 +40,9 @@ class PaymentRequest extends FormRequest
         $id = $this->payment->id ?? '';
         return [
             'code' => 'required|unique:payments,code,' . $id,
-            'project_id' => 'required|numeric',
+            'project_id' => 'required_if:project_id,null|numeric',
             'client_id' => 'nullable|numeric',
-            'campaign_id' => 'required|numeric',
+            'campaign_id' => 'required_if:project_id,null|numeric',
             'user_id' => 'required|numeric',
             'payment' => 'required|numeric',
             'payment_method' => 'required|numeric'

@@ -38,7 +38,9 @@ class AdvanceRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->advance->id ?? '';
         return [
+            'code' => 'required|unique:advances,code,' . $id,
             'client_id' => 'required|numeric',
             'user_id' => 'required|numeric',
             'amount' => 'required|numeric',
