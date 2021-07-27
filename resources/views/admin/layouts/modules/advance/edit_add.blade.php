@@ -1,13 +1,22 @@
 <div class="row">
     {{-- Hidden Input --}}
     <input type="hidden" name="client_id" value="{{$client->id ?? $advance->client_id ?? null}}">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <div class="mb-3">
             <label for="amount">Advance Amount</label>
             <div class="input-group">
                 <span class="input-group-text">{{config('adminetic.currency_symbol','Rs.')}}</span>
                 <input type="number" name="amount" id="amount" class="form-control" min="0"
                     value="{{$advance->amount ?? old('amount') ?? 0}}" placeholder="Advance Amount">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="mb-3">
+            <label for="particular">Particular</label>
+            <div class="input-group">
+                <input type="text" name="particular" id="particular" class="form-control"
+                    value="{{$advance->particular ?? old('particular')}}" placeholder="Particular">
             </div>
         </div>
     </div>

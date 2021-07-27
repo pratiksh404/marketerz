@@ -43,6 +43,7 @@ class PaymentRequest extends FormRequest
             'project_id' => 'required_if:project_id,null|numeric',
             'client_id' => 'nullable|numeric',
             'campaign_id' => 'required_if:project_id,null|numeric',
+            'particular' => 'nullable|max:255',
             'user_id' => 'required|numeric',
             'payment' => 'required|numeric',
             'payment_method' => 'required|numeric'

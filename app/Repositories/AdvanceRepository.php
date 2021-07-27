@@ -16,9 +16,9 @@ class AdvanceRepository implements AdvanceRepositoryInterface
     {
         $advances = config('coderz.caching', true)
             ? (Cache::has('advances') ? Cache::get('advances') : Cache::rememberForever('advances', function () {
-                return Advance::latest()->get();
+                return Advance::with('client', 'user')->latest()->get();
             }))
-            : Advance::latest()->get();
+            : Advance::with('client', 'user')->latest()->get();
         return compact('advances');
     }
 

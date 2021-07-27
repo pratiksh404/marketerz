@@ -7,17 +7,27 @@
                         <div class="d-flex justify-content-between">
                             <span class="text-muted">
                                 Paid Amount <br>
-                                {{config('adminetic.currency_symbol','Rs.').($paid_amount ?? 0)}}
+                                <span
+                                    class="text-success">{{config('adminetic.currency_symbol','Rs.').($paid_amount ?? 0)}}</span>
                             </span>
-                            <span class="text-muted">
-                                Client Name : {{$project->client->name ?? 'N/A'}} <br>
-                                Client Phone : {{$project->client->phone ?? 'N/A'}} <br>
-                                Client Email : {{$project->client->email ?? 'N/A'}} <br>
-                            </span>
+                            <div id="info">
+                                @isset($project->client)
+                                <span class="text-muted text-primary">
+                                    Client Name : {{$project->client->name ?? 'N/A'}} <br>
+                                    Client Phone : {{$project->client->phone ?? 'N/A'}} <br>
+                                    Client Email : {{$project->client->email ?? 'N/A'}} <br>
+                                </span>
+                                @endisset
+                                <span class="text-muted text-primary">
+                                    Project Name : {{$project->name ?? ('#' . $project->code) ?? 'N/A'}} <br>
+                                </span>
+                            </div>
                             <span class="text-muted">
                                 Remaining Amount <br>
-                                {{config('adminetic.currency_symbol','Rs.')}} @if($errors->has('payment'))
-                                {{$original_remaining_amount}} @else {{$remaining_amount ?? 0}} @endif
+                                <span class="text-danger">
+                                    {{config('adminetic.currency_symbol','Rs.')}} @if($errors->has('payment'))
+                                    {{$original_remaining_amount}} @else {{$remaining_amount ?? 0}} @endif
+                                </span>
                             </span>
                         </div>
                     </div>
@@ -41,7 +51,7 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <label for="payment">Payment</label>
                                 <div class="input-group">
                                     <span class="input-group-text">{{config('adminetic.currency_symbol','Rs.')}}</span>
@@ -53,6 +63,15 @@
                                 @error('payment')
                                 <p class="help-block"><span class="text-danger">{{$message}}</span></p>
                                 @enderror
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="particular">Particular</label>
+                                    <div class="input-group">
+                                        <input type="text" name="particular" id="particular" class="form-control"
+                                            value="{{old('particular')}}" placeholder="Particular">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="mt-3">

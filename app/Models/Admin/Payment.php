@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\User;
+use App\Models\Admin\Client;
 use App\Models\Admin\Project;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -45,6 +46,10 @@ class Payment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
     }
     public function getPaymentMethodAttribute($attribute)
     {

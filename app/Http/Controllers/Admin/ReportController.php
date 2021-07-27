@@ -11,4 +11,14 @@ class ReportController extends Controller
     {
         return view('admin.report.payment_report');
     }
+
+    public function project_report()
+    {
+        return view('admin.report.project_report');
+    }
+
+    public function advance_report()
+    {
+        return view('admin.report.advance_report');
+    }
 }

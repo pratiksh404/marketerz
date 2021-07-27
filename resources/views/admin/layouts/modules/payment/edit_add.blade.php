@@ -1,13 +1,22 @@
 <div class="row">
     {{-- HIDDEN INPUT --}}
     <input type="hidden" name="project_id" value="{{$payment->project_id ?? null}}">
-    <div class="col-lg-12">
+    <div class="col-lg-6">
         <label for="payment">Payment</label>
         <div class="input-group">
             <span class="input-group-text">{{config('adminetic.currency_symbol','Rs.')}}</span>
             <input type="number" name="payment" class="form-control" id="payment"
                 value="{{$payment->payment ?? old('payment') ?? 0}}" placeholder="Payment" min="0"
                 max="{{$payment->project->price - ($payment->project->paid_amount - $payment->payment)}}">
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="mb-3">
+            <label for="particular">Particular</label>
+            <div class="input-group">
+                <input type="text" name="particular" id="particular" class="form-control"
+                    value="{{$payment->particular ?? old('particular')}}" placeholder="Particular">
+            </div>
         </div>
     </div>
     <div class="col-lg-12">

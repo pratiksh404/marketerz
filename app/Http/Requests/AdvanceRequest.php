@@ -43,6 +43,7 @@ class AdvanceRequest extends FormRequest
             'code' => 'required|unique:advances,code,' . $id,
             'client_id' => 'required|numeric',
             'user_id' => 'required|numeric',
+            'particular' => 'nullable|max:255',
             'amount' => 'required|numeric',
             'remark' => 'nullable|max:3000',
             'payment_method' => 'sometimes|numeric'

@@ -83,6 +83,8 @@ class AdminRouteMixin
 
                 /* Report Routes */
                 $this->get('payment-report', [ReportController::class, 'payment_report'])->name('payment_report');
+                $this->get('project-report', [ReportController::class, 'project_report'])->name('project_report');
+                $this->get('advance-report', [ReportController::class, 'advance_report'])->name('advance_report');
 
 
                 /* CHARTS ROUTES */

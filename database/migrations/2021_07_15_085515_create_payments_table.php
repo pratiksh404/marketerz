@@ -19,6 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->foreignId('project_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('client_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('campaign_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('particular')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->bigInteger('payment')->default(0);
             $table->integer('payment_method')->default(1);

@@ -321,6 +321,16 @@ class MyMenu implements SidebarInterface
                         'name' => 'Payment Reports',
                         'link' => route('payment_report'),
                     ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Project Reports',
+                        'link' => route('project_report'),
+                    ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Advance Reports',
+                        'link' => route('advance_report'),
+                    ],
                 ]
             ],
             [

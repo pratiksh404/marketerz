@@ -64,14 +64,14 @@
                                             <div class="dropdown-menu" aria-labelledby="customFilter"
                                                 style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 37px);"
                                                 data-popper-placement="bottom-start">
-                                                <button class="dropdown-item" wire:click="todayPayments">Today</button>
+                                                <button class="dropdown-item" wire:click="todayAdvances">Today</button>
                                                 <button class="dropdown-item"
-                                                    wire:click="yesterdayPayments">Yesterday</button>
-                                                <button class="dropdown-item" wire:click="thisWeekPayments">This
+                                                    wire:click="yesterdayAdvances">Yesterday</button>
+                                                <button class="dropdown-item" wire:click="thisWeekAdvances">This
                                                     Week</button>
-                                                <button class="dropdown-item" wire:click="thisMonthPayments">This
+                                                <button class="dropdown-item" wire:click="thisMonthAdvances">This
                                                     Month</button>
-                                                <button class="dropdown-item" wire:click="thisYearPayments">This
+                                                <button class="dropdown-item" wire:click="thisYearAdvances">This
                                                     Year</button>
                                             </div>
                                         </div>
@@ -114,13 +114,9 @@
                                 </div>
                                 <hr>
                                 <div wire:loading.remove>
-                                    @if ($type == 1)
-                                    @include('admin.layouts.modules.report.payment.transaction_project_payment_report')
+                                    @include('admin.layouts.modules.report.advance.transaction_advance_report')
                                     <hr>
-                                    @include('admin.layouts.modules.report.payment.total_project_payment_report')
-                                    @else
-                                    <h4 class="text-center">No Report Found</h4>
-                                    @endif
+                                    @include('admin.layouts.modules.report.advance.total_advance_report')
                                 </div>
                             </div>
                             <div class="row">
@@ -180,11 +176,7 @@
                                 </div>
                                 <hr>
                                 <div wire:loading.remove>
-                                    @if ($type == 1)
-                                    @include('admin.layouts.modules.report.payment.total_project_monthly_payment_report')
-                                    @else
-                                    <h4 class="text-center">No Report Found</h4>
-                                    @endif
+                                    @include('admin.layouts.modules.report.advance.total_monthly_advance_report')
                                 </div>
                             </div>
                             <div class="row">
@@ -233,11 +225,7 @@
                                 </div>
                                 <hr>
                                 <div wire:loading.remove>
-                                    @if ($type == 1)
-                                    @include('admin.layouts.modules.report.payment.total_project_yearly_payment_report')
-                                    @else
-                                    <h4 class="text-center">No Report Found</h4>
-                                    @endif
+                                    @include('admin.layouts.modules.report.advance.total_yearly_advance_report')
                                 </div>
                             </div>
                             <div class="row">
@@ -260,18 +248,18 @@
     @push('livewire_third_party')
     <script>
         $(function(){
-            initializePaymentReport();
-            Livewire.on('payment_report_generated',function(){
-                initializePaymentReport();
+            initializeAdvanceReport();
+            Livewire.on('advance_report_generated',function(){
+                initializeAdvanceReport();
             });
-            function initializePaymentReport()
+            function initializeAdvanceReport()
             {
                 $('#reportdaterangepicker').daterangepicker();
 
                 $('#reportdaterangepicker').on('apply.daterangepicker',function(ev, picker){
                    let start_date = picker.startDate.format('YYYY-MM-DD');
                     let end_date = picker.endDate.format('YYYY-MM-DD');
-                    window.livewire.emit('report_range_date',start_date,end_date);
+                    window.livewire.emit('advance_report_range_date',start_date,end_date);
                 });
 
                 $('#clientid').select2();

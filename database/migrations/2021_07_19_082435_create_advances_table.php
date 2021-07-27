@@ -18,6 +18,7 @@ class CreateAdvancesTable extends Migration
             $table->string('code')->unique();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('particular')->nullable();
             $table->bigInteger('amount')->default(0);
             $table->text('remark')->nullable();
             $table->integer('payment_method')->default(1);

@@ -16,9 +16,9 @@ class PaymentRepository implements PaymentRepositoryInterface
     {
         $payments = config('coderz.caching', true)
             ? (Cache::has('payments') ? Cache::get('payments') : Cache::rememberForever('payments', function () {
-                return Payment::latest()->get();
+                return Payment::with('client', 'lead', 'package', 'department', 'projectHead', 'services', 'user', 'payments')->latest()->get();
             }))
-            : Payment::latest()->get();
+            : Payment::with('client', 'lead', 'package', 'department', 'projectHead', 'services', 'user', 'payments')->latest()->get();
 
         $total_payments = Payment::sum('payment');
         $today_total_payments = Payment::whereDate('updated_at', Carbon::now())->sum('payment');

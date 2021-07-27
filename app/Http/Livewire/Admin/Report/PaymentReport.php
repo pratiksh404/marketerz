@@ -96,13 +96,14 @@ class PaymentReport extends Component
 
     public function render()
     {
+        $payments = $this->type == 1 ? $this->getProjectPaymentReport()['payments'] : null;
         $payment_report = $this->type == 1 ? $this->getProjectPaymentReport()['payment_report'] : null;
         $monthly_payment_report = $this->type == 1 ? $this->getProjectMonthlyYearlyPaymentReport(1) : null;
         $yearly_payment_report = $this->type == 1 ? $this->getProjectMonthlyYearlyPaymentReport(2) : null;
         $description = $this->type == 1 ?  $this->getProjectPaymentReport()['description'] : null;
         $date = $this->type == 1 ?  $this->getProjectPaymentReport()['date'] : null;
         $clients = Cache::get('clients', Client::latest()->get());
-        return view('livewire.admin.report.payment-report', compact('payment_report', 'monthly_payment_report', 'yearly_payment_report', 'description', 'date', 'clients'));
+        return view('livewire.admin.report.payment-report', compact('payments', 'payment_report', 'monthly_payment_report', 'yearly_payment_report', 'description', 'date', 'clients'));
     }
 
     protected function getProjectMonthlyYearlyPaymentReport($type)
@@ -110,9 +111,9 @@ class PaymentReport extends Component
         $year = $this->year ?? Carbon::now()->year;
         $clientid = $this->clientid != null && $this->clientid != '' ? $this->clientid : null;
         if (isset($clientid)) {
-            $payments = Payment::whereYear('created_at', $year)->where('client_id', $clientid);
+            $payments = Payment::with('user', 'client', 'project')->whereYear('created_at', $year)->where('client_id', $clientid);
         } else {
-            $payments = Payment::whereYear('created_at', $year);
+            $payments = Payment::with('user', 'client', 'project')->whereYear('created_at', $year);
         }
         return Marketerz::paymentReport($payments, $type == 1 ? 3 : 4, 2);
     }
@@ -128,45 +129,45 @@ class PaymentReport extends Component
         switch ($filter) {
             case 1:
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereDate('created_at', Carbon::now());
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereDate('created_at', Carbon::now());
                 } else {
-                    $payments = Payment::whereDate('created_at', Carbon::now());
+                    $payments = Payment::with('user', 'client', 'project')->whereDate('created_at', Carbon::now());
                 }
                 $description = "Today's Payment Report";
                 $date = Carbon::now()->toFormattedDateString();
                 break;
             case 2:
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereDate('created_at', Carbon::now()->subDay());
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereDate('created_at', Carbon::now()->subDay());
                 } else {
-                    $payments = Payment::whereDate('created_at', Carbon::now()->subDay());
+                    $payments = Payment::with('user', 'client', 'project')->whereDate('created_at', Carbon::now()->subDay());
                 }
                 $description = "Yesterday's Payment Report";
                 $date = Carbon::now()->subDay()->toFormattedDateString();
                 break;
             case 3:
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
                 } else {
-                    $payments = Payment::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                    $payments = Payment::with('user', 'client', 'project')->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
                 }
                 $description = "This Week's Payment Report";
                 $date = Carbon::now()->startOfWeek()->toFormattedDateString() . ' to ' . Carbon::now()->endOfWeek()->toFormattedDateString();
                 break;
             case 4:
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->startOfmonth(), Carbon::now()->endOfmonth()]);
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->startOfmonth(), Carbon::now()->endOfmonth()]);
                 } else {
-                    $payments = Payment::whereBetween('created_at', [Carbon::now()->startOfmonth(), Carbon::now()->endOfmonth()]);
+                    $payments = Payment::with('user', 'client', 'project')->whereBetween('created_at', [Carbon::now()->startOfmonth(), Carbon::now()->endOfmonth()]);
                 }
                 $description = "This Month's Payment Report";
                 $date = Carbon::now()->startOfMonth()->toFormattedDateString() . ' to ' . Carbon::now()->endOfMonth()->toFormattedDateString();
                 break;
             case 5:
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->startOfyear(), Carbon::now()->endOfyear()]);
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->startOfyear(), Carbon::now()->endOfyear()]);
                 } else {
-                    $payments = Payment::whereBetween('created_at', [Carbon::now()->startOfyear(), Carbon::now()->endOfyear()]);
+                    $payments = Payment::with('user', 'client', 'project')->whereBetween('created_at', [Carbon::now()->startOfyear(), Carbon::now()->endOfyear()]);
                 }
                 $description = "This Year's Payment Report";
                 $date = Carbon::now()->startOfYear()->toFormattedDateString() . ' to ' . Carbon::now()->endOfYear()->toFormattedDateString();
@@ -174,9 +175,9 @@ class PaymentReport extends Component
             case 6:
                 $totalreportlastdays = $this->totalreportlastdays != null ? $this->totalreportlastdays : 1;
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->subDays($totalreportlastdays), Carbon::now()]);
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->subDays($totalreportlastdays), Carbon::now()]);
                 } else {
-                    $payments = Payment::whereBetween('created_at', [Carbon::now()->subDays($totalreportlastdays), Carbon::now()]);
+                    $payments = Payment::with('user', 'client', 'project')->whereBetween('created_at', [Carbon::now()->subDays($totalreportlastdays), Carbon::now()]);
                 }
                 $description = "Last " . $totalreportlastdays . " days Payment Report";
                 $date = Carbon::now()->subDays($totalreportlastdays)->toFormattedDateString() . ' to ' . Carbon::now()->toFormattedDateString();
@@ -184,9 +185,9 @@ class PaymentReport extends Component
             case 7:
                 $totalreportlastmonths = $this->totalreportlastmonths != null ? $this->totalreportlastmonths : 1;
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->subMonths($totalreportlastmonths), Carbon::now()]);
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereBetween('created_at', [Carbon::now()->subMonths($totalreportlastmonths), Carbon::now()]);
                 } else {
-                    $payments = Payment::whereBetween('created_at', [Carbon::now()->subMonths($totalreportlastmonths), Carbon::now()]);
+                    $payments = Payment::with('user', 'client', 'project')->whereBetween('created_at', [Carbon::now()->subMonths($totalreportlastmonths), Carbon::now()]);
                 }
                 $description = "Last " . $totalreportlastmonths . " Months Payment Report";
                 $date = Carbon::now()->subMonths($totalreportlastmonths)->toFormattedDateString() . ' to ' . Carbon::now()->toFormattedDateString();
@@ -195,23 +196,24 @@ class PaymentReport extends Component
                 $startdate = $this->startdate != null ? Carbon::create($this->startdate) : Carbon::now();
                 $enddate = $this->enddate != null ? Carbon::create($this->enddate) : Carbon::now();
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->whereBetween('created_at', [$startdate, $enddate]);
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->whereBetween('created_at', [$startdate, $enddate]);
                 } else {
-                    $payments = Payment::whereBetween('created_at', [$startdate, $enddate]);
+                    $payments = Payment::with('user', 'client', 'project')->whereBetween('created_at', [$startdate, $enddate]);
                 }
                 $description = $startdate->toFormattedDateString() . ' to ' . $enddate->toFormattedDateString();
                 $date = null;
                 break;
             default:
                 if (isset($clientid)) {
-                    $payments = Payment::where('client_id', $clientid)->latest();
+                    $payments = Payment::with('user', 'client', 'project')->where('client_id', $clientid)->latest();
                 } else {
-                    $payments = Payment::latest();
+                    $payments = Payment::with('user', 'client', 'project')->latest();
                 }
                 $description = "Today's Payment Report";
                 $date = Carbon::now()->toFormattedDateString();
         }
         return [
+            'payments' => $payments->get(),
             'payment_report' => Marketerz::paymentReport($payments, 1),
             'description' => $description,
             'date' => $date
