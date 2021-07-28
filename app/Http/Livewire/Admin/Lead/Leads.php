@@ -24,13 +24,22 @@ class Leads extends Component
     public $assigned_to;
     public $startDate;
     public $endDate;
+    public $status = 1;
 
-    protected $listeners = ['service_leads' => 'serviceLeads', 'source_leads' => 'sourceLeads', 'leadBy_leads' => 'leadByLeads', 'assignedTo_leads' => 'assignedToLeads', 'date_range_filter' => 'dateRangeFilter', 'lead_status_changed' => '$refresh'];
+    protected $listeners = ['status_leads' => 'statusLeads', 'service_leads' => 'serviceLeads', 'source_leads' => 'sourceLeads', 'leadBy_leads' => 'leadByLeads', 'assignedTo_leads' => 'assignedToLeads', 'date_range_filter' => 'dateRangeFilter', 'lead_status_changed' => '$refresh'];
 
     public function mount()
     {
         $this->filter = 1;
         $this->resetPage();
+    }
+
+    public function statusLeads($status)
+    {
+        $this->filter = 7;
+        $this->resetPage();
+        $this->status = $status;
+        $this->emit('lead_status_changed');
     }
 
     public function serviceLeads($service_id)
@@ -107,6 +116,8 @@ class Leads extends Component
             $start = Carbon::create($this->startDate);
             $end = Carbon::create($this->endDate);
             return $default->whereBetween('updated_at', [$start->toDateString(), $end->toDateString()])->latest()->paginate(10);
+        } elseif ($filter == 7) {
+            return $default->where('status', $this->status)->latest()->paginate(9);
         } else {
             return $default->latest()->paginate(9);
         }

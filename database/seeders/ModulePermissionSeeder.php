@@ -28,5 +28,7 @@ class ModulePermissionSeeder extends Seeder
         Artisan::call('make:permission Discussion --all');
         Artisan::call('make:permission Project --all');
         Artisan::call('make:permission Payment --all');
+        Artisan::call('make:permission Advance --all');
+        Artisan::call('make:permission Expense --all');
     }
 }

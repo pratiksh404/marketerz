@@ -161,13 +161,13 @@
                                 <x-adminetic-action :model="$lead" route="lead">
                                     <x-slot name="buttons">
                                         <a href="{{route('lead_discussions',['lead' => $lead->id])}}"
-                                            class="btn btn-success btn-air-success btn-sm p-2"><i
-                                                class="fa fa-comment"></i></a>
+                                            class="btn btn-success btn-air-success btn-sm p-2"
+                                            title="Lead Discussions"><i class="fa fa-comment"></i></a>
                                         @if (isset($lead->converted_to_client))
                                         @if (!$lead->converted_to_client)
                                         <a href="{{route('convert_to_client',['lead' => $lead->id])}}"
-                                            class="btn btn-primary btn-air-primary btn-sm p-2"><i
-                                                class="fa fa-refresh"></i></a>
+                                            class="btn btn-primary btn-air-primary btn-sm p-2"
+                                            title="Convert To Clients"><i class="fa fa-refresh"></i></a>
                                         @endif
                                         @endif
                                     </x-slot>

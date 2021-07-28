@@ -6,6 +6,7 @@
             <th>Registered By</th>
             <th>Advance</th>
             <th>Method</th>
+            <th>Date</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
             <td>{{ config('adminetic.currency_symbol','Rs.') . $advance->amount}}</td>
             <td><span class="badge badge-{{$advance->getPaymentMethodColor()}}">{{$advance->payment_method}}</span>
             </td>
+            <td>{{$advance->updated_at->toDayDateTimeString()}}</td>
         </tr>
         @endforeach
     </tbody>

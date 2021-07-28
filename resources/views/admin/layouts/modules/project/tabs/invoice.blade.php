@@ -57,72 +57,104 @@
             <div class="d-flex justify-content-center">
                 <h4><b>{{$project->name ?? ('#' . $project->code)}}</b></h4>
             </div>
-            <div class="table-responsive invoice-table" id="table">
-                <table class="table table-bordered table-striped">
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="Rate">
-                                <h6 class="mb-0 p-2">Price</h6>
-                            </td>
-                            <td class="project">
-                                <h6 class="mb-0 p-2">
-                                    {{config('adminetic.currency_symbol','Rs.') . $project->valid_price}}
-                                </h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="Rate">
-                                <h6 class="mb-0 p-2">Remaining Amount</h6>
-                            </td>
-                            <td class="project">
-                                <h6 class="mb-0 p-2 text-danger">
-                                    {{config('adminetic.currency_symbol','Rs.') . $project->remaining_amount}}
-                                </h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="Rate">
-                                <h6 class="mb-0 p-2">Paid Amount</h6>
-                            </td>
-                            <td class="project">
-                                <h6 class="mb-0 p-2 text-success">
-                                    {{config('adminetic.currency_symbol','Rs.') . $project->paid_amount}}
-                                </h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="Rate">
-                                <h6 class="mb-0 p-2">Fine</h6>
-                            </td>
-                            <td class="project">
-                                <h6 class="mb-0 p-2 text-warning">
-                                    {{config('adminetic.currency_symbol','Rs.') . $project->fine}}
-                                </h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td class="Rate">
-                                <h6 class="mb-0 p-2">Grand Total</h6>
-                            </td>
-                            <td class="project">
-                                <h6 class="mb-0 p-2 text-success">
-                                    {{config('adminetic.currency_symbol','Rs.') . $project->grand_total}}
-                                </h6>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            @isset($project->payments)
+            @if ($project->payments->count() > 0)
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-responsive invoice-table" id="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th>Code</th>
+                                <th>Payment</th>
+                                <th>Method</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($project->payments as $payment)
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>#{{$payment->code}}</td>
+                                <td>{{ config('adminetic.currency_symbol','Rs.') . $payment->payment}}</td>
+                                <td><span
+                                        class="badge badge-{{$payment->getPaymentMethodColor()}}">{{$payment->payment_method}}</span>
+                                </td>
+                                <td>{{$payment->updated_at->toDayDateTimeString()}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            @endif
+            @endisset
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="Rate">
+                            <h6 class="mb-0 p-2">Price</h6>
+                        </td>
+                        <td class="project">
+                            <h6 class="mb-0 p-2">
+                                {{config('adminetic.currency_symbol','Rs.') . $project->valid_price}}
+                            </h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="Rate">
+                            <h6 class="mb-0 p-2">Remaining Amount</h6>
+                        </td>
+                        <td class="project">
+                            <h6 class="mb-0 p-2 text-danger">
+                                {{config('adminetic.currency_symbol','Rs.') . $project->remaining_amount}}
+                            </h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="Rate">
+                            <h6 class="mb-0 p-2">Paid Amount</h6>
+                        </td>
+                        <td class="project">
+                            <h6 class="mb-0 p-2 text-success">
+                                {{config('adminetic.currency_symbol','Rs.') . $project->paid_amount}}
+                            </h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="Rate">
+                            <h6 class="mb-0 p-2">Fine</h6>
+                        </td>
+                        <td class="project">
+                            <h6 class="mb-0 p-2 text-warning">
+                                {{config('adminetic.currency_symbol','Rs.') . $project->fine}}
+                            </h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="Rate">
+                            <h6 class="mb-0 p-2">Grand Total</h6>
+                        </td>
+                        <td class="project">
+                            <h6 class="mb-0 p-2 text-success">
+                                {{config('adminetic.currency_symbol','Rs.') . $project->grand_total}}
+                            </h6>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <!-- End Table-->
             <div class="row">
                 <div class="col-md-8">

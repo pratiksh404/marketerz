@@ -8,6 +8,7 @@
             <th>Particular</th>
             <th>Payment Method</th>
             <th>Payment</th>
+            <th>Date</th>
         </tr>
     </thead>
     <tbody>
@@ -36,6 +37,7 @@
             <td><span class="badge badge-{{$payment->getPaymentMethodColor()}}">{{$payment->payment_method}}</span>
             </td>
             <td>{{ config('adminetic.currency_symbol','Rs.') . $payment->payment}}</td>
+            <td>{{$payment->updated_at->toDayDateTimeString()}}</td>
         </tr>
         @endforeach
         @endisset

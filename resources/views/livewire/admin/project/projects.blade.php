@@ -130,7 +130,9 @@
                                     {{$project->getStatus()}}</div>
                                 <br>
                                 <div class="d-flex justify-content-between">
-                                    <h6>{{$project->name ?? '#'.$project->code}}</h6>
+                                    <h6><a
+                                            href="{{adminShowRoute('project',$project->id)}}">{{$project->name ?? '#'.$project->code}}</a>
+                                    </h6>
 
                                 </div>
                                 <div class="media">

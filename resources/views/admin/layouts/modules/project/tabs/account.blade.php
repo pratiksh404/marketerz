@@ -117,23 +117,21 @@
 <table class="table table-striped table-bordered datatable">
     <thead>
         <tr>
-            <th>Project</th>
             <th>Registered By</th>
             <th>Payment</th>
             <th>Method</th>
+            <th>Date</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($project->payments as $payment)
         <tr>
-            <td><a
-                    href="{{adminShowRoute('project',$payment->project->id)}}">{{$payment->project->name ?? ('#' . $payment->project->code)}}</a>
-            </td>
             <td>{{$payment->user->name}}</td>
             <td>{{ config('adminetic.currency_symbol','Rs.') . $payment->payment}}</td>
             <td><span class="badge badge-{{$payment->getPaymentMethodColor()}}">{{$payment->payment_method}}</span>
             </td>
+            <td>{{$payment->updated_at->toDayDateTimeString()}}</td>
             <td>
                 <x-adminetic-action :model="$payment" route="payment" show="0"
                     delete="$payment->project->remaining_amount == 0 ? 0 : 1" />
@@ -143,10 +141,10 @@
     </tbody>
     <tfoot>
         <tr>
-            <th>Project</th>
             <th>Registered By</th>
             <th>Payment</th>
             <th>Method</th>
+            <th>Date</th>
             <th>Actions</th>
         </tr>
     </tfoot>

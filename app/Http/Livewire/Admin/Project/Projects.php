@@ -135,7 +135,7 @@ class Projects extends Component
             $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->where('user_id', auth()->user()->id)->orWhere('project_head', auth()->user()->id);
         }
         if ($filter == 1) {
-            $projects = $default;
+            $projects = $default->latest();
         } elseif ($filter == 2) {
             $projects = $default->where('client_id', $this->clientid)->latest();
         } elseif ($filter == 3) {
@@ -153,7 +153,7 @@ class Projects extends Component
         } elseif ($filter == 9) {
             $projects = $default->where('cancel', 1)->latest();
         } else {
-            $projects = $default->latest()->get();
+            $projects = $default->latest();
         }
         return $projects->paginate(9);
     }
