@@ -87,23 +87,28 @@ class Leads extends Component
     protected function getLeads()
     {
         $filter = $this->filter;
+        if (auth()->user()->hasRole('superadmin') || auth()->user()->userCanDo('Project', 'browse')) {
+            $default = Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo');
+        } else {
+            $default = Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->where('lead_by', auth()->user()->id)->orWhere('assigned_to', auth()->user()->id);
+        }
         if ($filter == 1) {
-            return Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->latest()->paginate(9);
+            return $default->latest()->paginate(9);
         } elseif ($filter == 2) {
             $service = Service::find($this->service_id);
             return $service->leads()->paginate(9);
         } elseif ($filter == 3) {
-            return Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->where('source_id', $this->source_id)->latest()->paginate(9);
+            return $default->where('source_id', $this->source_id)->latest()->paginate(9);
         } elseif ($filter == 4) {
-            return Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->where('lead_by', $this->lead_by)->latest()->paginate(9);
+            return $default->where('lead_by', $this->lead_by)->latest()->paginate(9);
         } elseif ($filter == 5) {
-            return Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->where('assigned_to', $this->assigned_to)->latest()->paginate(9);
+            return $default->where('assigned_to', $this->assigned_to)->latest()->paginate(9);
         } elseif ($filter == 6) {
             $start = Carbon::create($this->startDate);
             $end = Carbon::create($this->endDate);
-            return Lead::whereBetween('updated_at', [$start->toDateString(), $end->toDateString()])->with('contact', 'source', 'service', 'leadBy', 'assignedTo')->latest()->paginate(10);
+            return $default->whereBetween('updated_at', [$start->toDateString(), $end->toDateString()])->latest()->paginate(10);
         } else {
-            return Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->latest()->paginate(9);
+            return $default->latest()->paginate(9);
         }
     }
 }

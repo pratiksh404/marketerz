@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\DiscussionController;
+use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\LeadController;
@@ -52,6 +53,7 @@ class AdminRouteMixin
                 $this->resource('advance', AdvanceController::class, [
                     'except' => ['create', 'store']
                 ]);
+                $this->resource('expense', ExpenseController::class);
 
                 /* SINGLE ROUTES */
                 $this->post('import-contacts', [ContactController::class, 'import'])->name('import_contacts');
@@ -85,6 +87,7 @@ class AdminRouteMixin
                 $this->get('payment-report', [ReportController::class, 'payment_report'])->name('payment_report');
                 $this->get('project-report', [ReportController::class, 'project_report'])->name('project_report');
                 $this->get('advance-report', [ReportController::class, 'advance_report'])->name('advance_report');
+                $this->get('transaction-report', [ReportController::class, 'transaction_report'])->name('transaction_report');
 
 
                 /* CHARTS ROUTES */

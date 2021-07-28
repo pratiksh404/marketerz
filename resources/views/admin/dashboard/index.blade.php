@@ -1,6 +1,7 @@
 @extends('adminetic::admin.layouts.app')
 
 @section('content')
+
 <div class="container-fluid">
     <div class="page-title">
         <div class="row">

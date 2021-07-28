@@ -24,6 +24,7 @@ use App\Contracts\ServiceRepositoryInterface;
 use App\Contracts\CampaignRepositoryInterface;
 use App\Contracts\DepartmentRepositoryInterface;
 use App\Contracts\DiscussionRepositoryInterface;
+use App\Contracts\ExpenseRepositoryInterface;
 use App\Contracts\LeadRepositoryInterface;
 use App\Contracts\PackageRepositoryInterface;
 use App\Contracts\PaymentRepositoryInterface;
@@ -33,6 +34,7 @@ use App\Contracts\TemplateRepositoryInterface;
 use App\Repositories\AdvanceRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\DiscussionRepository;
+use App\Repositories\ExpenseRepository;
 use App\Repositories\LeadRepository;
 use App\Repositories\PackageRepository;
 use App\Repositories\PaymentRepository;
@@ -84,6 +86,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
         $this->app->bind(PaymentRepositoryInterface::class, PaymentRepository::class);
         $this->app->bind(AdvanceRepositoryInterface::class, AdvanceRepository::class);
+        $this->app->bind(ExpenseRepositoryInterface::class, ExpenseRepository::class);
     }
 
     /**

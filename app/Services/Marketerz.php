@@ -7,6 +7,7 @@ use Carbon\CarbonPeriod;
 use App\Models\Admin\Lead;
 use App\Models\Admin\Client;
 use App\Models\Admin\Advance;
+use App\Models\Admin\Expense;
 use App\Models\Admin\Payment;
 use App\Models\Admin\Project;
 use App\Models\Admin\Campaign;
@@ -746,5 +747,61 @@ class Marketerz
         $total['total_advance_count'] = $advances->count();
         $total['total_advance'] = $advances->sum('amount');
         return $total;
+    }
+
+    public function transactionReport($given_startdate, $given_enddate, $client_id = null)
+    {
+        $total = array();
+        $element = array();
+        $startdate = Carbon::create($given_startdate);
+        $enddate = Carbon::create($given_enddate);
+        $total = array();
+        $element = array();
+        $days = CarbonPeriod::create($startdate, $enddate);
+        foreach ($days as $day) {
+            if (isset($client_id)) {
+                $advances = Advance::with('client')->where('client_id', $client_id)->whereDate('updated_at', $day)->get();
+                $payments = Payment::with('client')->where('client_id', $client_id)->whereDate('updated_at', $day)->get();
+                $returns = Project::with('client')->where('return', 1)->where('client_id', $client_id)->whereDate('updated_at', $day)->get();
+            } else {
+                $advances = Advance::with('client')->whereDate('updated_at', $day)->get();
+                $payments = Payment::with('client')->whereDate('updated_at', $day)->get();
+                $returns = Project::with('client')->where('return', 1)->whereDate('updated_at', $day)->get();
+            }
+            $element['advances'] = $advances;
+            $element['advance_total'] = $advances->sum('amount');
+            $element['payments'] = $payments;
+            $element['payment_total'] = $payments->sum('amount');
+            $element['returns'] = $returns;
+            $element['return_total'] = $returns->sum('amount');
+            $element['expense_total'] = Expense::whereDate('created_at', $day)->sum('amount');
+            $total[$day->toFormattedDateString()] = $element;
+        }
+        return $total;
+    }
+
+    public function transactionTotalReport($given_startdate, $given_enddate, $client_id = null)
+    {
+        $transactions = $this->transactionReport($given_startdate, $given_enddate, $client_id);
+        $advances_total = 0;
+        $payments_total = 0;
+        $returns_total = 0;
+        $expense_total = 0;
+        if (isset($transactions)) {
+            if (count($transactions) > 0) {
+                foreach ($transactions as $transaction) {
+                    $advances_total += $transaction['advance_total'];
+                    $payments_total += $transaction['payment_total'];
+                    $returns_total += $transaction['return_total'];
+                    $expense_total += $transaction['expense_total'];
+                }
+            }
+        }
+        return [
+            'advances_total' => $advances_total,
+            'payments_total' => $payments_total,
+            'returns_total' => $returns_total,
+            'expenses_total' => $expense_total
+        ];
     }
 }

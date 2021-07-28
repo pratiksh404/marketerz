@@ -129,27 +129,31 @@ class Projects extends Component
     {
         $projects = null;
         $filter = $this->filter;
-        $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+        if (auth()->user()->hasRole('superadmin') || auth()->user()->userCanDo('Project', 'browse')) {
+            $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services');
+        } else {
+            $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->where('user_id', auth()->user()->id)->orWhere('project_head', auth()->user()->id);
+        }
         if ($filter == 1) {
             $projects = $default;
         } elseif ($filter == 2) {
-            $projects = Project::where('client_id', $this->clientid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('client_id', $this->clientid)->latest();
         } elseif ($filter == 3) {
-            $projects = Project::where('lead_id', $this->leadid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('lead_id', $this->leadid)->latest();
         } elseif ($filter == 4) {
-            $projects = Project::where('package_id', $this->packageid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('package_id', $this->packageid)->latest();
         } elseif ($filter == 5) {
-            $projects = Project::where('department_id', $this->departmentid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('department_id', $this->departmentid)->latest();
         } elseif ($filter == 6) {
-            $projects = Project::where('project_head', $this->projectheadid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('project_head', $this->projectheadid)->latest();
         } elseif ($filter == 7) {
-            $projects = Project::where('user_id', $this->userid)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('user_id', $this->userid)->latest();
         } elseif ($filter == 8) {
-            $projects = Project::where('project_deadline', '>', Carbon::now())->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('project_deadline', '>', Carbon::now())->latest();
         } elseif ($filter == 9) {
-            $projects = Project::where('cancel', 1)->with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->latest();
+            $projects = $default->where('cancel', 1)->latest();
         } else {
-            $projects = $default;
+            $projects = $default->latest()->get();
         }
         return $projects->paginate(9);
     }

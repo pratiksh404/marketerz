@@ -21,4 +21,9 @@ class ReportController extends Controller
     {
         return view('admin.report.advance_report');
     }
+
+    public function transaction_report()
+    {
+        return view('admin.report.transaction_report');
+    }
 }

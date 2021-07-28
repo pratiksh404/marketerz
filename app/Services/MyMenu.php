@@ -155,6 +155,23 @@ class MyMenu implements SidebarInterface
                 'link' => adminRedirectRoute('payment'),
             ],
             [
+                'type' => 'menu',
+                'name' => 'Expenses',
+                'icon' => 'fa fa-paper-plane-o',
+                'is_active' => request()->routeIs('expense*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Expense::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Expense::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('expense', App\Models\Admin\Expense::class)
+            ],
+            [
                 'type' => 'link',
                 'name' => ' Advance Payments',
                 'icon' => 'fa fa-credit-card',
@@ -330,6 +347,11 @@ class MyMenu implements SidebarInterface
                         'type' => 'submenu',
                         'name' => 'Advance Reports',
                         'link' => route('advance_report'),
+                    ],
+                    [
+                        'type' => 'submenu',
+                        'name' => 'Transaction Reports',
+                        'link' => route('transaction_report'),
                     ],
                 ]
             ],

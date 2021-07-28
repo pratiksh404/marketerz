@@ -181,10 +181,20 @@ return [
     // Profile Tabs
     'profile_tab' => [
         [
+            'name' => 'My Projects',
+            'icon' => 'fa fa-coffee',
+            'view' => 'admin.profile.tabs.myprojects'
+        ],
+        [
+            'name' => 'My Leads',
+            'icon' => 'fa fa-lightbulb-o',
+            'view' => 'admin.profile.tabs.myleads'
+        ],
+        [
             'name' => 'Barcode',
             'icon' => 'fa fa-barcode',
             'view' => 'admin.profile.tabs.barcode'
-        ]
+        ],
     ],
 
     // Plugin Adapters
