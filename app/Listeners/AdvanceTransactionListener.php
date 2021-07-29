@@ -5,7 +5,11 @@ namespace App\Listeners;
 use App\Events\AdvanceEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\InteractsWithQueue;
+use Pratiksh\Adminetic\Models\Admin\Role;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\AdvancePaymentAdminNotfication;
+use App\Notifications\AdvancePaymentSlackNotfication;
 
 class AdvanceTransactionListener
 {
@@ -37,7 +41,29 @@ class AdvanceTransactionListener
                         ]);
                     }
                 }
+                // Dispatching Advance Payment Alert Notfication
+                $this->dispatchNotification($advance);
             });
+        }
+    }
+
+    /**
+     *
+     * Dispatch Notification
+     *
+     */
+    public function dispatchNotification($advance)
+    {
+        if (setting('notification', true)) {
+            if (setting('advance_payment_notification', true)) {
+                $admins = Role::where('name', 'admin')->first()->users;
+                $superadmins = Role::where('name', 'superadmin')->first()->users;
+                $users = $admins->merge($superadmins);
+                Notification::send($users, new AdvancePaymentAdminNotfication($advance));
+            }
+            if (setting('advance_payment_slack_notification', true)) {
+                $users->first()->setSlackUrl(env('ADVANCE_PAYMENT_SLACK_WEBHOOK_URL'))->notify(new AdvancePaymentSlackNotfication($advance));
+            }
         }
     }
 }

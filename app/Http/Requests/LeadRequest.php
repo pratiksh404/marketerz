@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LeadRequest extends FormRequest
@@ -14,6 +15,19 @@ class LeadRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'lead_by' => $this->lead->lead_by ?? Auth::user()->id,
+            'assigned_to' => $this->lead->assigned_to ?? Auth::user()->id,
+        ]);
     }
 
     /**

@@ -118,7 +118,7 @@
                                     @isset($users)
                                     @foreach ($users as $user)
                                     <option value="{{$user->id}}"
-                                        {{isset($lead->lead_by) ? ($lead->lead_by == $user->id ? 'selected' : '') : ''}}>
+                                        {{isset($lead->lead_by) ? ($lead->lead_by == $user->id ? 'selected' : '') : (auth()->user()->id == $user->id ? 'selected' : '')}}>
                                         {{$user->name}}</option>
                                     @endforeach
                                     @endisset
@@ -135,7 +135,7 @@
                                     @isset($users)
                                     @foreach ($users as $user)
                                     <option value="{{$user->id}}"
-                                        {{isset($lead->assigned_to) ? ($lead->assigned_to == $user->id ? 'selected' : '') : ''}}>
+                                        {{isset($lead->assigned_to) ? ($lead->assigned_to == $user->id ? 'selected' : '') : (auth()->user()->id == $user->id ? 'selected' : '')}}>
                                         {{$user->name}}</option>
                                     @endforeach
                                     @endisset

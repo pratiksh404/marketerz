@@ -5,7 +5,11 @@ namespace App\Listeners;
 use App\Events\ReturnEvent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\InteractsWithQueue;
+use Pratiksh\Adminetic\Models\Admin\Role;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ReturnAdminNotfication;
+use App\Notifications\ReturnAdminSlackNotfication;
 
 class ReturnTransactionListener
 {
@@ -33,6 +37,7 @@ class ReturnTransactionListener
                     ]);
                 }
                 $this->handleClientAccount($project);
+                $this->dispatchNotification($project);
             });
         }
     }
@@ -45,6 +50,21 @@ class ReturnTransactionListener
                 'credit' => $client->credit + $project->return,
                 'debit' => $client->debit - $project->return
             ]);
+        }
+    }
+
+    protected function dispatchNotification($project)
+    {
+        if (setting('notification', true)) {
+            if (setting('project_cancellation_notification', true)) {
+                $admins = Role::where('name', 'admin')->first()->users;
+                $superadmins = Role::where('name', 'superadmin')->first()->users;
+                $users = $admins->merge($superadmins);
+                Notification::send($users, new ReturnAdminNotfication($project));
+            }
+            if (setting('project_cancellation_slack_notification', true)) {
+                $users->first()->setSlackUrl(env('PROJECT_CANCELLATION_SLACK_WEBHOOK_URL'))->notify(new ReturnAdminSlackNotfication($project));
+            }
         }
     }
 }

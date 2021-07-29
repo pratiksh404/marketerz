@@ -110,11 +110,10 @@ class Project extends Model
         return [
             1 => 'mail',
             2 => 'sms',
-            3 => 'slack',
-            4 => 'database'
+            3 => 'database'
         ][$channel];
     }
-    public function getChannelArray($type)
+    public function getChannelArray($type = 1)
     {
         $channels = [];
         if ($type == 1) {

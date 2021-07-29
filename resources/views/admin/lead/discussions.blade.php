@@ -39,46 +39,47 @@
                                                 <option value="2">Request</option>
                                                 <option value="3">Demand</option>
                                                 <option value="4">Complain</option>
+                                                <option value="5" selected>Conversation</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        <label for="type">Discussion Type</label>
+                                        <label for="type">Change Lead Status</label>
                                         <div class="input-group">
                                             <select name="status" id="status" class="form-control">
                                                 <option selected disabled>Select Status ... </option>
                                                 <option value="1"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 1 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 1 ? "selected" : "") : ""}}>
                                                     New
                                                 </option>
                                                 <option value="2"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 2 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 2 ? "selected" : "") : ""}}>
                                                     Qualified
                                                 </option>
                                                 <option value="3"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 3 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 3 ? "selected" : "") : ""}}>
                                                     Unqualified
                                                 </option>
                                                 <option value="4"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 4 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 4 ? "selected" : "") : ""}}>
                                                     Discussion
                                                 </option>
                                                 <option value="5"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 5 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 5 ? "selected" : "") : ""}}>
                                                     Negotiation
                                                 </option>
                                                 <option value="6"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 6 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 6 ? "selected" : "") : ""}}>
                                                     Won
                                                 </option>
                                                 <option value="7"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 7 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 7 ? "selected" : "") : ""}}>
                                                     Lost
                                                 </option>
                                                 <option value="8"
-                                                    {{isset($discussion) ? ($discussion->getRawOriginal('status') == 8 ? "selected" : "") : ""}}>
+                                                    {{isset($lead) ? ($lead->getRawOriginal('status') == 8 ? "selected" : "") : ""}}>
                                                     Follow Up
                                                 </option>
                                             </select>

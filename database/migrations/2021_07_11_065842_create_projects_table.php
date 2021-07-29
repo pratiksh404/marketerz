@@ -33,15 +33,7 @@ class CreateProjectsTable extends Migration
             $table->bigInteger('paid_amount')->default(0);
             $table->bigInteger('fine')->default(0);
             $table->string('color')->default(random_color());
-            /* Notification Setting */
-            $table->boolean('team_notify')->default(0);
-            $table->boolean('team_slack_notify')->default(0);
-            $table->json('team_channel')->nullable();
 
-            $table->boolean('client_notify')->default(0);
-            $table->boolean('client_service_expire_notify')->default(0);
-            $table->boolean('client_payment_notify')->default(0);
-            $table->json('client_channel')->nullable();
             /* Return Policy */
             $table->boolean('cancel')->default(0);
             $table->dateTime('cancel_date')->nullable();
