@@ -32,7 +32,9 @@ class AdvanceRepository implements AdvanceRepositoryInterface
     // Advance Store
     public function storeAdvance(AdvanceRequest $request)
     {
-        Advance::create($request->validated());
+        if (isset($request->client_id)) {
+            event(new AdvanceEvent(1, Client::find($request->client->id), $request));
+        }
     }
 
     // Advance Show
@@ -60,8 +62,12 @@ class AdvanceRepository implements AdvanceRepositoryInterface
     {
         $client = $advance->client;
         if (isset($client)) {
+            $payment_amount = $client->payments->sum('payment') ?? 0;
+            $advance_amount = $client->advances->sum('amount') ?? 0;
+
             $client->update([
-                'credit' => $client->credit - $advance->amount
+                'credit' => ($payment_amount - $advance_amount) > 0 ? ($payment_amount - $advance_amount) : 0,
+                'debit' => ($advance_amount - $payment_amount) >= 0 ? ($advance_amount - $payment_amount) : 0,
             ]);
         }
         $advance->delete();

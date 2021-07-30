@@ -68,6 +68,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function destroyProject(Project $project)
     {
         $project->delete();
+        Cache::has('payments') ? Cache::forget('payments') : '';
+        Cache::has('advances') ? Cache::forget('advances') : '';
     }
 
     // Convert To Client

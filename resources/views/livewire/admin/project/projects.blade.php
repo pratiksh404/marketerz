@@ -217,8 +217,7 @@
                                 <div class="d-flex justify-content-center">
                                     <x-adminetic-action :model="$project" route="project" edit="{{!$project->cancel}}">
                                         <x-slot name="buttons">
-                                            @if($project->status != 3)
-                                            @if (!$project->cancel)
+                                            @if (!$project->cancel && $project->status != 3)
                                             <a href="{{route('project_payment',['project' => $project->id])}}"
                                                 class="btn btn-success btn-air-success btn-sm p-2"
                                                 title="Project Payment"><i class="fa fa-money"></i></a>
@@ -229,7 +228,6 @@
                                             <a href="{{route('project_invoice',['project' => $project->id])}}"
                                                 class="btn btn-primary btn-air-primary btn-sm p-2"
                                                 title="Project Invoice"><i class="fa fa-file-excel-o"></i></a>
-                                            @endif
                                         </x-slot>
                                     </x-adminetic-action>
                                 </div>

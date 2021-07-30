@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use App\Models\Admin\Advance;
 use App\Models\Admin\Contact;
+use App\Models\Admin\Payment;
 use App\Models\Admin\Project;
 use App\Models\Admin\Campaign;
 use Illuminate\Support\Facades\Cache;
@@ -55,5 +56,9 @@ class Client extends Model
     public function advances()
     {
         return $this->hasMany(Advance::class);
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }

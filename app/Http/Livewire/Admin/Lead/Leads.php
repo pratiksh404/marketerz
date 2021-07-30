@@ -96,10 +96,10 @@ class Leads extends Component
     protected function getLeads()
     {
         $filter = $this->filter;
-        if (auth()->user()->hasRole('superadmin') || auth()->user()->userCanDo('Project', 'browse')) {
+        if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('admin') && auth()->user()->userCanDo('Project', 'browse')) {
             $default = Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo');
         } else {
-            $default = Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->where('lead_by', auth()->user()->id)->orWhere('assigned_to', auth()->user()->id);
+            $default = Lead::with('contact', 'source', 'services', 'package', 'leadBy', 'assignedTo')->where('lead_by', auth()->user()->id);
         }
         if ($filter == 1) {
             return $default->latest()->paginate(9);

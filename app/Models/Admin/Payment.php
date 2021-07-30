@@ -5,6 +5,7 @@ namespace App\Models\Admin;
 use App\Models\User;
 use App\Models\Admin\Client;
 use App\Models\Admin\Project;
+use App\Models\Admin\Campaign;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,6 +51,10 @@ class Payment extends Model
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_id');
+    }
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'campaign_id');
     }
     public function getPaymentMethodAttribute($attribute)
     {

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Carbon\Carbon;
 use App\Events\PaymentEvent;
 use App\Models\Admin\Payment;
+use App\Models\Admin\Project;
 use App\Http\Requests\PaymentRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\PaymentRepositoryInterface;
@@ -16,9 +17,9 @@ class PaymentRepository implements PaymentRepositoryInterface
     {
         $payments = config('coderz.caching', true)
             ? (Cache::has('payments') ? Cache::get('payments') : Cache::rememberForever('payments', function () {
-                return Payment::with('client', 'lead', 'package', 'department', 'projectHead', 'services', 'user', 'payments')->latest()->get();
+                return Payment::with('project', 'client', 'campaign', 'user')->latest()->get();
             }))
-            : Payment::with('client', 'lead', 'package', 'department', 'projectHead', 'services', 'user', 'payments')->latest()->get();
+            : Payment::with('project', 'client', 'campaign', 'user')->latest()->get();
 
         $total_payments = Payment::sum('payment');
         $today_total_payments = Payment::whereDate('updated_at', Carbon::now())->sum('payment');
@@ -37,7 +38,9 @@ class PaymentRepository implements PaymentRepositoryInterface
     // Payment Store
     public function storePayment(PaymentRequest $request)
     {
-        Payment::create($request->validated());
+        if (isset($request->project_id)) {
+            event(new PaymentEvent(1, Project::find($request->project_id), $request));
+        }
     }
 
     // Payment Show

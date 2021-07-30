@@ -84,7 +84,7 @@ class Project extends Model
         $start = Carbon::create($this->project_startdate);
         $end = Carbon::create($this->project_deadline);
         $is_between = Carbon::now()->between($start, $end);
-        return $this->cancel ? 1 : ($is_between ? 2 : ($this->price == $this->paid_amount ? 3 : 4));
+        return $this->cancel ? 1 : (($this->price == $this->paid_amount ? 3 : ($is_between ? 2 : 4)));
     }
     public function getStatus()
     {

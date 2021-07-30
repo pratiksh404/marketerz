@@ -25,23 +25,15 @@ class AdvanceTransactionListener
         $client = $event->client;
         $request = $event->request;
         $advance = $event->advance;
-        $old_advance_amount = $event->old_advance_amount;
         if (isset($client) && isset($request)) {
-            DB::transaction(function () use ($type, $client, $request, $advance, $old_advance_amount) {
+            DB::transaction(function () use ($type, $client, $request, $advance) {
                 if ($type == 1) {
                     $advance = $client->advances()->create($request->validated());
-                    $client->update([
-                        'credit' => $client->credit + $advance->amount
-                    ]);
                 } elseif ($type = 2) {
                     $advance->update($request->validated());
-                    if (isset($old_advance_amount)) {
-                        $client->update([
-                            'credit' => ($client->credit - $old_advance_amount) + $advance->amount
-                        ]);
-                    }
                 }
                 // Dispatching Advance Payment Alert Notfication
+                $this->handleClientAccount($client, $advance);
                 $this->dispatchNotification($advance);
             });
         }
@@ -64,6 +56,24 @@ class AdvanceTransactionListener
             if (setting('advance_payment_slack_notification', true)) {
                 $users->first()->setSlackUrl(env('ADVANCE_PAYMENT_SLACK_WEBHOOK_URL'))->notify(new AdvancePaymentSlackNotfication($advance));
             }
+        }
+    }
+
+    /**
+     *
+     * Dispatch Client Account
+     *
+     */
+    protected function handleClientAccount($client, $advance)
+    {
+        if (isset($client)) {
+            $payment = $client->payments->sum('payment') ?? 0;
+            $advance = $client->advances->sum('amount') ?? 0;
+
+            $client->update([
+                'credit' => ($payment - $advance) > 0 ? ($payment - $advance) : 0,
+                'debit' => ($advance - $payment) >= 0 ? ($advance - $payment) : 0,
+            ]);
         }
     }
 }

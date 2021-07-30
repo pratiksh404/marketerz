@@ -54,5 +54,7 @@ class ClientRepository implements ClientRepositoryInterface
     public function destroyClient(Client $client)
     {
         $client->delete();
+        Cache::has('payments') ? Cache::forget('payments') : '';
+        Cache::has('advances') ? Cache::forget('advances') : '';
     }
 }

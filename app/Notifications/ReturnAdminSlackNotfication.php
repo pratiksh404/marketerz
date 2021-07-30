@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class ReturnAdminSlackNotfication extends Notification
+class ReturnAdminSlackNotfication extends Notification implements ShouldQueue
 {
     use Queueable;
 

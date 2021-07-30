@@ -36,7 +36,7 @@ class PaymentTransactionListener
                     ]);
                 }
                 $this->updateProject($project);
-                $this->handleClientAccount($project);
+                $this->handleClientAccount($project, $payment);
             });
         }
     }
@@ -48,22 +48,17 @@ class PaymentTransactionListener
         ]);
     }
 
-    protected function handleClientAccount($project)
+    protected function handleClientAccount($project, $payment)
     {
         $client = $project->client;
-        $debit = 0;
         if (isset($client)) {
-            if (isset($client->projects)) {
-                foreach ($client->projects as $project) {
-                    if (isset($project->payments)) {
-                        $debit += $project->payments->sum('payment');
-                    }
-                }
-                $client->update([
-                    'debit' => $debit,
-                    'credit' => $client->credit - $debit
-                ]);
-            }
+            $payment = $client->payments->sum('payment') ?? 0;
+            $advance = $client->advances->sum('amount') ?? 0;
+
+            $client->update([
+                'credit' => ($payment - $advance) > 0 ? ($payment - $advance) : 0,
+                'debit' => ($advance - $payment) >= 0 ? ($advance - $payment) : 0,
+            ]);
         }
     }
 }

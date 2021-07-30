@@ -129,10 +129,10 @@ class Projects extends Component
     {
         $projects = null;
         $filter = $this->filter;
-        if (auth()->user()->hasRole('superadmin') || auth()->user()->userCanDo('Project', 'browse')) {
+        if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('admin') && auth()->user()->userCanDo('Project', 'browse')) {
             $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services');
         } else {
-            $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->where('user_id', auth()->user()->id)->orWhere('project_head', auth()->user()->id);
+            $default = Project::with('user', 'client', 'lead', 'package', 'department', 'projectHead', 'services')->orWhere('project_head', auth()->user()->id);
         }
         if ($filter == 1) {
             $projects = $default->latest();

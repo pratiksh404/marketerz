@@ -115,7 +115,8 @@ class Discussion extends Model
             1 => 'fa fa-comments',
             2 => 'fa fa-check',
             3 => 'fa fa-fire',
-            4 => 'fa fa-exclamation'
+            4 => 'fa fa-exclamation',
+            5 => 'fa fa-comments-o'
         ][$this->getRawOriginal('type')];
     }
     public function getChannelArray()
